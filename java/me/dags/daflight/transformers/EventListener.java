@@ -17,8 +17,11 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.abstraction.MinecraftGame;
-import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -27,20 +30,34 @@ import net.minecraft.entity.player.EntityPlayer;
 public class EventListener extends MinecraftGame
 {
 
-    private static long time = 0L;
-
-    public static void onFovCheck(ReturnEventInfo<EntityRenderer, Float> e, float arg1, boolean arg)
+    // seems to be broken outside of the dev environment
+    public static void onQueuePacket(EventInfo<NetHandlerPlayClient> e, Packet packet)
     {
-        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        if (packet instanceof C03PacketPlayer)
         {
-            time = System.currentTimeMillis();
-            e.setReturnValue(getGameSettings().fovSetting);
-            e.cancel();
-        }
-        else if (System.currentTimeMillis() - time < 500)
-        {
-            e.setReturnValue(getGameSettings().fovSetting);
-            e.cancel();
+            C03PacketPlayer p = (C03PacketPlayer) packet;
+            if (p.func_149465_i() || !LiteModDaFlight.DAPLAYER.softFall())
+            {
+                return;
+            }
+            if (packet instanceof C03PacketPlayer.C04PacketPlayerPosition)
+            {
+                p = new C03PacketPlayer.C04PacketPlayerPosition(p.getPositionX(), p.getPositionY(), p.getPositionZ(), true);
+                e.getSource().addToSendQueue(p);
+                e.cancel();
+            }
+            else if (packet instanceof C03PacketPlayer.C05PacketPlayerLook)
+            {
+                p = new C03PacketPlayer.C05PacketPlayerLook(p.getPitch(), p.getYaw(), true);
+                e.getSource().addToSendQueue(p);
+                e.cancel();
+            }
+            else if (packet instanceof C03PacketPlayer.C06PacketPlayerPosLook)
+            {
+                p = new C03PacketPlayer.C06PacketPlayerPosLook(p.getPositionX(), p.getPositionY(), p.getPositionZ(), p.getPitch(), p.getYaw(), true);
+                e.getSource().addToSendQueue(p);
+                e.cancel();
+            }
         }
     }
 
@@ -48,6 +65,15 @@ public class EventListener extends MinecraftGame
     {
         if (LiteModDaFlight.DAPLAYER.softFall())
         {
+            e.cancel();
+        }
+    }
+
+    public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)
+    {
+        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        {
+            e.setReturnValue(1.0F);
             e.cancel();
         }
     }

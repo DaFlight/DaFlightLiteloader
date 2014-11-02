@@ -74,12 +74,4 @@ public class MinecraftGame
         return getMinecraft().thePlayer;
     }
 
-    public static boolean onCollidableBlock()
-    {
-        int x = floorDouble(getPlayer().posX);
-        int y = floorDouble(getPlayer().posY - 1.66);
-        int z = floorDouble(getPlayer().posZ);
-        return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().isCollidable();
-    }
-
 }

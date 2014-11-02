@@ -73,16 +73,13 @@ public class SprintController extends MinecraftGame implements IController
 
     private boolean allowJump()
     {
-        if (onCollidableBlock() && getPlayer().motionY >= 0)
+        if (getPlayer().motionY >= 0)
         {
             if (jumping)
             {
                 return false;
             }
-            else
-            {
-                return jumping = true;
-            }
+            return jumping = true;
         }
         return jumping = false;
     }

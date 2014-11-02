@@ -22,19 +22,23 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
  * @author dags_ <dags@dags.me>
  */
 
-public class FallTransformer extends EventInjectionTransformer
+public class SoftFallTransformer extends EventInjectionTransformer
 {
 
     @Override
     protected void addEvents()
     {
-        Event onFall = Event.getOrCreate("onFall", true);
-
-        MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(FF)V");
         MethodHead injectionPoint = new MethodHead();
 
-        this.addEvent(onFall, fall, injectionPoint);
+        Event onQueuePacket = Event.getOrCreate("onPack", true);
+        MethodInfo queue = new MethodInfo(ObfTable.NetHandlerPlayClient, ObfTable.addToSendQueue,"(Lnet/minecraft/network/Packet;)V");
+        addEvent(onQueuePacket, queue, injectionPoint);
+        onQueuePacket.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onQueuePacket"));
 
+        Event onFall = Event.getOrCreate("onFall", true);
+        MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(FF)V");
+        addEvent(onFall, fall, injectionPoint);
         onFall.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFall"));
     }
+
 }

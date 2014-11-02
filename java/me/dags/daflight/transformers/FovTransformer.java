@@ -30,7 +30,7 @@ public class FovTransformer extends EventInjectionTransformer
     {
         Event fovCheck = Event.getOrCreate("fovCheck", true);
 
-        MethodInfo getFOVModifier = new MethodInfo(ObfTable.entityRenderer, ObfTable.getFOVModifier, "(FZ)F");
+        MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
         MethodHead injectionPoint = new MethodHead();
 
         this.addEvent(fovCheck, getFOVModifier, injectionPoint);

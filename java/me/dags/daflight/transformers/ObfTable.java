@@ -25,8 +25,14 @@ public class ObfTable extends Obf
     public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "ahd");
     public static ObfTable fall = new ObfTable("func_180430_e", "e", "fall");
 
-    public static ObfTable getFOVModifier = new ObfTable("func_78481_a", "a", "getFOVModifier");
-    public static ObfTable entityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "cji");
+    public static ObfTable AbstractClientPlayer = new ObfTable("net.minecraft.client.entity.AbstractClientPlayer", "cil");
+    public static ObfTable getFOVModifier = new ObfTable("func_175156_o", "o", "getFovModifier");
+
+    public static ObfTable NetHandlerPlayClient = new ObfTable("net.minecraft.client.network.NetHandlerPlayClient", "cee");
+    public static ObfTable addToSendQueue = new ObfTable("func_147297_a", "a", "addToSendQueue");
+
+    public static ObfTable NetworkManager = new ObfTable("net.minecraft.network.NetworkManager", "gr");
+    public static ObfTable sendPacket = new ObfTable("func_179290_a", "a", "sendPacket");
 
     public ObfTable(String seargeName, String obfName)
     {

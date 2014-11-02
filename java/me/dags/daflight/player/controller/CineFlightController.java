@@ -149,7 +149,6 @@ public class CineFlightController extends MinecraftGame implements IController
 
         if (x == 0 & y == 0 & z == 0)
         {
-            System.out.print(".");
             getPlayer().setVelocity(getPlayer().motionX * c.flySmoothing, getPlayer().motionY, getPlayer().motionZ * c.flySmoothing);
         }
         else
@@ -190,11 +189,6 @@ public class CineFlightController extends MinecraftGame implements IController
     public CineFlightController()
     {
         reset();
-    }
-
-    public void noFall()
-    {
-        getPlayer().setVelocity(getPlayer().motionX * c.flySmoothing, 0, getPlayer().motionZ * c.flySmoothing);
     }
 
     @Override
