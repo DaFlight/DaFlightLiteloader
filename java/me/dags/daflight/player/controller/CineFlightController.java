@@ -35,7 +35,6 @@ public class CineFlightController extends MinecraftGame implements IController
     private Direction d;
 
 
-
     public void reset()
     {
         d = new Direction();
@@ -196,7 +195,9 @@ public class CineFlightController extends MinecraftGame implements IController
     public void noFall()
     {
         getPlayer().setVelocity(getPlayer().motionX * c.flySmoothing, 0, getPlayer().motionZ * c.flySmoothing);
-    }    @Override
+    }
+
+    @Override
     public void setActive(boolean b)
     {
         this.active = b;

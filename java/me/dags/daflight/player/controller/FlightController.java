@@ -23,7 +23,6 @@ public class FlightController extends MinecraftGame implements IController
     private boolean active;
 
 
-
     public FlightController()
     {
         this.active = false;
@@ -62,7 +61,9 @@ public class FlightController extends MinecraftGame implements IController
         {
             getPlayer().capabilities.isFlying = true;
         }
-    }    @Override
+    }
+
+    @Override
     public void setActive(boolean b)
     {
         this.active = b;

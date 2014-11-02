@@ -50,19 +50,6 @@ public class MinecraftGame
         return GameSettings.Options.getEnumOptions(0);
     }
 
-    public static String getColor(String name)
-    {
-        if (name.equals("Dark_Purple"))
-        {
-            return EnumChatFormatting.DARK_PURPLE.toString();
-        }
-        if (name.equals("Dark_Aqua"))
-        {
-            return EnumChatFormatting.DARK_AQUA.toString();
-        }
-        return EnumChatFormatting.BLACK.toString();
-    }
-
     public static ChatComponentText getMessage(String s)
     {
         String format = EnumChatFormatting.DARK_PURPLE.toString() + "[DaFlight]" + EnumChatFormatting.GRAY + " %2$s";
@@ -93,11 +80,6 @@ public class MinecraftGame
         int y = floorDouble(getPlayer().posY - 1.66);
         int z = floorDouble(getPlayer().posZ);
         return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().isCollidable();
-    }
-
-    private static double offset()
-    {
-        return getPlayer().getEyeHeight() - 1;
     }
 
 }

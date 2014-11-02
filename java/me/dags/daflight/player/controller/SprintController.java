@@ -25,7 +25,6 @@ public class SprintController extends MinecraftGame implements IController
     private boolean jumping;
 
 
-
     public SprintController()
     {
         this.jumping = false;
@@ -35,7 +34,9 @@ public class SprintController extends MinecraftGame implements IController
     public void reset()
     {
 
-    }    @Override
+    }
+
+    @Override
     public boolean isActive()
     {
         return this.active;
@@ -56,7 +57,9 @@ public class SprintController extends MinecraftGame implements IController
         {
             getPlayer().setVelocity(v.getX(), getPlayer().motionY, v.getZ());
         }
-    }    @Override
+    }
+
+    @Override
     public void setActive(boolean b)
     {
         this.active = b;
@@ -83,7 +86,6 @@ public class SprintController extends MinecraftGame implements IController
         }
         return jumping = false;
     }
-
 
 
 }
