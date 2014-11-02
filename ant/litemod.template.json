@@ -1,0 +1,11 @@
+{
+    "name": "${ant.project.name}",
+    "mcversion": "${litemodversion}",
+    "revision": "${build.number}",
+    "author": "${author}",
+    "description": "A fly mod!",
+    "classTransformerClasses": [
+        "me.dags.daflight.transformers.FovTransformer",
+        "me.dags.daflight.transformers.SoftFallTransformer"
+    ]
+}
