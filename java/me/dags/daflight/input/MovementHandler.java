@@ -26,6 +26,7 @@ import me.dags.daflight.player.Vector;
 
 public class MovementHandler extends MinecraftGame
 {
+
     private static final double sr = Math.sqrt(2);
 
     public static void handleMovementInput(DaPlayer daPlayer)

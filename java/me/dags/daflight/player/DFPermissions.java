@@ -19,6 +19,7 @@ package me.dags.daflight.player;
 
 public class DFPermissions
 {
+
     private boolean canFly = true;
     private boolean canSprint = true;
     private boolean canFullbright = true;

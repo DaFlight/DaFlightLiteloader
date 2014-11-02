@@ -30,6 +30,5 @@ public enum BindType
     SPEEDUP,
     SPEEDDOWN,
     FULLBRIGHT,
-    CINEFLIGHT,
-    ;
+    CINEFLIGHT,;
 }

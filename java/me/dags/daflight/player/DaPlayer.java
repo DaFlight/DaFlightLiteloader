@@ -14,9 +14,7 @@
 package me.dags.daflight.player;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.utils.PacketManager;
 import me.dags.daflight.abstraction.MinecraftGame;
-import me.dags.daflight.utils.Config;
 import me.dags.daflight.input.KeybindHandler;
 import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
@@ -24,6 +22,8 @@ import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
 import me.dags.daflight.player.controller.SprintController;
+import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.PacketManager;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -31,6 +31,7 @@ import me.dags.daflight.player.controller.SprintController;
 
 public class DaPlayer extends MinecraftGame
 {
+
     public static final KeyBinds KEY_BINDS = new KeyBinds();
     public static final DFPermissions DF_PERMISSIONS = new DFPermissions();
 
@@ -71,7 +72,7 @@ public class DaPlayer extends MinecraftGame
         DF_PERMISSIONS.resetPermissions();
         flySpeed.setMaxSpeed(50D);
         sprintSpeed.setMaxSpeed(50D);
-        byte[] b = new byte[] {1};
+        byte[] b = new byte[]{1};
         PacketManager.dispatchPacket(b);
     }
 

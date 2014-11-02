@@ -24,12 +24,12 @@ import net.minecraft.network.PacketBuffer;
 public class PacketManager extends MinecraftGame
 {
 
-	public static void onReceivedPacket(String channel, PacketBuffer pb)
-	{
+    public static void onReceivedPacket(String channel, PacketBuffer pb)
+    {
         byte[] data = pb.readByteArray();
         int length = data.length;
-		if (channel.equals("DaFlight"))
-		{
+        if (channel.equals("DaFlight"))
+        {
             if (length != 2)
             {
                 return;
@@ -113,8 +113,8 @@ public class PacketManager extends MinecraftGame
                     LiteModDaFlight.getHud().updateMsg();
                     break;
             }
-		}
-	}
+        }
+    }
 
     private static void tellPlayer(String msg)
     {

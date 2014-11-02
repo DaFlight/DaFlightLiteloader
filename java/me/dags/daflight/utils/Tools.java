@@ -23,27 +23,27 @@ import java.util.Locale;
 public class Tools extends MinecraftGame
 {
 
-	public static DecimalFormat df1;
-	public static DecimalFormat df2;
-	public static DecimalFormat df3;
+    public static DecimalFormat df1;
+    public static DecimalFormat df2;
+    public static DecimalFormat df3;
 
-	static
-	{
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.ENGLISH);
-		dfs.setDecimalSeparator(".".charAt(0));
-		df1 = new DecimalFormat("#.#", dfs);
-		df2 = new DecimalFormat("#.##", dfs);
-		df3 = new DecimalFormat("#.###", dfs);
-	}
-	
-	public static void log(String msg)
-	{
-		LiteLoaderLogger.info("[DaFlight] " + msg);
-	}
-	
-	public static double round(double d)
-	{
-		return Double.valueOf(df3.format(d));
-	}
+    static
+    {
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.ENGLISH);
+        dfs.setDecimalSeparator(".".charAt(0));
+        df1 = new DecimalFormat("#.#", dfs);
+        df2 = new DecimalFormat("#.##", dfs);
+        df3 = new DecimalFormat("#.###", dfs);
+    }
+
+    public static void log(String msg)
+    {
+        LiteLoaderLogger.info("[DaFlight] " + msg);
+    }
+
+    public static double round(double d)
+    {
+        return Double.valueOf(df3.format(d));
+    }
 
 }

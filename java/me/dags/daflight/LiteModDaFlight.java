@@ -16,10 +16,10 @@ package me.dags.daflight;
 import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
-import me.dags.daflight.utils.Config;
-import me.dags.daflight.ui.configpanel.ConfigGUI;
 import me.dags.daflight.player.DaPlayer;
+import me.dags.daflight.ui.configpanel.ConfigGUI;
 import me.dags.daflight.ui.hud.HUD;
+import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.PacketManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -55,12 +55,6 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     }
 
     @Override
-    public Class<? extends ConfigPanel> getConfigPanelClass()
-    {
-        return ConfigGUI.class;
-    }
-
-    @Override
     public void init(File configPath)
     {
         Config.getInstance();
@@ -71,6 +65,12 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     public void upgradeSettings(String version, File configPath, File oldConfigPath)
     {
 
+    }
+
+    @Override
+    public Class<? extends ConfigPanel> getConfigPanelClass()
+    {
+        return ConfigGUI.class;
     }
 
     @Override
@@ -93,12 +93,6 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
         getHud().render();
     }
 
-    @Override
-    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
-    {
-        DAPLAYER.onGameJoin();
-    }
-
     public static HUD getHud()
     {
         if (hud == null)
@@ -106,6 +100,12 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
             hud = new HUD();
         }
         return hud;
+    }
+
+    @Override
+    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
+    {
+        DAPLAYER.onGameJoin();
     }
 
     @Override

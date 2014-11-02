@@ -14,11 +14,11 @@
 package me.dags.daflight.input;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.utils.Config;
-import me.dags.daflight.utils.Tools;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.hud.HUD;
+import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.Tools;
 
 /**
  * @author dags_ <dags@dags.me>

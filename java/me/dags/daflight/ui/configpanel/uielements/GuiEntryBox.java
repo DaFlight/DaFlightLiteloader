@@ -20,71 +20,71 @@ import net.minecraft.util.EnumChatFormatting;
 public class GuiEntryBox extends GuiTextField
 {
 
-	private boolean isActive;
-	private boolean isBind;
-	private int x;
-	private int y;
-	private int width;
-	private int height;
+    private boolean isActive;
+    private boolean isBind;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
 
-	public void setIsBind(boolean b)
-	{
-		isBind = b;
-	}
+    public void setIsBind(boolean b)
+    {
+        isBind = b;
+    }
 
-	public boolean isBind()
-	{
-		return isBind;
-	}
+    public boolean isBind()
+    {
+        return isBind;
+    }
 
-	public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height)
-	{
-		super(0, fr, x, y, width, height);
-		this.setFocused(false);
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-	}
+    public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height)
+    {
+        super(0, fr, x, y, width, height);
+        this.setFocused(false);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
 
-	public boolean isActive()
-	{
-		return this.isActive;
-	}
+    public boolean isActive()
+    {
+        return this.isActive;
+    }
 
-	public void name(String s)
-	{
-		this.setText(s);
-	}
+    public void name(String s)
+    {
+        this.setText(s);
+    }
 
-	public void draw()
-	{
-		this.drawTextBox();
-	}
+    public void draw()
+    {
+        this.drawTextBox();
+    }
 
-	public void setActive()
-	{
-		this.isActive = true;
-		name(EnumChatFormatting.RED.toString() + this.getText());
-		this.setFocused(false);
-	}
+    public void setActive()
+    {
+        this.isActive = true;
+        name(EnumChatFormatting.RED.toString() + this.getText());
+        this.setFocused(false);
+    }
 
-	public void unsetActive()
-	{
-		this.isActive = false;
-		name(this.getText().replace(EnumChatFormatting.RED.toString(), ""));
-		this.setFocused(false);
-	}
+    public void unsetActive()
+    {
+        this.isActive = false;
+        name(this.getText().replace(EnumChatFormatting.RED.toString(), ""));
+        this.setFocused(false);
+    }
 
-	public void entry(char keyChar, int id)
-	{
-		this.textboxKeyTyped(keyChar, id);
-		this.drawTextBox();
-	}
+    public void entry(char keyChar, int id)
+    {
+        this.textboxKeyTyped(keyChar, id);
+        this.drawTextBox();
+    }
 
-	public boolean click(int mouseX, int mouseY)
-	{
-		return ((mouseX > this.x) && (mouseX < this.x + width)) && ((mouseY > this.y) && (mouseY < this.x + height));
-	}
+    public boolean click(int mouseX, int mouseY)
+    {
+        return ((mouseX > this.x) && (mouseX < this.x + width)) && ((mouseY > this.y) && (mouseY < this.x + height));
+    }
 
 }

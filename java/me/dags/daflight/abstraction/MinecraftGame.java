@@ -15,7 +15,6 @@ package me.dags.daflight.abstraction;
 
 import com.mumfrey.liteloader.modconfig.ConfigStrategy;
 import com.mumfrey.liteloader.modconfig.ExposableOptions;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
@@ -32,6 +31,11 @@ import net.minecraft.util.MathHelper;
 public class MinecraftGame
 {
 
+    public static GameSettings getGameSettings()
+    {
+        return getMinecraft().gameSettings;
+    }
+
     /**
      * Minecraft methods
      */
@@ -39,16 +43,6 @@ public class MinecraftGame
     public static Minecraft getMinecraft()
     {
         return Minecraft.getMinecraft();
-    }
-
-    public static EntityPlayerSP getPlayer()
-    {
-        return getMinecraft().thePlayer;
-    }
-
-    public static GameSettings getGameSettings()
-    {
-        return getMinecraft().gameSettings;
     }
 
     public static GameSettings.Options getOptions()
@@ -83,17 +77,22 @@ public class MinecraftGame
         return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial().isSolid();
     }
 
+    public static int floorDouble(double d)
+    {
+        return MathHelper.floor_double(d);
+    }
+
+    public static EntityPlayerSP getPlayer()
+    {
+        return getMinecraft().thePlayer;
+    }
+
     public static boolean onCollidableBlock()
     {
         int x = floorDouble(getPlayer().posX);
         int y = floorDouble(getPlayer().posY - 1.66);
         int z = floorDouble(getPlayer().posZ);
         return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().isCollidable();
-    }
-
-    public static int floorDouble(double d)
-    {
-        return MathHelper.floor_double(d);
     }
 
     private static double offset()

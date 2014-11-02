@@ -19,37 +19,37 @@ import me.dags.daflight.utils.Config;
 public class KeyBinds extends MinecraftGame
 {
 
-	public KeyBind[] binds;
-	public KeyBind[] movementBinds;
-	public KeyBind fullBright;
-	public KeyBind speedUp;
-	public KeyBind speedDown;
-	public KeyBind flyUp;
-	public KeyBind flyDown;
-	public KeyBind enableFly;
-	public KeyBind enableSprint;
-	public KeyBind speedModifier;
-	public KeyBind cineFlight;
+    public KeyBind[] binds;
+    public KeyBind[] movementBinds;
+    public KeyBind fullBright;
+    public KeyBind speedUp;
+    public KeyBind speedDown;
+    public KeyBind flyUp;
+    public KeyBind flyDown;
+    public KeyBind enableFly;
+    public KeyBind enableSprint;
+    public KeyBind speedModifier;
+    public KeyBind cineFlight;
 
-	public KeyBind forward;
-	public KeyBind backward;
-	public KeyBind left;
-	public KeyBind right;
-	public KeyBind jump;
+    public KeyBind forward;
+    public KeyBind backward;
+    public KeyBind left;
+    public KeyBind right;
+    public KeyBind jump;
 
-	public KeyBinds()
-	{
-		initSettings();
-	}
+    public KeyBinds()
+    {
+        initSettings();
+    }
 
-	public void updateMovementKeys()
-	{
-		forward.setKey(getMinecraft().gameSettings.keyBindForward.getKeyCode());
-		backward.setKey(getMinecraft().gameSettings.keyBindBack.getKeyCode());
-		left.setKey(getMinecraft().gameSettings.keyBindLeft.getKeyCode());
-		right.setKey(getMinecraft().gameSettings.keyBindRight.getKeyCode());
-		jump.setKey(getMinecraft().gameSettings.keyBindJump.getKeyCode());
-	}
+    public void updateMovementKeys()
+    {
+        forward.setKey(getMinecraft().gameSettings.keyBindForward.getKeyCode());
+        backward.setKey(getMinecraft().gameSettings.keyBindBack.getKeyCode());
+        left.setKey(getMinecraft().gameSettings.keyBindLeft.getKeyCode());
+        right.setKey(getMinecraft().gameSettings.keyBindRight.getKeyCode());
+        jump.setKey(getMinecraft().gameSettings.keyBindJump.getKeyCode());
+    }
 
     public void initSettings()
     {
@@ -95,7 +95,7 @@ public class KeyBinds extends MinecraftGame
         jump.setToggle(false);
         updateMovementKeys();
 
-        binds = new KeyBind[] { enableFly, enableSprint, speedModifier, fullBright, cineFlight, flyUp, flyDown, speedUp, speedDown };
+        binds = new KeyBind[]{enableFly, enableSprint, speedModifier, fullBright, cineFlight, flyUp, flyDown, speedUp, speedDown};
         movementBinds = new KeyBind[]{forward, backward, left, right, flyUp, flyDown};
     }
 

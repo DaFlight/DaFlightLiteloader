@@ -14,64 +14,64 @@
 package me.dags.daflight.player.controller;
 
 import me.dags.daflight.abstraction.MinecraftGame;
-import me.dags.daflight.utils.Config;
 import me.dags.daflight.player.Vector;
+import me.dags.daflight.utils.Config;
 
 public class FlightController extends MinecraftGame implements IController
 {
-	
-	private boolean active;
-	
-	public FlightController()
-	{
-		this.active = false;
-	}
-	
-	@Override
-	public void reset()
-	{
 
-	}
+    private boolean active;
 
-	@Override
-	public void input(Vector v)
-	{
-		if (v.hasInput())
-		{
-			getPlayer().setVelocity(v.getX(), v.getY(), v.getZ());
-		}
-		else
-		{
+
+
+    public FlightController()
+    {
+        this.active = false;
+    }
+
+    @Override
+    public void reset()
+    {
+
+    }
+
+    @Override
+    public void input(Vector v)
+    {
+        if (v.hasInput())
+        {
+            getPlayer().setVelocity(v.getX(), v.getY(), v.getZ());
+        }
+        else
+        {
             double smoothing = Config.getInstance().flySmoothing;
-            getPlayer().setVelocity(getPlayer().motionX*smoothing, getPlayer().motionY*smoothing, getPlayer().motionZ*smoothing);
-		}
+            getPlayer().setVelocity(getPlayer().motionX * smoothing, getPlayer().motionY * smoothing, getPlayer().motionZ * smoothing);
+        }
         if (!getPlayer().capabilities.isFlying)
         {
             getPlayer().capabilities.isFlying = true;
         }
-	}
-	
-	@Override
-	public void unFocused()
-	{
+    }
+
+    @Override
+    public void unFocused()
+    {
         double smoothing = Config.getInstance().flySmoothing;
-        getPlayer().setVelocity(getPlayer().motionX*smoothing, getPlayer().motionY*smoothing, getPlayer().motionZ*smoothing);
-		if (!getPlayer().capabilities.isFlying)
-		{
+        getPlayer().setVelocity(getPlayer().motionX * smoothing, getPlayer().motionY * smoothing, getPlayer().motionZ * smoothing);
+        if (!getPlayer().capabilities.isFlying)
+        {
             getPlayer().capabilities.isFlying = true;
-		}
-	}
+        }
+    }    @Override
+    public void setActive(boolean b)
+    {
+        this.active = b;
+    }
 
-	@Override
-	public void setActive(boolean b)
-	{
-		this.active = b;
-	}
-
-	@Override
-	public boolean isActive()
-	{
-		return this.active;
-	}
+    @Override
+    public boolean isActive()
+    {
+        return this.active;
+    }
 
 }

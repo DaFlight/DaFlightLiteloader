@@ -24,6 +24,7 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 
 public class FallTransformer extends EventInjectionTransformer
 {
+
     @Override
     protected void addEvents()
     {

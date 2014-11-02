@@ -17,192 +17,193 @@ import org.lwjgl.input.Keyboard;
 
 public class KeyBind
 {
-	private BindType type;
-	private String name;
-	private int keyId;
-	private boolean canHold;
-	private boolean isToggle;
-	private boolean toggleState;
-	private boolean press;
-	private boolean held;
-	private int modX = 0;
-	private int modY = 0;
-	private int modZ = 0;
 
-	public KeyBind(int i, boolean keyIsToggle)
-	{
-		name = "";
-		type = BindType.GENERIC;
-		keyId = i;
-		isToggle = keyIsToggle;
-		canHold = false;
-	}
+    private BindType type;
+    private String name;
+    private int keyId;
+    private boolean canHold;
+    private boolean isToggle;
+    private boolean toggleState;
+    private boolean press;
+    private boolean held;
+    private int modX = 0;
+    private int modY = 0;
+    private int modZ = 0;
 
-	public KeyBind(int i)
-	{
-		name = "";
-		keyId = i;
-		isToggle = true;
-		press = false;
-	}
+    public KeyBind(int i, boolean keyIsToggle)
+    {
+        name = "";
+        type = BindType.GENERIC;
+        keyId = i;
+        isToggle = keyIsToggle;
+        canHold = false;
+    }
 
-	public KeyBind(String controlName, String keyName, BindType bt)
-	{
-		name = controlName;
-		type = bt;
-		keyId = Keyboard.getKeyIndex(keyName);
-		isToggle = true;
-		press = false;
-	}
-	
-	public KeyBind(String controlName, String keyName, BindType bt, int x, int y, int z)
-	{
-		name = controlName;
-		type = bt;
-		keyId = Keyboard.getKeyIndex(keyName);
-		isToggle = true;
-		press = false;
-		modX = x;
-		modY = y;
-		modZ = z;
-	}
+    public KeyBind(int i)
+    {
+        name = "";
+        keyId = i;
+        isToggle = true;
+        press = false;
+    }
 
-	public void setName(String s)
-	{
-		name = s;
-	}
+    public KeyBind(String controlName, String keyName, BindType bt)
+    {
+        name = controlName;
+        type = bt;
+        keyId = Keyboard.getKeyIndex(keyName);
+        isToggle = true;
+        press = false;
+    }
 
-	public void setKey(int i)
-	{
-		keyId = i;
-	}
+    public KeyBind(String controlName, String keyName, BindType bt, int x, int y, int z)
+    {
+        name = controlName;
+        type = bt;
+        keyId = Keyboard.getKeyIndex(keyName);
+        isToggle = true;
+        press = false;
+        modX = x;
+        modY = y;
+        modZ = z;
+    }
 
-	public void setKeyFromString(String keyName)
-	{
-		keyId = Keyboard.getKeyIndex(keyName);
-	}
+    public void setName(String s)
+    {
+        name = s;
+    }
 
-	public void setCanHold(boolean b)
-	{
-		canHold = b;
-	}
+    public void setKey(int i)
+    {
+        keyId = i;
+    }
 
-	public void setToggle(boolean b)
-	{
-		isToggle = b;
-	}
+    public void setKeyFromString(String keyName)
+    {
+        keyId = Keyboard.getKeyIndex(keyName);
+    }
 
-	public void setState(boolean b)
-	{
-		toggleState = b;
-	}
+    public void setCanHold(boolean b)
+    {
+        canHold = b;
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public void setToggle(boolean b)
+    {
+        isToggle = b;
+    }
 
-	public int getId()
-	{
-		return keyId;
-	}
+    public void setState(boolean b)
+    {
+        toggleState = b;
+    }
 
-	public String getKeyName()
-	{
-		if (keyId < 0)
-		{
-			return "NONE";
-		}
-		return Keyboard.getKeyName(keyId);
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public BindType getType()
-	{
-		return type;
-	}
+    public int getId()
+    {
+        return keyId;
+    }
 
-	public boolean canHold()
-	{
-		return canHold;
-	}
+    public String getKeyName()
+    {
+        if (keyId < 0)
+        {
+            return "NONE";
+        }
+        return Keyboard.getKeyName(keyId);
+    }
 
-	public boolean isToggle()
-	{
-		return isToggle;
-	}
+    public BindType getType()
+    {
+        return type;
+    }
 
-	public boolean getToggleState()
-	{
-		return toggleState;
-	}
+    public boolean canHold()
+    {
+        return canHold;
+    }
 
-	public boolean keyHeld()
-	{
-		if (isToggle)
-		{
-			return false;
-		}
-		if (keyId == 0)
-		{
-			return false;
-		}
-		return Keyboard.isCreated() && Keyboard.isKeyDown(keyId);
-	}
+    public boolean isToggle()
+    {
+        return isToggle;
+    }
 
-	public boolean keyPressed()
-	{
-		if (keyId == 0)
-		{
-			return false;
-		}
-		if (Keyboard.isKeyDown(keyId))
-		{
-			if (press)
-			{
-				return false;
-			}
-			if (isToggle)
-			{
-				toggleState = !toggleState;
-			}
-			press = true;
-			held = true;
-			return true;
-		}
-		press = false;
-		return false;
-	}
+    public boolean getToggleState()
+    {
+        return toggleState;
+    }
 
-	public boolean keyReleased()
-	{
-		if (!isToggle)
-		{
-			if (keyId == 0)
-			{
-				return false;
-			}
-			if (held && !keyHeld())
-			{
-				held = false;
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public int getModX()
-	{
-		return modX;
-	}
-	
-	public int getModY()
-	{
-		return modY;
-	}
-	
-	public int getModZ()
-	{
-		return modZ;
-	}
+    public boolean keyHeld()
+    {
+        if (isToggle)
+        {
+            return false;
+        }
+        if (keyId == 0)
+        {
+            return false;
+        }
+        return Keyboard.isCreated() && Keyboard.isKeyDown(keyId);
+    }
+
+    public boolean keyPressed()
+    {
+        if (keyId == 0)
+        {
+            return false;
+        }
+        if (Keyboard.isKeyDown(keyId))
+        {
+            if (press)
+            {
+                return false;
+            }
+            if (isToggle)
+            {
+                toggleState = !toggleState;
+            }
+            press = true;
+            held = true;
+            return true;
+        }
+        press = false;
+        return false;
+    }
+
+    public boolean keyReleased()
+    {
+        if (!isToggle)
+        {
+            if (keyId == 0)
+            {
+                return false;
+            }
+            if (held && !keyHeld())
+            {
+                held = false;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getModX()
+    {
+        return modX;
+    }
+
+    public int getModY()
+    {
+        return modY;
+    }
+
+    public int getModZ()
+    {
+        return modZ;
+    }
 
 }

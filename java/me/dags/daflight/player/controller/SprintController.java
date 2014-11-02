@@ -14,76 +14,76 @@
 package me.dags.daflight.player.controller;
 
 import me.dags.daflight.abstraction.MinecraftGame;
-import me.dags.daflight.utils.Config;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Vector;
+import me.dags.daflight.utils.Config;
 
 public class SprintController extends MinecraftGame implements IController
 {
-	
-	private boolean active;
-	private boolean jumping;
-	
-	public SprintController()
-	{
-		this.jumping = false;
-	}
-	
-	@Override
-	public void reset()
-	{
-		
-	}
 
-	@Override
-	public boolean isActive()
-	{
-		return this.active;
-	}
-	
-	@Override
-	public void setActive(boolean b)
-	{
-		this.active = b;
-	}
-	
-	@Override
-	public void input(Vector v)
-	{
-		if (DaPlayer.KEY_BINDS.jump.keyHeld())
-		{
-			if (allowJump())
-			{
-				getPlayer().addVelocity(0, Config.getInstance().jumpModifier * v.getSpeed(), 0);
-			}
-		}
-		
-		if (v.hasLateralInput())
-		{
-			getPlayer().setVelocity(v.getX(), getPlayer().motionY, v.getZ());
-		}
-	}
-	
-	@Override
-	public void unFocused()
-	{
+    private boolean active;
+    private boolean jumping;
 
-	}
-	
-	private boolean allowJump()
-	{
-		if (onCollidableBlock() && getPlayer().motionY >= 0)
-		{
-			if (jumping)
-			{
-				return false;
-			}
-			else
-			{
-				return jumping = true;
-			}
-		}
-		return jumping = false;
-	}
+
+
+    public SprintController()
+    {
+        this.jumping = false;
+    }
+
+    @Override
+    public void reset()
+    {
+
+    }    @Override
+    public boolean isActive()
+    {
+        return this.active;
+    }
+
+    @Override
+    public void input(Vector v)
+    {
+        if (DaPlayer.KEY_BINDS.jump.keyHeld())
+        {
+            if (allowJump())
+            {
+                getPlayer().addVelocity(0, Config.getInstance().jumpModifier * v.getSpeed(), 0);
+            }
+        }
+
+        if (v.hasLateralInput())
+        {
+            getPlayer().setVelocity(v.getX(), getPlayer().motionY, v.getZ());
+        }
+    }    @Override
+    public void setActive(boolean b)
+    {
+        this.active = b;
+    }
+
+    @Override
+    public void unFocused()
+    {
+
+    }
+
+    private boolean allowJump()
+    {
+        if (onCollidableBlock() && getPlayer().motionY >= 0)
+        {
+            if (jumping)
+            {
+                return false;
+            }
+            else
+            {
+                return jumping = true;
+            }
+        }
+        return jumping = false;
+    }
+
+
 
 }

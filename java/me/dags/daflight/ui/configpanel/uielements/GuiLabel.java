@@ -18,54 +18,54 @@ import net.minecraft.client.gui.FontRenderer;
 public class GuiLabel
 {
 
-	private final FontRenderer fr;
-	private String label;
-	private boolean shadow;
+    private final FontRenderer fr;
+    private String label;
+    private boolean shadow;
 
-	private int color;
-	private int id;
-	private int xPos;
-	private int yPos;
+    private int color;
+    private int id;
+    private int xPos;
+    private int yPos;
 
-	public GuiLabel(FontRenderer fR, int x, int y)
-	{
-		this.fr = fR;
-		this.xPos = x;
-		this.yPos = y;
-		this.id = 0;
-		this.color = 0xFFFFFF;
-	}
+    public GuiLabel(FontRenderer fR, int x, int y)
+    {
+        this.fr = fR;
+        this.xPos = x;
+        this.yPos = y;
+        this.id = 0;
+        this.color = 0xFFFFFF;
+    }
 
-	public void setLabel(String s)
-	{
-		this.label = s;
-	}
+    public void setLabel(String s)
+    {
+        this.label = s;
+    }
 
-	public void setId(int i)
-	{
-		this.id = i;
-	}
+    public void setId(int i)
+    {
+        this.id = i;
+    }
 
-	public void setColor(int i)
-	{
-		this.color = i;
-	}
+    public void setColor(int i)
+    {
+        this.color = i;
+    }
 
-	public void setShadow(boolean b)
-	{
-		this.shadow = b;
-	}
+    public void setShadow(boolean b)
+    {
+        this.shadow = b;
+    }
 
-	public void draw()
-	{
-		if (shadow)
-		{
-			this.fr.drawStringWithShadow(this.label, this.xPos, this.yPos, 0xFFFFFF);
-		}
-		else
-		{
-			this.fr.drawString(this.label, this.xPos, this.yPos, 0xFFFFFF);
-		}
-	}
+    public void draw()
+    {
+        if (shadow)
+        {
+            this.fr.drawStringWithShadow(this.label, this.xPos, this.yPos, 0xFFFFFF);
+        }
+        else
+        {
+            this.fr.drawString(this.label, this.xPos, this.yPos, 0xFFFFFF);
+        }
+    }
 
 }

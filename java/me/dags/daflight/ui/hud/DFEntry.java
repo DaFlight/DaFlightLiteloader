@@ -16,33 +16,33 @@ package me.dags.daflight.ui.hud;
 public class DFEntry
 {
 
-	private String title;
-	private Boolean shown;
+    private String title;
+    private Boolean shown;
 
-	public DFEntry(String s, Boolean b)
-	{
-		title = s;
-		shown = b;
-	}
+    public DFEntry(String s, Boolean b)
+    {
+        title = s;
+        shown = b;
+    }
 
-	public String getTitle()
-	{
-		return title;
-	}
+    public String getTitle()
+    {
+        return title;
+    }
 
-	public Boolean isShown()
-	{
-		return shown;
-	}
+    public Boolean isShown()
+    {
+        return shown;
+    }
 
-	public void setTitle(String s)
-	{
-		title = s;
-	}
+    public void setTitle(String s)
+    {
+        title = s;
+    }
 
-	public void setShow(Boolean b)
-	{
-		shown = b;
-	}
+    public void setShow(Boolean b)
+    {
+        shown = b;
+    }
 
 }

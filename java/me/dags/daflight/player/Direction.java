@@ -16,35 +16,35 @@ package me.dags.daflight.player;
 
 /**
  * Return x,z vectors for given direction (radians)
- * 
+ *
  * @author dags_
  */
 public class Direction
 {
 
-	private Double x;
-	private Double z;
+    private Double x;
+    private Double z;
 
-	public Direction()
-	{
-	}
+    public Direction()
+    {
+    }
 
-	public Direction update(Double yaw)
-	{
-		double d = Math.toRadians(yaw);
-		x = - Math.sin(d);
-		z = Math.cos(d);
+    public Direction update(Double yaw)
+    {
+        double d = Math.toRadians(yaw);
+        x = -Math.sin(d);
+        z = Math.cos(d);
         return this;
-	}
+    }
 
-	public Double getX()
-	{
-		return x;
-	}
+    public Double getX()
+    {
+        return x;
+    }
 
-	public Double getZ()
-	{
-		return z;
-	}
+    public Double getZ()
+    {
+        return z;
+    }
 
 }

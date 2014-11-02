@@ -23,76 +23,76 @@ import org.lwjgl.opengl.GL11;
 public class GuiSlider extends GuiOptionSlider
 {
 
-	private String name;
-	private float min;
-	private float max;
-	private float value;
+    private String name;
+    private float min;
+    private float max;
+    private float value;
 
-	public GuiSlider(int a, int b, int c, Options o, float f1, float f2)
-	{
-		super(a, b, c, o, f1, f2);
-		min = f1;
-		max = f2;
-		value = 0.5F;
-	}
+    public GuiSlider(int a, int b, int c, Options o, float f1, float f2)
+    {
+        super(a, b, c, o, f1, f2);
+        min = f1;
+        max = f2;
+        value = 0.5F;
+    }
 
-	public void setDefaultValue(float f)
-	{
-		this.value = normalise(f);
-	}
+    public void setDefaultValue(float f)
+    {
+        this.value = normalise(f);
+    }
 
-	public void draw(Minecraft m, int mouseX, int mouseY)
-	{
-		this.drawButton(m, mouseX, mouseY);
-	}
+    public void draw(Minecraft m, int mouseX, int mouseY)
+    {
+        this.drawButton(m, mouseX, mouseY);
+    }
 
-	public void setDisplayString(String s)
-	{
-		this.displayString = s + ": " + Tools.df2.format(value);
-		this.name = s;
-	}
+    public void setDisplayString(String s)
+    {
+        this.displayString = s + ": " + Tools.df2.format(value);
+        this.name = s;
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public String getValue()
-	{
-		return "" + value;
-	}
+    public String getValue()
+    {
+        return "" + value;
+    }
 
-	@Override
-	public void mouseDragged(Minecraft p_146119_1_, int x, int y)
-	{
-		if (this.enabled)
-		{
-			if (this.dragging)
-			{
-				this.value = (float) (x - (this.xPosition + 4)) / (float) (((this.width) - 8) / max);
+    @Override
+    public void mouseDragged(Minecraft p_146119_1_, int x, int y)
+    {
+        if (this.enabled)
+        {
+            if (this.dragging)
+            {
+                this.value = (float) (x - (this.xPosition + 4)) / (float) (((this.width) - 8) / max);
 
-				if (this.value < min)
-				{
-					this.value = min;
-				}
+                if (this.value < min)
+                {
+                    this.value = min;
+                }
 
-				if (this.value > max)
-				{
-					this.value = max;
-				}
+                if (this.value > max)
+                {
+                    this.value = max;
+                }
 
-				this.value = normalise(value);
-				this.displayString = name + ": " + Tools.df2.format(value);
-			}
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.value * (float) ((this.width - 8)) / max), this.yPosition, 0, 66, 4, 20);
-			this.drawTexturedModalRect(this.xPosition + (int) (this.value * (float) ((this.width - 8)) / max) + 4, this.yPosition, 196, 66, 4, 20);
-		}
-	}
+                this.value = normalise(value);
+                this.displayString = name + ": " + Tools.df2.format(value);
+            }
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.value * (float) ((this.width - 8)) / max), this.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(this.xPosition + (int) (this.value * (float) ((this.width - 8)) / max) + 4, this.yPosition, 196, 66, 4, 20);
+        }
+    }
 
-	private float normalise(float f)
-	{
-		return MathHelper.clamp_float(f, this.min, this.max);
-	}
+    private float normalise(float f)
+    {
+        return MathHelper.clamp_float(f, this.min, this.max);
+    }
 
 }

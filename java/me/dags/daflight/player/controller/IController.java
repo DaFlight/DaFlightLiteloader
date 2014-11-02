@@ -17,15 +17,15 @@ import me.dags.daflight.player.Vector;
 
 public interface IController
 {
-	
-	public void reset();
-	
-	public void input(Vector v);
-	
-	public void unFocused();
-	
-	public void setActive(boolean b);
-	
-	public boolean isActive();
-	
+
+    public void reset();
+
+    public void input(Vector v);
+
+    public void unFocused();
+
+    public boolean isActive();
+
+    public void setActive(boolean b);
+
 }
