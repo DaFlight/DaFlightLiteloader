@@ -31,9 +31,6 @@ public class ObfTable extends Obf
     public static ObfTable NetHandlerPlayClient = new ObfTable("net.minecraft.client.network.NetHandlerPlayClient", "cee");
     public static ObfTable addToSendQueue = new ObfTable("func_147297_a", "a", "addToSendQueue");
 
-    public static ObfTable NetworkManager = new ObfTable("net.minecraft.network.NetworkManager", "gr");
-    public static ObfTable sendPacket = new ObfTable("func_179290_a", "a", "sendPacket");
-
     public ObfTable(String seargeName, String obfName)
     {
         super(seargeName, obfName, seargeName);
