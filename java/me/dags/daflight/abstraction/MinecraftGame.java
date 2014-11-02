@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2014, dags_ <dags@dags.me>
+ *
+ *  Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ *  granted, provided that the above copyright notice and this permission notice appear in all copies.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL,
+ *  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+ *  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
+ *  USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package me.dags.daflight.abstraction;
+
+import com.mumfrey.liteloader.modconfig.ConfigStrategy;
+import com.mumfrey.liteloader.modconfig.ExposableOptions;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
+
+/**
+ * @author dags_ <dags@dags.me>
+ */
+
+@ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "daflight.json")
+public class MinecraftGame
+{
+
+    /**
+     * Minecraft methods
+     */
+
+    public static Minecraft getMinecraft()
+    {
+        return Minecraft.getMinecraft();
+    }
+
+    public static EntityPlayerSP getPlayer()
+    {
+        return getMinecraft().thePlayer;
+    }
+
+    public static GameSettings getGameSettings()
+    {
+        return getMinecraft().gameSettings;
+    }
+
+    public static GameSettings.Options getOptions()
+    {
+        return GameSettings.Options.getEnumOptions(0);
+    }
+
+    public static String getColor(String name)
+    {
+        if (name.equals("Dark_Purple"))
+        {
+            return EnumChatFormatting.DARK_PURPLE.toString();
+        }
+        if (name.equals("Dark_Aqua"))
+        {
+            return EnumChatFormatting.DARK_AQUA.toString();
+        }
+        return EnumChatFormatting.BLACK.toString();
+    }
+
+    public static ChatComponentText getMessage(String s)
+    {
+        String format = EnumChatFormatting.DARK_PURPLE.toString() + "[DaFlight]" + EnumChatFormatting.GRAY + " %2$s";
+        return new ChatComponentText(format.replace("%2$s", s));
+    }
+
+    public static boolean onGround()
+    {
+        int x = floorDouble(getPlayer().posX);
+        int y = floorDouble(getPlayer().posY + getPlayer().getYOffset());
+        int z = floorDouble(getPlayer().posZ);
+        return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial().isSolid();
+    }
+
+    public static boolean onCollidableBlock()
+    {
+        int x = floorDouble(getPlayer().posX);
+        int y = floorDouble(getPlayer().posY - 1.66);
+        int z = floorDouble(getPlayer().posZ);
+        return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().isCollidable();
+    }
+
+    public static int floorDouble(double d)
+    {
+        return MathHelper.floor_double(d);
+    }
+
+    private static double offset()
+    {
+        return getPlayer().getEyeHeight() - 1;
+    }
+
+}
