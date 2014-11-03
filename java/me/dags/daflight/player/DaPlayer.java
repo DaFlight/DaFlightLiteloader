@@ -265,6 +265,11 @@ public class DaPlayer extends MinecraftGame
         return Config.getInstance().threeDFlight;
     }
 
+    public boolean isMoving()
+    {
+        return movementVector.hasLateralInput() || getPlayer().motionX != 0 || getPlayer().motionZ != 0;
+    }
+
     public double getSpeed()
     {
         if (flyModOn)

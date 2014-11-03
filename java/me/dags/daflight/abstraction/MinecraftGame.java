@@ -59,9 +59,22 @@ public class MinecraftGame
     public static boolean onGround()
     {
         int x = floorDouble(getPlayer().posX);
-        int y = floorDouble(getPlayer().posY + getPlayer().getYOffset());
+        int y = floorDouble(getPlayer().lastTickPosY + getPlayer().getYOffset());
         int z = floorDouble(getPlayer().posZ);
         return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial().isSolid();
+    }
+
+    public static boolean isAirborn()
+    {
+        int x = floorDouble(getPlayer().posX);
+        int y = floorDouble(getPlayer().posY + getPlayer().getYOffset());
+        int z = floorDouble(getPlayer().posZ);
+        return getPlayer().worldObj.isAirBlock(new BlockPos(x, y, z));
+    }
+
+    public static boolean onSolidBlock()
+    {
+        return getPlayer().worldObj.getBlockState(getPlayer().getPosition().down()).getBlock().getMaterial().isSolid();
     }
 
     public static int floorDouble(double d)

@@ -33,7 +33,7 @@ public class FovTransformer extends EventInjectionTransformer
         MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
         MethodHead injectionPoint = new MethodHead();
 
-        this.addEvent(fovCheck, getFOVModifier, injectionPoint);
+        addEvent(fovCheck, getFOVModifier, injectionPoint);
 
         fovCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFovCheck"));
     }

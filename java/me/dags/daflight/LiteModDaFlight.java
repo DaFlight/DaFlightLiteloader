@@ -51,7 +51,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b1";
+        return "2.0b2";
     }
 
     @Override

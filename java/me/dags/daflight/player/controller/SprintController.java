@@ -49,7 +49,8 @@ public class SprintController extends MinecraftGame implements IController
         {
             if (allowJump())
             {
-                getPlayer().addVelocity(0, Config.getInstance().jumpModifier * v.getSpeed(), 0);
+                double yMotion = 0.42F + -getPlayer().motionY + Config.getInstance().jumpModifier * v.getSpeed();
+                getPlayer().addVelocity(0, yMotion, 0);
             }
         }
 
@@ -68,20 +69,21 @@ public class SprintController extends MinecraftGame implements IController
     @Override
     public void unFocused()
     {
-
     }
 
     private boolean allowJump()
     {
-        if (getPlayer().motionY >= 0)
+        if (onSolidBlock())
         {
             if (jumping)
             {
                 return false;
             }
-            return jumping = true;
+            jumping = true;
+            return true;
         }
-        return jumping = false;
+        jumping = false;
+        return false;
     }
 
 
