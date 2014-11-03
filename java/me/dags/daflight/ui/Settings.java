@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel;
+package me.dags.daflight.ui;
 
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.input.binds.KeyBind;

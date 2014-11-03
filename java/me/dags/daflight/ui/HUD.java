@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.hud;
+package me.dags.daflight.ui;
 
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.player.DaPlayer;
@@ -112,7 +112,8 @@ public class HUD
             {
                 if (d.isShown())
                 {
-                    Tools.getMinecraft().fontRendererObj.drawStringWithShadow(d.getTitle(), 5, slot, 0xFFFFFF);
+                    // func_175063_a - drawStringWithShadow
+                    Tools.getMinecraft().fontRendererObj.func_175063_a(d.getTitle(), 5, slot, 0xFFFFFF);
                     slot += 10;
                 }
             }

@@ -25,17 +25,9 @@ import net.minecraft.entity.player.EntityPlayer;
  * @author dags_ <dags@dags.me>
  */
 
+@SuppressWarnings("unused")
 public class EventListener extends MinecraftGame
 {
-
-    @SuppressWarnings("unused")
-    public static void onFall(EventInfo<EntityPlayer> e, float distance, float damageMultiplier)
-    {
-        if (LiteModDaFlight.DAPLAYER.softFall())
-        {
-            e.cancel();
-        }
-    }
 
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)
@@ -43,6 +35,15 @@ public class EventListener extends MinecraftGame
         if (LiteModDaFlight.DAPLAYER.flyModOn)
         {
             e.setReturnValue(1.0F);
+            e.cancel();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static void onFall(EventInfo<EntityPlayer> e, float distance, float damageMultiplier)
+    {
+        if (LiteModDaFlight.DAPLAYER.softFall())
+        {
             e.cancel();
         }
     }
@@ -65,8 +66,6 @@ public class EventListener extends MinecraftGame
         }
     }
 
-    public static boolean BOOP = false;
-
     @SuppressWarnings("unused")
     public static void onJump(EventInfo<EntityPlayer> e)
     {
@@ -75,5 +74,4 @@ public class EventListener extends MinecraftGame
             e.cancel();
         }
     }
-
 }

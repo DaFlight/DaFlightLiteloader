@@ -20,7 +20,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 /**
@@ -52,7 +51,7 @@ public class MinecraftGame
 
     public static ChatComponentText getMessage(String s)
     {
-        String format = EnumChatFormatting.DARK_PURPLE.toString() + "[DaFlight]" + EnumChatFormatting.GRAY + " %2$s";
+        String format = Colour.DARK_PURPLE + "[DaFlight]" + Colour.GREY + " %2$s";
         return new ChatComponentText(format.replace("%2$s", s));
     }
 
@@ -64,17 +63,9 @@ public class MinecraftGame
         return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial().isSolid();
     }
 
-    public static boolean isAirborn()
-    {
-        int x = floorDouble(getPlayer().posX);
-        int y = floorDouble(getPlayer().posY + getPlayer().getYOffset());
-        int z = floorDouble(getPlayer().posZ);
-        return getPlayer().worldObj.isAirBlock(new BlockPos(x, y, z));
-    }
-
     public static boolean onSolidBlock()
     {
-        return getPlayer().worldObj.getBlockState(getPlayer().getPosition().down()).getBlock().getMaterial().isSolid();
+        return getPlayer().worldObj.getBlockState(getPlayer().getPosition().offsetDown()).getBlock().getMaterial().isSolid();
     }
 
     public static int floorDouble(double d)

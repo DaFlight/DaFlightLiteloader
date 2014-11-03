@@ -17,11 +17,10 @@ import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
 import io.netty.buffer.Unpooled;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import net.minecraft.network.PacketBuffer;
 
-public class PacketManager extends MinecraftGame
+public class PluginChannelUtil
 {
 
     public static void onReceivedPacket(String channel, PacketBuffer pb)
@@ -45,7 +44,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (DaPlayer.DF_PERMISSIONS.fbEnabled())
                         {
-                            tellPlayer("Fullbright disabled!");
+                            Tools.tellPlayer("Fullbright disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFullbrightEnabled(false);
                     }
@@ -53,7 +52,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (!DaPlayer.DF_PERMISSIONS.fbEnabled())
                         {
-                            tellPlayer("Fullbright enabled!");
+                            Tools.tellPlayer("Fullbright enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFullbrightEnabled(true);
                     }
@@ -64,7 +63,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            tellPlayer("Flymod disabled!");
+                            Tools.tellPlayer("Flymod disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFlightEnabled(false);
                         LiteModDaFlight.DAPLAYER.disableFly();
@@ -73,7 +72,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (!DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            tellPlayer("Flymod enabled!");
+                            Tools.tellPlayer("Flymod enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFlightEnabled(true);
                     }
@@ -84,7 +83,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (DaPlayer.DF_PERMISSIONS.noFallDamageEnabled())
                         {
-                            tellPlayer("Survival SoftFall disabled!");
+                            Tools.tellPlayer("Survival SoftFall disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setNoFallDamage(false);
                     }
@@ -92,7 +91,7 @@ public class PacketManager extends MinecraftGame
                     {
                         if (!DaPlayer.DF_PERMISSIONS.noFallDamageEnabled())
                         {
-                            tellPlayer("Survival SoftFall enabled!");
+                            Tools.tellPlayer("Survival SoftFall enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setNoFallDamage(true);
                     }
@@ -107,18 +106,13 @@ public class PacketManager extends MinecraftGame
                     break;
                 case 100:
                     // MaxSpeed perms
-                    tellPlayer("Max speed set by server! " + value);
+                    Tools.tellPlayer("Max speed set by server! " + value);
                     LiteModDaFlight.DAPLAYER.flySpeed.setMaxSpeed((double) value);
                     LiteModDaFlight.DAPLAYER.sprintSpeed.setMaxSpeed((double) value);
                     LiteModDaFlight.getHud().updateMsg();
                     break;
             }
         }
-    }
-
-    private static void tellPlayer(String msg)
-    {
-        getPlayer().addChatMessage(getMessage(msg));
     }
 
     public static void dispatchPacket(byte[] data)

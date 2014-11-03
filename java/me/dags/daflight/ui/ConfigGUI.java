@@ -11,13 +11,13 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel;
+package me.dags.daflight.ui;
 
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
 import me.dags.daflight.abstraction.MinecraftGame;
-import me.dags.daflight.ui.configpanel.pages.Page0;
-import me.dags.daflight.ui.configpanel.pages.Page1;
+import me.dags.daflight.ui.pages.Page0;
+import me.dags.daflight.ui.pages.Page1;
 import me.dags.daflight.utils.Config;
 
 public class ConfigGUI extends MinecraftGame implements ConfigPanel

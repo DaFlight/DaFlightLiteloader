@@ -11,25 +11,38 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.abstraction;
+package me.dags.daflight.ui;
 
-import net.minecraft.util.EnumChatFormatting;
-
-/**
- * @author dags_ <dags@dags.me>
- */
-
-public class DCColor
+public class DFEntry
 {
 
-    public static String darkAqua()
+    private String title;
+    private Boolean shown;
+
+    public DFEntry(String s, Boolean b)
     {
-        return EnumChatFormatting.DARK_AQUA.toString();
+        title = s;
+        shown = b;
     }
 
-    public static String darkPurple()
+    public String getTitle()
     {
-        return EnumChatFormatting.DARK_PURPLE.toString();
+        return title;
+    }
+
+    public Boolean isShown()
+    {
+        return shown;
+    }
+
+    public void setTitle(String s)
+    {
+        title = s;
+    }
+
+    public void setShow(Boolean b)
+    {
+        shown = b;
     }
 
 }

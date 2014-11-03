@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel.uielements;
+package me.dags.daflight.ui.uielements;
 
 import me.dags.daflight.utils.Tools;
 import net.minecraft.client.Minecraft;

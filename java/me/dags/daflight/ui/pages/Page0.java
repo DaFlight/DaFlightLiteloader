@@ -11,15 +11,15 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel.pages;
+package me.dags.daflight.ui.pages;
 
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
-import me.dags.daflight.abstraction.DCColor;
+import me.dags.daflight.abstraction.Colour;
 import me.dags.daflight.abstraction.MinecraftGame;
-import me.dags.daflight.ui.configpanel.Settings;
-import me.dags.daflight.ui.configpanel.uielements.GuiEntryBox;
-import me.dags.daflight.ui.configpanel.uielements.GuiLabel;
-import me.dags.daflight.ui.configpanel.uielements.GuiSlider;
+import me.dags.daflight.ui.Settings;
+import me.dags.daflight.ui.uielements.GuiEntryBox;
+import me.dags.daflight.ui.uielements.GuiLabel;
+import me.dags.daflight.ui.uielements.GuiSlider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -140,7 +140,7 @@ public class Page0 extends MinecraftGame
     private int[] setTitle(String s, int x, int y)
     {
         GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, x, y);
-        gl.setLabel(DCColor.darkAqua() + s + ":");
+        gl.setLabel(Colour.DARK_AQUA + s + ":");
         gl.setShadow(true);
         this.labels.add(gl);
 

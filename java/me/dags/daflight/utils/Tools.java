@@ -46,4 +46,9 @@ public class Tools extends MinecraftGame
         return Double.valueOf(df3.format(d));
     }
 
+    public static void tellPlayer(String msg)
+    {
+        getPlayer().addChatMessage(getMessage(msg));
+    }
+
 }

@@ -17,10 +17,10 @@ import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import me.dags.daflight.player.DaPlayer;
-import me.dags.daflight.ui.configpanel.ConfigGUI;
-import me.dags.daflight.ui.hud.HUD;
+import me.dags.daflight.ui.ConfigGUI;
+import me.dags.daflight.ui.HUD;
 import me.dags.daflight.utils.Config;
-import me.dags.daflight.utils.PacketManager;
+import me.dags.daflight.utils.PluginChannelUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.INetHandler;
@@ -111,14 +111,14 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public void onCustomPayload(String channel, PacketBuffer data)
     {
-        PacketManager.onReceivedPacket(channel, data);
+        PluginChannelUtil.onReceivedPacket(channel, data);
     }
 
     @Override
     public List<String> getChannels()
     {
-        List<String> channels = new ArrayList<String>();
-        channels.add("DaFlight");
-        return channels;
+        List<String> channel = new ArrayList<String>();
+        channel.add("DaFlight");
+        return channel;
     }
 }

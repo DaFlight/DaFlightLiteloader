@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel.uielements;
+package me.dags.daflight.ui.uielements;
 
 import net.minecraft.client.gui.FontRenderer;
 
@@ -60,7 +60,7 @@ public class GuiLabel
     {
         if (shadow)
         {
-            this.fr.drawStringWithShadow(this.label, this.xPos, this.yPos, 0xFFFFFF);
+            this.fr.func_175063_a(this.label, this.xPos, this.yPos, 0xFFFFFF);
         }
         else
         {

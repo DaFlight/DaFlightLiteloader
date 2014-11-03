@@ -23,7 +23,7 @@ import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
 import me.dags.daflight.player.controller.SprintController;
 import me.dags.daflight.utils.Config;
-import me.dags.daflight.utils.PacketManager;
+import me.dags.daflight.utils.PluginChannelUtil;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -73,7 +73,7 @@ public class DaPlayer extends MinecraftGame
         flySpeed.setMaxSpeed(50D);
         sprintSpeed.setMaxSpeed(50D);
         byte[] b = new byte[]{1};
-        PacketManager.dispatchPacket(b);
+        PluginChannelUtil.dispatchPacket(b);
     }
 
     public void update()

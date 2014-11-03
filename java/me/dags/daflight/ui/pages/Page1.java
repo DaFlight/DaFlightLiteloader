@@ -11,15 +11,15 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.configpanel.pages;
+package me.dags.daflight.ui.pages;
 
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
-import me.dags.daflight.abstraction.DCColor;
+import me.dags.daflight.abstraction.Colour;
 import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.input.binds.KeyBind;
-import me.dags.daflight.ui.configpanel.Settings;
-import me.dags.daflight.ui.configpanel.uielements.GuiEntryBox;
-import me.dags.daflight.ui.configpanel.uielements.GuiLabel;
+import me.dags.daflight.ui.Settings;
+import me.dags.daflight.ui.uielements.GuiEntryBox;
+import me.dags.daflight.ui.uielements.GuiLabel;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
@@ -184,7 +184,7 @@ public class Page1 extends MinecraftGame
     {
         int z = s.length();
         GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, x, y);
-        gl.setLabel(DCColor.darkAqua() + s + ":");
+        gl.setLabel(Colour.DARK_AQUA + s + ":");
         gl.setShadow(true);
         labels.add(gl);
         y += 10;
