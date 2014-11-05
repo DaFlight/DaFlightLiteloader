@@ -17,7 +17,6 @@ import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.Tools;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +106,6 @@ public class HUD
         if (Config.getInstance().showHud && Tools.getMinecraft().inGameHasFocus && !Tools.getMinecraft().gameSettings.showDebugInfo)
         {
             int slot = 5;
-            GL11.glPushMatrix();
             for (DFEntry d : mods)
             {
                 if (d.isShown())
@@ -117,7 +115,6 @@ public class HUD
                     slot += 10;
                 }
             }
-            GL11.glPopMatrix();
         }
         if (counter <= 0)
         {
@@ -125,6 +122,7 @@ public class HUD
         }
     }
 
+    @SuppressWarnings("unused")
     public int addModSet(String s)
     {
         int i = mods.size();
@@ -132,6 +130,7 @@ public class HUD
         return i;
     }
 
+    @SuppressWarnings("unused")
     public void removeMod(int index)
     {
         if (index < mods.size())
@@ -140,6 +139,7 @@ public class HUD
         }
     }
 
+    @SuppressWarnings("unused")
     public void setModVis(int index, Boolean b)
     {
         if (index < mods.size())
@@ -148,6 +148,7 @@ public class HUD
         }
     }
 
+    @SuppressWarnings("unused")
     public void setModStatus(int index, String s)
     {
         if (index < mods.size())
