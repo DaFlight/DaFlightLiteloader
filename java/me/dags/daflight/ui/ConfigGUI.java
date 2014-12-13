@@ -127,6 +127,10 @@ public class ConfigGUI extends MinecraftGame implements ConfigPanel
     @Override
     public void keyPressed(ConfigPanelHost host, char keyChar, int keyCode)
     {
-        page1.keyPress(keyChar, keyCode);
+        boolean shouldExit = page1.keyPress(keyChar, keyCode);
+        if (shouldExit)
+        {
+            host.close();
+        }
     }
 }

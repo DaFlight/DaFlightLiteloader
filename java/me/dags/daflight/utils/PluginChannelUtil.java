@@ -25,7 +25,7 @@ public class PluginChannelUtil
 
     public static void onReceivedPacket(String channel, PacketBuffer pb)
     {
-        byte[] data = pb.readByteArray();
+        byte[] data = pb.array();
         int length = data.length;
         if (channel.equals("DaFlight"))
         {

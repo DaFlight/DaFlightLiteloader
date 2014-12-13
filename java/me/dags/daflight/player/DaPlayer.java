@@ -45,13 +45,11 @@ public class DaPlayer extends MinecraftGame
 
     public Direction direction;
     public Vector movementVector;
-
     private IController controller;
 
     private boolean inMenus = true;
-    private long lastUpdate = 0L;
-    private boolean landed = true;
-    private boolean softFall = false;
+    private boolean wasFlying = false;
+    private int softFallTicks = 0;
 
     public DaPlayer()
     {
@@ -76,6 +74,19 @@ public class DaPlayer extends MinecraftGame
         PluginChannelUtil.dispatchPacket(b);
     }
 
+    public void tickUpdate()
+    {
+        if (getMinecraft().inGameHasFocus)
+        {
+            if (wasFlying && onSolidBlock())
+            {
+                wasFlying = false;
+                softFallTicks = 5;
+            }
+            softFallTicks--;
+        }
+    }
+
     public void update()
     {
         if (getMinecraft().inGameHasFocus)
@@ -91,7 +102,6 @@ public class DaPlayer extends MinecraftGame
             {
                 controller.input(movementVector);
             }
-            checkIsOnGround();
         }
         else
         {
@@ -119,7 +129,6 @@ public class DaPlayer extends MinecraftGame
         {
             getPlayer().capabilities.isFlying = false;
             getPlayer().sendPlayerAbilities();
-            softFall = true;
             if (cineFlightOn)
             {
                 getGameSettings().smoothCamera = false;
@@ -148,10 +157,6 @@ public class DaPlayer extends MinecraftGame
         if (!sprintModOn && !Config.getInstance().speedIsToggle)
         {
             sprintSpeed.setBoost(false);
-        }
-        if (!sprintModOn)
-        {
-            softFall = true;
         }
     }
 
@@ -228,33 +233,17 @@ public class DaPlayer extends MinecraftGame
         LiteModDaFlight.getHud().updateMsg();
     }
 
-    public void checkIsOnGround()
+    public boolean softFallOn()
     {
-        if (!softFall)
+        if (flyModOn || sprintModOn)
         {
-            return;
+            return wasFlying = true;
         }
-        if (onSolidBlock())
+        if (wasFlying || softFallTicks > 0)
         {
-            if (landed)
-            {
-                if (System.currentTimeMillis() - lastUpdate > 200)
-                {
-                    softFall = false;
-                    landed = false;
-                }
-                return;
-            }
-            landed = true;
-            lastUpdate = System.currentTimeMillis();
-            return;
+            return true;
         }
-        landed = false;
-    }
-
-    public boolean softFall()
-    {
-        return flyModOn || sprintModOn || softFall;
+        return wasFlying = false;
     }
 
     private IController getActiveController()
@@ -270,11 +259,6 @@ public class DaPlayer extends MinecraftGame
     public boolean is3DFlightOn()
     {
         return Config.getInstance().threeDFlight;
-    }
-
-    public boolean isMoving()
-    {
-        return movementVector.hasLateralInput() || getPlayer().motionX != 0 || getPlayer().motionZ != 0;
     }
 
     public double getSpeed()

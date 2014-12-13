@@ -19,7 +19,9 @@ import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.abstraction.MinecraftGame;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -28,7 +30,8 @@ import net.minecraft.entity.player.EntityPlayer;
 @SuppressWarnings("unused")
 public class EventListener extends MinecraftGame
 {
-
+    // Prevents FOV changes when toggling flight on
+    // Updates player's fly state if needed
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)
     {
@@ -36,42 +39,45 @@ public class EventListener extends MinecraftGame
         {
             e.setReturnValue(1.0F);
             e.cancel();
+            if (!e.getSource().capabilities.isFlying)
+            {
+                e.getSource().capabilities.isFlying = true;
+                e.getSource().sendPlayerAbilities();
+            }
         }
     }
 
+    // Intercepts outbound movement packets to tell the server the player is on the ground (prevents fall damage)
+    @SuppressWarnings("unused")
+    public static void onUpdateWalkingPlayer(EventInfo<EntityPlayerSP> e)
+    {
+        if (LiteModDaFlight.DAPLAYER.softFallOn())
+        {
+            EntityPlayerSP ep = e.getSource();
+            e.getSource().sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(ep.posX, ep.getEntityBoundingBox().minY, ep.posZ, ep.rotationYaw, ep.rotationPitch, /*onGround*/ true));
+            e.cancel();
+            ep.isOnLadder();
+        }
+    }
+
+    // Intercepts falling
     @SuppressWarnings("unused")
     public static void onFall(EventInfo<EntityPlayer> e, float distance, float damageMultiplier)
     {
-        if (LiteModDaFlight.DAPLAYER.softFall())
+        if (LiteModDaFlight.DAPLAYER.softFallOn())
         {
             e.cancel();
         }
     }
 
+    // Ignore ladder effects if player is flying
     @SuppressWarnings("unused")
-    public static void onGround(ReturnEventInfo<EntityPlayerSP, Boolean> e)
+    public static void isOnLadder(ReturnEventInfo<EntityLivingBase, Boolean> e)
     {
-        if (LiteModDaFlight.DAPLAYER.softFall())
-        {
-            e.getSource().onGround = true;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static void isSneaking(ReturnEventInfo<EntityPlayerSP, Boolean> e)
-    {
-        if (LiteModDaFlight.DAPLAYER.softFall() && LiteModDaFlight.DAPLAYER.isMoving())
+        System.out.println(".");
+        if (e.getSource().getEntityId() == getPlayer().getEntityId() && LiteModDaFlight.DAPLAYER.flyModOn)
         {
             e.setReturnValue(false);
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static void onJump(EventInfo<EntityPlayer> e)
-    {
-        if (LiteModDaFlight.DAPLAYER.softFall())
-        {
-            e.cancel();
         }
     }
 }

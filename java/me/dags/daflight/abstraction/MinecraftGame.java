@@ -16,8 +16,8 @@ package me.dags.daflight.abstraction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -52,24 +52,12 @@ public class MinecraftGame
 
     public static boolean onSolidBlock()
     {
-        return getMinecraft().theWorld.getBlockState(getPlayer().getPosition().down()).getBlock().getMaterial().isSolid();
-    }
-
-    public static int floorDouble(double d)
-    {
-        return MathHelper.floor_double(d);
+        BlockPos pos = new BlockPos(getPlayer().posX, getPlayer().lastTickPosY, getPlayer().posZ);
+        return getMinecraft().theWorld.getBlockState(pos.down()).getBlock().getMaterial().isSolid();
     }
 
     public static EntityPlayerSP getPlayer()
     {
         return getMinecraft().thePlayer;
-    }
-
-    public void setFlying()
-    {
-        if (getPlayer().capabilities.isFlying)
-        {
-            getPlayer().capabilities.isFlying = true;
-        }
     }
 }

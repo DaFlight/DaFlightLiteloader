@@ -24,31 +24,19 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 
 public class SoftFallTransformer extends EventInjectionTransformer
 {
-
     @Override
     protected void addEvents()
     {
         MethodHead injectionPoint = new MethodHead();
 
+        Event onUpdateWalkingPlayer = Event.getOrCreate("onUpdate", true);
+        MethodInfo updateWalkingPlayer = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onUpdateWalkingPlayer, "()V");
+        addEvent(onUpdateWalkingPlayer, updateWalkingPlayer, injectionPoint);
+        onUpdateWalkingPlayer.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onUpdateWalkingPlayer"));
+
         Event onFall = Event.getOrCreate("onFall", true);
         MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(FF)V");
         addEvent(onFall, fall, injectionPoint);
         onFall.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFall"));
-
-        Event onGroundCheck = Event.getOrCreate("onGroundCheck", true);
-        MethodInfo groundCheck = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onGroundCheck, "()Z");
-        addEvent(onGroundCheck, groundCheck, injectionPoint);
-        onGroundCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onGround"));
-
-        Event onIsSneaking = Event.getOrCreate("onIsSneaking", true);
-        MethodInfo isSneaking = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.isSneaking, "()Z");
-        addEvent(onIsSneaking, isSneaking, injectionPoint);
-        onIsSneaking.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "isSneaking"));
-
-        Event onJump = Event.getOrCreate("onJump", true);
-        MethodInfo jump = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onJump, "()V");
-        addEvent(onJump, jump, injectionPoint);
-        onJump.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onJump"));
     }
-
 }

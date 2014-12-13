@@ -120,8 +120,9 @@ public class Page1 extends MinecraftGame
 
     }
 
-    public void keyPress(char keyChar, int keyCode)
+    public boolean keyPress(char keyChar, int keyCode)
     {
+        boolean escape = keyCode == Keyboard.KEY_ESCAPE;
         for (GuiEntryBox gb : keyBinds.values())
         {
             if (gb.isActive())
@@ -129,16 +130,18 @@ public class Page1 extends MinecraftGame
                 gb.unsetActive();
                 if (keyCode == Keyboard.KEY_RETURN)
                 {
-                    return;
+                    break;
                 }
                 if (keyCode == Keyboard.KEY_ESCAPE)
                 {
                     gb.setText("NONE");
-                    return;
+                    escape = false;
+                    break;
                 }
                 gb.setText(Keyboard.getKeyName(keyCode));
             }
         }
+        return escape;
     }
 
     public void setWidth(int i)

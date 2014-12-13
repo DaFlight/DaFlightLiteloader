@@ -24,17 +24,13 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 
 public class FovTransformer extends EventInjectionTransformer
 {
-
     @Override
     protected void addEvents()
     {
-        Event fovCheck = Event.getOrCreate("fovCheck", true);
-
-        MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
         MethodHead injectionPoint = new MethodHead();
-
+        Event fovCheck = Event.getOrCreate("fovCheck", true);
+        MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
         addEvent(fovCheck, getFOVModifier, injectionPoint);
-
         fovCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFovCheck"));
     }
 

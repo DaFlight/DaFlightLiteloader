@@ -51,7 +51,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b3";
+        return "2.0b4";
     }
 
     @Override
@@ -79,6 +79,8 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
         if (inGame && !disabled)
         {
             DAPLAYER.update();
+            if (clock)
+                DAPLAYER.tickUpdate();
         }
     }
 

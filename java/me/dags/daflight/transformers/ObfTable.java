@@ -21,17 +21,20 @@ import com.mumfrey.liteloader.core.runtime.Obf;
 
 public class ObfTable extends Obf
 {
-
-    public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "ahd");
-    public static ObfTable fall = new ObfTable("func_180430_e", "e", "fall");
-
     public static ObfTable AbstractClientPlayer = new ObfTable("net.minecraft.client.entity.AbstractClientPlayer", "cil");
     public static ObfTable getFOVModifier = new ObfTable("func_175156_o", "o", "getFovModifier");
 
     public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "cio");
-    public static ObfTable onGroundCheck = new ObfTable("func_175160_A", "A", "func_175160_A");
-    public static ObfTable isSneaking = new ObfTable("func_70093_af", "aw", "isSneaking");
-    public static ObfTable onJump = new ObfTable("func_70664_aZ", "bE", "jump");
+    public static ObfTable onUpdateWalkingPlayer = new ObfTable("func_175161_p", "p", "onUpdateWalkingPlayer");
+
+    public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "ahd");
+    public static ObfTable fall = new ObfTable("func_180430_e", "e", "fall");
+
+    /*
+     * Can't seem to transform this :[
+        public static ObfTable EntityLivingBase = new ObfTable("net.minecraft.entity.EntityLivingBase", "xm");
+        public static ObfTable isOnLadder = new ObfTable("func_70617_f_", "j_", "isOnLadder");
+    */
 
     public ObfTable(String seargeName, String obfName)
     {
