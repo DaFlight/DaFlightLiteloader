@@ -31,14 +31,16 @@ public class SoftFallTransformer extends EventInjectionTransformer
         MethodHead injectionPoint = new MethodHead();
 
         Event onFall = Event.getOrCreate("onFall", true);
-        MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(FF)V");
+        MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(F)V");
         addEvent(onFall, fall, injectionPoint);
         onFall.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFall"));
 
+        /*
         Event onGroundCheck = Event.getOrCreate("onGroundCheck", true);
         MethodInfo groundCheck = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onGroundCheck, "()Z");
         addEvent(onGroundCheck, groundCheck, injectionPoint);
         onGroundCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onGround"));
+        */
 
         Event onIsSneaking = Event.getOrCreate("onIsSneaking", true);
         MethodInfo isSneaking = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.isSneaking, "()Z");

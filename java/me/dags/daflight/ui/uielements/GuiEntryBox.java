@@ -39,7 +39,7 @@ public class GuiEntryBox extends GuiTextField
 
     public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height)
     {
-        super(0, fr, x, y, width, height);
+        super(fr, x, y, width, height);
         this.setFocused(false);
         this.x = x;
         this.y = y;

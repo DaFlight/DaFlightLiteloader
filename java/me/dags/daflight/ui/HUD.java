@@ -14,6 +14,7 @@
 package me.dags.daflight.ui;
 
 import me.dags.daflight.LiteModDaFlight;
+import me.dags.daflight.api.DaFlightUI;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.Tools;
@@ -26,7 +27,7 @@ import java.util.List;
  *
  * @author dags_
  */
-public class HUD
+public class HUD implements DaFlightUI
 {
 
     private List<DFEntry> mods;
@@ -111,7 +112,7 @@ public class HUD
                 if (d.isShown())
                 {
                     // func_175063_a - drawStringWithShadow
-                    Tools.getMinecraft().fontRendererObj.func_175063_a(d.getTitle(), 5, slot, 0xFFFFFF);
+                    Tools.getMinecraft().fontRendererObj.drawStringWithShadow(d.getTitle(), 5, slot, 0xFFFFFF);
                     slot += 10;
                 }
             }
@@ -123,7 +124,8 @@ public class HUD
     }
 
     @SuppressWarnings("unused")
-    public int addModSet(String s)
+    @Override
+    public int addModStatus(String s)
     {
         int i = mods.size();
         mods.add(i, new DFEntry(s, false));
@@ -131,29 +133,32 @@ public class HUD
     }
 
     @SuppressWarnings("unused")
-    public void removeMod(int index)
+    @Override
+    public void removeModStatus(int id)
     {
-        if (index < mods.size())
+        if (id < mods.size() && id > 3)
         {
-            mods.remove(index);
+            mods.remove(id);
         }
     }
 
     @SuppressWarnings("unused")
-    public void setModVis(int index, Boolean b)
+    @Override
+    public void setStatusVisibility(int id, boolean b)
     {
-        if (index < mods.size())
+        if (id < mods.size() && id > 3)
         {
-            mods.get(index).setShow(b);
+            mods.get(id).setShow(b);
         }
     }
 
     @SuppressWarnings("unused")
-    public void setModStatus(int index, String s)
+    @Override
+    public void setStatus(int id, String s)
     {
-        if (index < mods.size())
+        if (id < mods.size() && id > 3)
         {
-            mods.get(index).setTitle(s);
+            mods.get(id).setTitle(s);
         }
     }
 

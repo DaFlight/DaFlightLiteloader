@@ -227,11 +227,11 @@ public class DaPlayer extends MinecraftGame
         {
             return;
         }
-        if (onGround())
+        if (onSolidBlock())
         {
             if (landed)
             {
-                if (System.currentTimeMillis() - lastUpdate > 500)
+                if (System.currentTimeMillis() - lastUpdate > 10)
                 {
                     softFall = false;
                     landed = false;

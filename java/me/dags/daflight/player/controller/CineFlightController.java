@@ -24,7 +24,6 @@ public class CineFlightController extends MinecraftGame implements IController
 {
 
     private Config c = Config.getInstance();
-    private boolean active;
     private Double up;
     private Double down;
     private Double forward;
@@ -34,8 +33,7 @@ public class CineFlightController extends MinecraftGame implements IController
 
     private Direction d;
 
-
-    public void reset()
+    public CineFlightController()
     {
         d = new Direction();
         up = 0D;
@@ -49,7 +47,7 @@ public class CineFlightController extends MinecraftGame implements IController
     @Override
     public void input(Vector v)
     {
-        getPlayer().capabilities.isFlying = true;
+        setFlying();
         d.update((double) getPlayer().rotationYaw);
 
         double x = 0D;
@@ -161,11 +159,8 @@ public class CineFlightController extends MinecraftGame implements IController
     @Override
     public void unFocused()
     {
+        setFlying();
         getPlayer().setVelocity(getPlayer().motionX * c.flySmoothing, 0, getPlayer().motionZ * c.flySmoothing);
-        if (!getPlayer().capabilities.isFlying)
-        {
-            getPlayer().capabilities.isFlying = true;
-        }
     }
 
     private Double dec(Double d)
@@ -185,22 +180,4 @@ public class CineFlightController extends MinecraftGame implements IController
             d = 0D;
         return d;
     }
-
-    public CineFlightController()
-    {
-        reset();
-    }
-
-    @Override
-    public void setActive(boolean b)
-    {
-        this.active = b;
-    }
-
-    @Override
-    public boolean isActive()
-    {
-        return this.active;
-    }
-
 }

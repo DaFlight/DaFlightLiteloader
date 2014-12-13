@@ -90,7 +90,7 @@ public class GuiSetting
 
     public void drawString(FontRenderer par1FontRenderer, String par2Str, int par3, int par4, int par5)
     {
-        par1FontRenderer.func_175063_a(par2Str, par3, par4, par5);
+        par1FontRenderer.drawStringWithShadow(par2Str, par3, par4, par5);
     }
 
     public boolean mousePressed(Minecraft p_146116_1_, int p_146116_2_, int p_146116_3_)

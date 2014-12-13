@@ -13,20 +13,15 @@
 
 package me.dags.daflight.abstraction;
 
-import com.mumfrey.liteloader.modconfig.ConfigStrategy;
-import com.mumfrey.liteloader.modconfig.ExposableOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 
 /**
  * @author dags_ <dags@dags.me>
  */
-
-@ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "daflight.json")
 public class MinecraftGame
 {
 
@@ -55,17 +50,12 @@ public class MinecraftGame
         return new ChatComponentText(format.replace("%2$s", s));
     }
 
-    public static boolean onGround()
-    {
-        int x = floorDouble(getPlayer().posX);
-        int y = floorDouble(getPlayer().lastTickPosY + getPlayer().getYOffset());
-        int z = floorDouble(getPlayer().posZ);
-        return getPlayer().worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial().isSolid();
-    }
-
     public static boolean onSolidBlock()
     {
-        return getPlayer().worldObj.getBlockState(getPlayer().getPosition().offsetDown()).getBlock().getMaterial().isSolid();
+        int x = floorDouble(getPlayer().posX);
+        int y = floorDouble(getPlayer().lastTickPosY) - 2;
+        int z = floorDouble(getPlayer().posZ);
+        return getMinecraft().theWorld.getBlock(x, y, z).getMaterial().isSolid();
     }
 
     public static int floorDouble(double d)
@@ -78,4 +68,12 @@ public class MinecraftGame
         return getMinecraft().thePlayer;
     }
 
+    public void setFlying()
+    {
+        if (!getPlayer().capabilities.isFlying)
+        {
+            getPlayer().capabilities.isFlying = true;
+            getPlayer().sendPlayerAbilities();
+        }
+    }
 }

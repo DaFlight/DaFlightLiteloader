@@ -19,24 +19,10 @@ import me.dags.daflight.utils.Config;
 
 public class FlightController extends MinecraftGame implements IController
 {
-
-    private boolean active;
-
-
-    public FlightController()
-    {
-        this.active = false;
-    }
-
-    @Override
-    public void reset()
-    {
-
-    }
-
     @Override
     public void input(Vector v)
     {
+        setFlying();
         if (v.hasInput())
         {
             getPlayer().setVelocity(v.getX(), v.getY(), v.getZ());
@@ -44,35 +30,19 @@ public class FlightController extends MinecraftGame implements IController
         else
         {
             double smoothing = Config.getInstance().flySmoothing;
-            getPlayer().setVelocity(getPlayer().motionX * smoothing, getPlayer().motionY * smoothing, getPlayer().motionZ * smoothing);
+            getPlayer().setVelocity(getPlayer().motionX * smoothing, 0, getPlayer().motionZ * smoothing);
         }
-        if (!getPlayer().capabilities.isFlying)
-        {
-            getPlayer().capabilities.isFlying = true;
-        }
+        if (getPlayer().movementInput.sneak)
+            getPlayer().motionY += 0.15D;
+        if (getPlayer().movementInput.jump)
+            getPlayer().motionY -= 0.15D;
     }
 
     @Override
     public void unFocused()
     {
+        setFlying();
         double smoothing = Config.getInstance().flySmoothing;
         getPlayer().setVelocity(getPlayer().motionX * smoothing, getPlayer().motionY * smoothing, getPlayer().motionZ * smoothing);
-        if (!getPlayer().capabilities.isFlying)
-        {
-            getPlayer().capabilities.isFlying = true;
-        }
     }
-
-    @Override
-    public void setActive(boolean b)
-    {
-        this.active = b;
-    }
-
-    @Override
-    public boolean isActive()
-    {
-        return this.active;
-    }
-
 }

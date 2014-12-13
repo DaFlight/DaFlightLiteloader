@@ -13,18 +13,16 @@
 
 package me.dags.daflight;
 
-import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import me.dags.daflight.api.DaFlightUI;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
 import me.dags.daflight.ui.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.PluginChannelUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.INetHandler;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S01PacketJoinGame;
 
 import java.io.File;
@@ -37,7 +35,6 @@ import java.util.List;
 
 public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
-
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean disabled;
     private static HUD hud;
@@ -51,7 +48,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b2";
+        return "2.0b3";
     }
 
     @Override
@@ -103,22 +100,28 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     }
 
     @Override
-    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
-    {
-        DAPLAYER.onGameJoin();
-    }
-
-    @Override
-    public void onCustomPayload(String channel, PacketBuffer data)
-    {
-        PluginChannelUtil.onReceivedPacket(channel, data);
-    }
-
-    @Override
     public List<String> getChannels()
     {
         List<String> channel = new ArrayList<String>();
         channel.add("DaFlight");
         return channel;
+    }
+
+    @Override
+    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket)
+    {
+        DAPLAYER.onGameJoin();
+    }
+
+    @Override
+    public void onCustomPayload(String channel, int length, byte[] data)
+    {
+        PluginChannelUtil.onReceivedPacket(channel, data);
+    }
+
+    @SuppressWarnings("unused")
+    public static DaFlightUI getDaFlightUI()
+    {
+        return getHud();
     }
 }

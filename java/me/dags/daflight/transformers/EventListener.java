@@ -17,7 +17,6 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.abstraction.MinecraftGame;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -30,7 +29,7 @@ public class EventListener extends MinecraftGame
 {
 
     @SuppressWarnings("unused")
-    public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)
+    public static void onFovCheck(ReturnEventInfo<EntityPlayerSP, Float> e)
     {
         if (LiteModDaFlight.DAPLAYER.flyModOn)
         {
@@ -40,7 +39,7 @@ public class EventListener extends MinecraftGame
     }
 
     @SuppressWarnings("unused")
-    public static void onFall(EventInfo<EntityPlayer> e, float distance, float damageMultiplier)
+    public static void onFall(EventInfo<EntityPlayer> e, float distance)
     {
         if (LiteModDaFlight.DAPLAYER.softFall())
         {
@@ -49,20 +48,15 @@ public class EventListener extends MinecraftGame
     }
 
     @SuppressWarnings("unused")
-    public static void onGround(ReturnEventInfo<EntityPlayerSP, Boolean> e)
+    public static void isSneaking(ReturnEventInfo<EntityPlayerSP, Boolean> e)
     {
         if (LiteModDaFlight.DAPLAYER.softFall())
         {
             e.getSource().onGround = true;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static void isSneaking(ReturnEventInfo<EntityPlayerSP, Boolean> e)
-    {
-        if (LiteModDaFlight.DAPLAYER.softFall() && LiteModDaFlight.DAPLAYER.isMoving())
-        {
-            e.setReturnValue(false);
+            if (LiteModDaFlight.DAPLAYER.isMoving())
+            {
+                e.setReturnValue(false);
+            }
         }
     }
 

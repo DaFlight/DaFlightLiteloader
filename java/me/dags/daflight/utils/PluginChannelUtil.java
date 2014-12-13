@@ -15,17 +15,14 @@ package me.dags.daflight.utils;
 
 import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
-import io.netty.buffer.Unpooled;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.player.DaPlayer;
-import net.minecraft.network.PacketBuffer;
 
 public class PluginChannelUtil
 {
 
-    public static void onReceivedPacket(String channel, PacketBuffer pb)
+    public static void onReceivedPacket(String channel, byte[] data)
     {
-        byte[] data = pb.readByteArray();
         int length = data.length;
         if (channel.equals("DaFlight"))
         {
@@ -117,8 +114,7 @@ public class PluginChannelUtil
 
     public static void dispatchPacket(byte[] data)
     {
-        PacketBuffer pb = new PacketBuffer(Unpooled.copiedBuffer(data));
-        ClientPluginChannels.sendMessage("DaFlight", pb, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        ClientPluginChannels.sendMessage("DaFlight", data, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
     }
 
 }
