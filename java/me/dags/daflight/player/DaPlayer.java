@@ -93,9 +93,16 @@ public class DaPlayer extends MinecraftGame
             }
             checkIsOnGround();
         }
-        else if (!inMenus)
+        else
         {
-            inMenus = true;
+            if (!inMenus)
+            {
+              inMenus = true;
+            }
+            if (isModOn() && controller != null)
+            {
+                controller.unFocused();
+            }
         }
     }
 
@@ -227,11 +234,11 @@ public class DaPlayer extends MinecraftGame
         {
             return;
         }
-        if (onGround())
+        if (onSolidBlock())
         {
             if (landed)
             {
-                if (System.currentTimeMillis() - lastUpdate > 500)
+                if (System.currentTimeMillis() - lastUpdate > 200)
                 {
                     softFall = false;
                     landed = false;

@@ -98,5 +98,4 @@ public class KeyBinds extends MinecraftGame
         binds = new KeyBind[]{enableFly, enableSprint, speedModifier, fullBright, cineFlight, flyUp, flyDown, speedUp, speedDown};
         movementBinds = new KeyBind[]{forward, backward, left, right, flyUp, flyDown};
     }
-
 }

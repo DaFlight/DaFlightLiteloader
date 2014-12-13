@@ -16,6 +16,7 @@ package me.dags.daflight;
 import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import me.dags.daflight.api.DaFlightUI;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
 import me.dags.daflight.ui.HUD;
@@ -37,7 +38,6 @@ import java.util.List;
 
 public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
-
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean disabled;
     private static HUD hud;
@@ -51,7 +51,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b2";
+        return "2.0b3";
     }
 
     @Override
@@ -103,9 +103,11 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     }
 
     @Override
-    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
+    public List<String> getChannels()
     {
-        DAPLAYER.onGameJoin();
+        List<String> channel = new ArrayList<String>();
+        channel.add("DaFlight");
+        return channel;
     }
 
     @Override
@@ -115,10 +117,14 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     }
 
     @Override
-    public List<String> getChannels()
+    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
     {
-        List<String> channel = new ArrayList<String>();
-        channel.add("DaFlight");
-        return channel;
+        DAPLAYER.onGameJoin();
+    }
+
+    @SuppressWarnings("unused")
+    public static DaFlightUI getDaFlightUI()
+    {
+        return getHud();
     }
 }

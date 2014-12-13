@@ -20,34 +20,12 @@ import me.dags.daflight.utils.Config;
 
 public class SprintController extends MinecraftGame implements IController
 {
-
-    private boolean active;
-    private boolean jumping;
-
-
-    public SprintController()
-    {
-        this.jumping = false;
-    }
-
-    @Override
-    public void reset()
-    {
-
-    }
-
-    @Override
-    public boolean isActive()
-    {
-        return this.active;
-    }
-
     @Override
     public void input(Vector v)
     {
         if (DaPlayer.KEY_BINDS.jump.keyHeld())
         {
-            if (allowJump())
+            if (onSolidBlock())
             {
                 double yMotion = 0.42F + -getPlayer().motionY + Config.getInstance().jumpModifier * v.getSpeed();
                 getPlayer().addVelocity(0, yMotion, 0);
@@ -61,30 +39,7 @@ public class SprintController extends MinecraftGame implements IController
     }
 
     @Override
-    public void setActive(boolean b)
-    {
-        this.active = b;
-    }
-
-    @Override
     public void unFocused()
     {
     }
-
-    private boolean allowJump()
-    {
-        if (onSolidBlock())
-        {
-            if (jumping)
-            {
-                return false;
-            }
-            jumping = true;
-            return true;
-        }
-        jumping = false;
-        return false;
-    }
-
-
 }

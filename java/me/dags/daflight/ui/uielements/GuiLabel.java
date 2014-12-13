@@ -60,7 +60,7 @@ public class GuiLabel
     {
         if (shadow)
         {
-            this.fr.func_175063_a(this.label, this.xPos, this.yPos, 0xFFFFFF);
+            this.fr.drawStringWithShadow(this.label, this.xPos, this.yPos, 0xFFFFFF);
         }
         else
         {
