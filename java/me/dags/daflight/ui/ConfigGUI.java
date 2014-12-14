@@ -15,10 +15,12 @@ package me.dags.daflight.ui;
 
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
+import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.ui.pages.Page0;
 import me.dags.daflight.ui.pages.Page1;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 
 public class ConfigGUI extends MinecraftGame implements ConfigPanel
 {
@@ -90,7 +92,17 @@ public class ConfigGUI extends MinecraftGame implements ConfigPanel
         page0.save();
         page1.save();
         Config.saveSettings();
+        GlobalConfig.saveSettings();
+        if (GlobalConfig.perServerConfig() && getMinecraft().getCurrentServerData() != null)
+        {
+            Config.loadServerConfig(getMinecraft().getCurrentServerData().serverIP);
+        }
+        else
+        {
+            Config.reloadConfig();
+        }
         Config.applySettings();
+        LiteModDaFlight.getHud().updateMsg();
     }
 
     @Override

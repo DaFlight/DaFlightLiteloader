@@ -103,6 +103,10 @@ public class HUD implements DaFlightUI
 
     public void render()
     {
+        if (Config.getInstance().disabled)
+        {
+            return;
+        }
         counter--;
         if (Config.getInstance().showHud && Tools.getMinecraft().inGameHasFocus && !Tools.getMinecraft().gameSettings.showDebugInfo)
         {
@@ -111,7 +115,6 @@ public class HUD implements DaFlightUI
             {
                 if (d.isShown())
                 {
-                    // func_175063_a - drawStringWithShadow
                     Tools.getMinecraft().fontRendererObj.drawStringWithShadow(d.getTitle(), 5, slot, 0xFFFFFF);
                     slot += 10;
                 }

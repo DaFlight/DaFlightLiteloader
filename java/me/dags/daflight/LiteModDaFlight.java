@@ -21,6 +21,7 @@ import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
 import me.dags.daflight.ui.HUD;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.PluginChannelUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -39,7 +40,7 @@ import java.util.List;
 public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
     public static final DaPlayer DAPLAYER = new DaPlayer();
-    public static boolean disabled;
+    public static boolean wasInGame = false;
     private static HUD hud;
 
     @Override
@@ -51,7 +52,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b4";
+        return "2.0b5";
     }
 
     @Override
@@ -59,6 +60,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     {
         Config.getInstance();
         Config.applySettings();
+        Config.applyDefaults();
     }
 
     @Override
@@ -76,8 +78,20 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
-        if (inGame && !disabled)
+        if (clock && !inGame && wasInGame)
         {
+            wasInGame = false;
+            Config.reloadConfig();
+            Config.applySettings();
+        }
+        if (Config.getInstance().disabled)
+        {
+            if (clock)
+                DAPLAYER.disableAll();
+        }
+        else if (inGame)
+        {
+            wasInGame = inGame;
             DAPLAYER.update();
             if (clock)
                 DAPLAYER.tickUpdate();
@@ -122,6 +136,11 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
     {
         DAPLAYER.onGameJoin();
+        if (GlobalConfig.perServerConfig())
+        {
+            Config.loadServerConfig(serverData.serverIP);
+            Config.applySettings();
+        }
     }
 
     @SuppressWarnings("unused")

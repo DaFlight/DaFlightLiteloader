@@ -18,6 +18,7 @@ import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 
 import java.util.LinkedHashMap;
 import java.util.Properties;
@@ -80,7 +81,8 @@ public class Settings
         settings.put("JumpModifier", (float) c.jumpModifier);
         settings.put("Left/RightModifier", (float) c.lrModifier);
 
-        booleans.put("Disable", LiteModDaFlight.disabled);
+        booleans.put("PerServer", GlobalConfig.perServerConfig());
+        booleans.put("Disable", c.disabled);
         booleans.put("3DFlight", c.threeDFlight);
         booleans.put("DisplayHud", c.showHud);
     }
@@ -131,9 +133,13 @@ public class Settings
         if (booleans.containsKey(k))
         {
             boolean b = getBool(v);
+            if (k.equals("PerServer"))
+            {
+                GlobalConfig.setPerServerConfig(b);
+            }
             if (k.equals("Disable"))
             {
-                LiteModDaFlight.disabled = b;
+                c.disabled = b;
             }
             else if (k.equals("3DFlight"))
             {

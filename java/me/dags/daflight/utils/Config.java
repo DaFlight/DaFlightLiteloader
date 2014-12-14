@@ -36,10 +36,13 @@ public class Config implements Exposable
     private Config()
     {
         LiteLoader.getInstance().registerExposable(this, "daflight.json");
-        // Re-set user's settings on loading
-        MinecraftGame.getMinecraft().gameSettings.viewBobbing = viewBobbing;
-        MinecraftGame.getMinecraft().gameSettings.gammaSetting = brightness;
-        MinecraftGame.getMinecraft().gameSettings.saveOptions();
+    }
+
+    private Config(String server)
+    {
+        String fileName = Tools.getOrCreateConfig("servers", server);
+        LiteLoader.getInstance().registerExposable(this, fileName);
+        saveSettings();
     }
 
     public static Config getInstance()
@@ -49,6 +52,17 @@ public class Config implements Exposable
             instance = new Config();
         }
         return instance;
+    }
+
+    public static void loadServerConfig(String server)
+    {
+        instance = new Config(server);
+    }
+
+    public static void reloadConfig()
+    {
+        instance = null;
+        getInstance();
     }
 
     /**
@@ -102,6 +116,9 @@ public class Config implements Exposable
      * Preferences
      */
     @Expose
+    @SerializedName("Disable_Mod")
+    public boolean disabled = false;
+    @Expose
     @SerializedName("View_Bobbing")
     public boolean viewBobbing = true;
     @Expose
@@ -153,6 +170,14 @@ public class Config implements Exposable
         daPlayer.flySpeed.setMultiplier(c.flySpeedMult);
         daPlayer.sprintSpeed.setBaseSpeed(c.sprintSpeed);
         daPlayer.sprintSpeed.setMultiplier(c.sprintSpeedMult);
+    }
+
+    public static void applyDefaults()
+    {
+        Config c = getInstance();
+        MinecraftGame.getMinecraft().gameSettings.viewBobbing = c.viewBobbing;
+        MinecraftGame.getMinecraft().gameSettings.gammaSetting = c.brightness;
+        MinecraftGame.getMinecraft().gameSettings.saveOptions();
     }
 
 }

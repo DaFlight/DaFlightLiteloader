@@ -218,6 +218,25 @@ public class DaPlayer extends MinecraftGame
         getMinecraft().gameSettings.gammaSetting = brightness;
     }
 
+    public void disableAll()
+    {
+        if (getMinecraft().inGameHasFocus)
+        {
+            if (flyModOn)
+            {
+                toggleFlight();
+            }
+            if (sprintModOn)
+            {
+                toggleFlight();
+            }
+            if (fullBrightOn)
+            {
+                toggleFullbright();
+            }
+        }
+    }
+
     public void disableFly()
     {
         if (flyModOn)
@@ -235,6 +254,10 @@ public class DaPlayer extends MinecraftGame
 
     public boolean softFallOn()
     {
+        if (Config.getInstance().disabled)
+        {
+            return false;
+        }
         if (flyModOn || sprintModOn)
         {
             return wasFlying = true;

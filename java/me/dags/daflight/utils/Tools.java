@@ -13,9 +13,12 @@
 
 package me.dags.daflight.utils;
 
+import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.util.log.LiteLoaderLogger;
 import me.dags.daflight.abstraction.MinecraftGame;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -49,6 +52,57 @@ public class Tools extends MinecraftGame
     public static void tellPlayer(String msg)
     {
         getPlayer().addChatMessage(getMessage(msg));
+    }
+
+    private static File getDaFlightFolder()
+    {
+        File folder = new File(LiteLoader.getCommonConfigFolder(), "daflight");
+        if (!folder.exists())
+        {
+            folder.mkdirs();
+        }
+        return folder;
+    }
+
+    public static String getOrCreateConfig(String folder, String server)
+    {
+        String fileName = server + ".json";
+        File serversFolder = new File(getDaFlightFolder(), folder);
+        if (!serversFolder.exists())
+        {
+            serversFolder.mkdirs();
+        }
+        File configFile = new File(serversFolder, fileName);
+        if (!configFile.exists())
+        {
+            try
+            {
+                configFile.createNewFile();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return "daflight/servers/" + fileName;
+    }
+
+    public static String createGlobalConfig()
+    {
+        String fileName = "global.json";
+        File configFile = new File(getDaFlightFolder(), fileName);
+        if (!configFile.exists())
+        {
+            try
+            {
+                configFile.createNewFile();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return "daflight/" + fileName;
     }
 
 }

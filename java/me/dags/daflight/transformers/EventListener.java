@@ -17,6 +17,7 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,6 +36,10 @@ public class EventListener extends MinecraftGame
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)
     {
+        if (Config.getInstance().disabled)
+        {
+            return;
+        }
         if (LiteModDaFlight.DAPLAYER.flyModOn)
         {
             e.setReturnValue(1.0F);
@@ -74,7 +79,6 @@ public class EventListener extends MinecraftGame
     @SuppressWarnings("unused")
     public static void isOnLadder(ReturnEventInfo<EntityLivingBase, Boolean> e)
     {
-        System.out.println(".");
         if (e.getSource().getEntityId() == getPlayer().getEntityId() && LiteModDaFlight.DAPLAYER.flyModOn)
         {
             e.setReturnValue(false);
