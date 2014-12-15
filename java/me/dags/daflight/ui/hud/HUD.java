@@ -34,6 +34,12 @@ public class HUD implements DaFlightUI
     private List<DFEntry> mods;
     private int counter = 50;
 
+    private String flight = "f";
+    private String cine = "c";
+    private String run = "r";
+    private String modifier = "*";
+    private String fb = "fb";
+
     public HUD()
     {
         mods = new ArrayList<DFEntry>();
@@ -54,15 +60,15 @@ public class HUD implements DaFlightUI
             flyModifier = DaPlayer.KEY_BINDS.speedModifier.keyHeld();
             if (dp.flyModOn)
             {
-                s = Colour.addColour(Config.getInstance().flightStatus);
+                s = flight;
                 if (dp.cineFlightOn)
                 {
-                    s = Colour.addColour(Config.getInstance().cineFlightStatus);
+                    s = cine;
                 }
             }
             if (DaPlayer.DF_PERMISSIONS.flyEnabled() && (dp.flySpeed.isBoost() || flyModifier))
             {
-                s = s + Colour.addColour(Config.getInstance().speedStatus);
+                s = s + modifier;
             }
             mods.get(0).setTitle(s);
             mods.get(0).setShow(true);
@@ -74,10 +80,10 @@ public class HUD implements DaFlightUI
         // Sprint
         if (DaPlayer.DF_PERMISSIONS.sprintEnabled() && (dp.sprintModOn || DaPlayer.KEY_BINDS.enableSprint.keyHeld()))
         {
-            String s = Colour.addColour(Config.getInstance().runStatus);
+            String s = run;
             if (dp.sprintSpeed.isBoost() || (DaPlayer.KEY_BINDS.speedModifier.keyHeld() && !flyModifier))
             {
-                s = s + Colour.addColour(Config.getInstance().speedStatus);
+                s = s + modifier;
             }
             mods.get(1).setTitle(s);
             mods.get(1).setShow(true);
@@ -87,8 +93,17 @@ public class HUD implements DaFlightUI
             mods.get(1).setShow(false);
         }
         // FullBright
-        mods.get(2).setTitle(Colour.addColour(Config.getInstance().fullBrightStatus));
+        mods.get(2).setTitle(fb);
         mods.get(2).setShow(dp.fullBrightOn);
+    }
+
+    public void refreshStatuses()
+    {
+        flight = Colour.getColouredString(Config.getInstance().flightStatus);
+        cine = Colour.getColouredString(Config.getInstance().cineFlightStatus);
+        run = Colour.getColouredString(Config.getInstance().runStatus);
+        modifier = Colour.getColouredString(Config.getInstance().speedStatus);
+        fb = Colour.getColouredString(Config.getInstance().fullBrightStatus);
     }
 
     public void renderTemp(String s)

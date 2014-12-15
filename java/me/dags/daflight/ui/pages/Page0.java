@@ -164,8 +164,8 @@ public class Page0 extends MinecraftGame
                 gl.setLabel(s);
                 this.labels.add(gl);
 
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 80, temp[1] - 1, 50, 10);
-                gb.name(settings.getKeyBinds().get(s));
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 80, temp[1] - 1, 50, 10, false);
+                gb.setString(settings.getKeyBinds().get(s));
                 keyBinds.add(gb);
                 temp[1] += 15;
             }

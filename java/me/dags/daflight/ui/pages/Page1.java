@@ -259,8 +259,8 @@ public class Page1 extends MinecraftGame
                 gl.setLabel(kb.getName());
                 labels.add(gl);
 
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
-                gb.name(kb.getKeyName());
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10, false);
+                gb.setString(kb.getKeyName());
                 keyBinds.put(kb.getName(), gb);
 
                 if (kb.canHold())
@@ -294,8 +294,8 @@ public class Page1 extends MinecraftGame
                 gl.setLabel(s);
                 labels.add(gl);
 
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
-                gb.name(status);
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10, true);
+                gb.setString(status);
                 gb.setEnabled(true);
                 statuses.put(s, gb);
 

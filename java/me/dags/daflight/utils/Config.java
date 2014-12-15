@@ -192,6 +192,7 @@ public class Config extends MinecraftGame implements Exposable
         daPlayer.flySpeed.setMultiplier(c.flySpeedMult);
         daPlayer.sprintSpeed.setBaseSpeed(c.sprintSpeed);
         daPlayer.sprintSpeed.setMultiplier(c.sprintSpeedMult);
+        LiteModDaFlight.getHud().refreshStatuses();
     }
 
     public static void applyDefaults()
