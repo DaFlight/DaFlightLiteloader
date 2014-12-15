@@ -14,10 +14,10 @@
 package me.dags.daflight.player;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.input.KeybindHandler;
 import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
@@ -45,13 +45,11 @@ public class DaPlayer extends MinecraftGame
 
     public Direction direction;
     public Vector movementVector;
-
     private IController controller;
 
     private boolean inMenus = true;
-    private long lastUpdate = 0L;
-    private boolean landed = true;
-    private boolean softFall = false;
+    private boolean wasFlying = false;
+    private int softFallTicks = 0;
 
     public DaPlayer()
     {
@@ -72,8 +70,20 @@ public class DaPlayer extends MinecraftGame
         DF_PERMISSIONS.resetPermissions();
         flySpeed.setMaxSpeed(50D);
         sprintSpeed.setMaxSpeed(50D);
-        byte[] b = new byte[]{1};
-        PluginChannelUtil.dispatchPacket(b);
+        PluginChannelUtil.dispatchPacket(new byte[]{1});
+    }
+
+    public void tickUpdate()
+    {
+        if (getMinecraft().inGameHasFocus)
+        {
+            if (wasFlying && onSolidBlock())
+            {
+                wasFlying = false;
+                softFallTicks = 5;
+            }
+            softFallTicks--;
+        }
     }
 
     public void update()
@@ -85,17 +95,23 @@ public class DaPlayer extends MinecraftGame
                 inMenus = false;
                 KEY_BINDS.updateMovementKeys();
             }
-            MovementHandler.handleMovementInput(this);
             KeybindHandler.handleInput(this);
             if (isModOn() && controller != null)
             {
+                MovementHandler.handleMovementInput(this);
                 controller.input(movementVector);
             }
-            checkIsOnGround();
         }
-        else if (!inMenus)
+        else
         {
-            inMenus = true;
+            if (!inMenus)
+            {
+              inMenus = true;
+            }
+            if (isModOn() && controller != null)
+            {
+                controller.unFocused();
+            }
         }
     }
 
@@ -112,7 +128,6 @@ public class DaPlayer extends MinecraftGame
         {
             getPlayer().capabilities.isFlying = false;
             getPlayer().sendPlayerAbilities();
-            softFall = true;
             if (cineFlightOn)
             {
                 getGameSettings().smoothCamera = false;
@@ -141,10 +156,6 @@ public class DaPlayer extends MinecraftGame
         if (!sprintModOn && !Config.getInstance().speedIsToggle)
         {
             sprintSpeed.setBoost(false);
-        }
-        if (!sprintModOn)
-        {
-            softFall = true;
         }
     }
 
@@ -206,7 +217,26 @@ public class DaPlayer extends MinecraftGame
         getMinecraft().gameSettings.gammaSetting = brightness;
     }
 
-    public void disableFly()
+    public void disableAll()
+    {
+        if (getMinecraft().inGameHasFocus)
+        {
+            if (flyModOn)
+            {
+                toggleFlight();
+            }
+            if (sprintModOn)
+            {
+                toggleFlight();
+            }
+            if (fullBrightOn)
+            {
+                toggleFullbright();
+            }
+        }
+    }
+
+    public void disableMovementMods()
     {
         if (flyModOn)
         {
@@ -214,40 +244,28 @@ public class DaPlayer extends MinecraftGame
         }
         if (sprintModOn)
         {
-            toggleFlight();
+            toggleSprint();
         }
         flySpeed.setBoost(false);
         sprintSpeed.setBoost(false);
         LiteModDaFlight.getHud().updateMsg();
     }
 
-    public void checkIsOnGround()
+    public boolean softFallOn()
     {
-        if (!softFall)
+        if (Config.getInstance().disabled || !DF_PERMISSIONS.noFallDamageEnabled())
         {
-            return;
+            return false;
         }
-        if (onSolidBlock())
+        if (flyModOn || sprintModOn)
         {
-            if (landed)
-            {
-                if (System.currentTimeMillis() - lastUpdate > 10)
-                {
-                    softFall = false;
-                    landed = false;
-                }
-                return;
-            }
-            landed = true;
-            lastUpdate = System.currentTimeMillis();
-            return;
+            return wasFlying = true;
         }
-        landed = false;
-    }
-
-    public boolean softFall()
-    {
-        return flyModOn || sprintModOn || softFall;
+        if (wasFlying || softFallTicks > 0)
+        {
+            return true;
+        }
+        return wasFlying = false;
     }
 
     private IController getActiveController()
@@ -263,11 +281,6 @@ public class DaPlayer extends MinecraftGame
     public boolean is3DFlightOn()
     {
         return Config.getInstance().threeDFlight;
-    }
-
-    public boolean isMoving()
-    {
-        return movementVector.hasLateralInput() || getPlayer().motionX != 0 || getPlayer().motionZ != 0;
     }
 
     public double getSpeed()

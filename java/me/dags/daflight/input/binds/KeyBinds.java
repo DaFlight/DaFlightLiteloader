@@ -13,7 +13,7 @@
 
 package me.dags.daflight.input.binds;
 
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.utils.Config;
 
 public class KeyBinds extends MinecraftGame
@@ -98,5 +98,4 @@ public class KeyBinds extends MinecraftGame
         binds = new KeyBind[]{enableFly, enableSprint, speedModifier, fullBright, cineFlight, flyUp, flyDown, speedUp, speedDown};
         movementBinds = new KeyBind[]{forward, backward, left, right, flyUp, flyDown};
     }
-
 }

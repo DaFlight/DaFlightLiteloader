@@ -11,31 +11,22 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.uielements;
+package me.dags.daflight.minecraft.uielements;
 
+import me.dags.daflight.minecraft.Colour;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
+import org.lwjgl.input.Keyboard;
 
 public class GuiEntryBox extends GuiTextField
 {
 
     private boolean isActive;
-    private boolean isBind;
     private int x;
     private int y;
     private int width;
     private int height;
-
-    public void setIsBind(boolean b)
-    {
-        isBind = b;
-    }
-
-    public boolean isBind()
-    {
-        return isBind;
-    }
 
     public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height)
     {
@@ -54,7 +45,7 @@ public class GuiEntryBox extends GuiTextField
 
     public void name(String s)
     {
-        this.setText(s);
+        this.setText(Colour.addColour(s));
     }
 
     public void draw()
@@ -64,22 +55,34 @@ public class GuiEntryBox extends GuiTextField
 
     public void setActive()
     {
+        if (!isActive)
+        {
+            String text = Colour.stripColour(getText());
+            setText(EnumChatFormatting.RED.toString() + text);
+        }
         this.isActive = true;
-        name(EnumChatFormatting.RED.toString() + this.getText());
-        this.setFocused(false);
+        this.setFocused(true);
     }
 
     public void unsetActive()
     {
         this.isActive = false;
-        name(this.getText().replace(EnumChatFormatting.RED.toString(), ""));
+        name(getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
         this.setFocused(false);
     }
 
     public void entry(char keyChar, int id)
     {
-        this.textboxKeyTyped(keyChar, id);
-        this.drawTextBox();
+        if (id == Keyboard.KEY_BACK && this.getText().length() <= 2)
+        {
+            return;
+        }
+        super.textboxKeyTyped(keyChar, id);
+    }
+
+    public String getString()
+    {
+        return getText().replaceFirst(EnumChatFormatting.RED.toString(), "");
     }
 
     public boolean click(int mouseX, int mouseY)

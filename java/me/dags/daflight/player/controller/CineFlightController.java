@@ -14,7 +14,7 @@
 package me.dags.daflight.player.controller;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Direction;
 import me.dags.daflight.player.Vector;
@@ -47,7 +47,6 @@ public class CineFlightController extends MinecraftGame implements IController
     @Override
     public void input(Vector v)
     {
-        setFlying();
         d.update((double) getPlayer().rotationYaw);
 
         double x = 0D;
@@ -159,7 +158,6 @@ public class CineFlightController extends MinecraftGame implements IController
     @Override
     public void unFocused()
     {
-        setFlying();
         getPlayer().setVelocity(getPlayer().motionX * c.flySmoothing, 0, getPlayer().motionZ * c.flySmoothing);
     }
 

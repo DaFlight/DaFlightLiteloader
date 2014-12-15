@@ -13,7 +13,8 @@
 
 package me.dags.daflight.player.controller;
 
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Vector;
 import me.dags.daflight.utils.Config;
 
@@ -22,7 +23,6 @@ public class FlightController extends MinecraftGame implements IController
     @Override
     public void input(Vector v)
     {
-        setFlying();
         if (v.hasInput())
         {
             getPlayer().setVelocity(v.getX(), v.getY(), v.getZ());
@@ -32,17 +32,26 @@ public class FlightController extends MinecraftGame implements IController
             double smoothing = Config.getInstance().flySmoothing;
             getPlayer().setVelocity(getPlayer().motionX * smoothing, 0, getPlayer().motionZ * smoothing);
         }
-        if (getPlayer().movementInput.sneak)
-            getPlayer().motionY += 0.15D;
-        if (getPlayer().movementInput.jump)
+        if (getPlayer().movementInput.jump && !jumpyKeyIsFlyUp())
             getPlayer().motionY -= 0.15D;
+        if (getPlayer().movementInput.sneak && !sneakKeyIsFlyDown())
+            getPlayer().motionY += 0.15D;
     }
 
     @Override
     public void unFocused()
     {
-        setFlying();
         double smoothing = Config.getInstance().flySmoothing;
         getPlayer().setVelocity(getPlayer().motionX * smoothing, getPlayer().motionY * smoothing, getPlayer().motionZ * smoothing);
+    }
+
+    private boolean jumpyKeyIsFlyUp()
+    {
+        return DaPlayer.KEY_BINDS.flyUp.getId() == getGameSettings().keyBindJump.getKeyCode();
+    }
+
+    private boolean sneakKeyIsFlyDown()
+    {
+        return DaPlayer.KEY_BINDS.flyDown.getId() == getGameSettings().keyBindSneak.getKeyCode();
     }
 }

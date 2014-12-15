@@ -35,22 +35,10 @@ public class SoftFallTransformer extends EventInjectionTransformer
         addEvent(onFall, fall, injectionPoint);
         onFall.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFall"));
 
-        /*
-        Event onGroundCheck = Event.getOrCreate("onGroundCheck", true);
-        MethodInfo groundCheck = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onGroundCheck, "()Z");
-        addEvent(onGroundCheck, groundCheck, injectionPoint);
-        onGroundCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onGround"));
-        */
-
-        Event onIsSneaking = Event.getOrCreate("onIsSneaking", true);
-        MethodInfo isSneaking = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.isSneaking, "()Z");
-        addEvent(onIsSneaking, isSneaking, injectionPoint);
-        onIsSneaking.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "isSneaking"));
-
-        Event onJump = Event.getOrCreate("onJump", true);
-        MethodInfo jump = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onJump, "()V");
-        addEvent(onJump, jump, injectionPoint);
-        onJump.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onJump"));
+        Event onSendMotionUpdates = Event.getOrCreate("onSendMotionUpdates", true);
+        MethodInfo sendMotionUpdates = new MethodInfo(ObfTable.EntityClientPlayerMP, ObfTable.sendMotionUpdates, "()V");
+        addEvent(onSendMotionUpdates, sendMotionUpdates, injectionPoint);
+        onSendMotionUpdates.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onSendMotionUpdates"));
     }
 
 }

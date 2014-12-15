@@ -11,10 +11,11 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.abstraction;
+package me.dags.daflight.minecraft;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
@@ -25,11 +26,6 @@ import net.minecraft.util.MathHelper;
 public class MinecraftGame
 {
 
-    public static GameSettings getGameSettings()
-    {
-        return getMinecraft().gameSettings;
-    }
-
     /**
      * Minecraft methods
      */
@@ -37,6 +33,11 @@ public class MinecraftGame
     public static Minecraft getMinecraft()
     {
         return Minecraft.getMinecraft();
+    }
+
+    public static GameSettings getGameSettings()
+    {
+        return getMinecraft().gameSettings;
     }
 
     public static GameSettings.Options getOptions()
@@ -68,12 +69,8 @@ public class MinecraftGame
         return getMinecraft().thePlayer;
     }
 
-    public void setFlying()
+    public static ServerData getServerData()
     {
-        if (!getPlayer().capabilities.isFlying)
-        {
-            getPlayer().capabilities.isFlying = true;
-            getPlayer().sendPlayerAbilities();
-        }
+        return getMinecraft().getCurrentServerData();
     }
 }

@@ -28,8 +28,8 @@ public class ObfTable extends Obf
     public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "blk");
     public static ObfTable getFOVModifier = new ObfTable("func_71151_f", "t", "getFOVMultiplier");
 
-    public static ObfTable isSneaking = new ObfTable("func_70093_af", "an", "isSneaking");
-    public static ObfTable onJump = new ObfTable("func_70664_aZ", "bj", "jump");
+    public static ObfTable EntityClientPlayerMP = new ObfTable("net.minecraft.client.entity.EntityClientPlayerMP", "bjk");
+    public static ObfTable sendMotionUpdates = new ObfTable("func_71166_b", "a", "sendMotionUpdates");
 
     public ObfTable(String seargeName, String obfName)
     {

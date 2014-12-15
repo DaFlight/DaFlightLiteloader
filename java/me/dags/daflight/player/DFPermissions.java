@@ -53,13 +53,9 @@ public class DFPermissions
         noFallDamage = true;
     }
 
-    public void setFlightEnabled(boolean b)
+    public void setMovementModsEnabled(boolean b)
     {
         canFly = b;
-    }
-
-    public void setSprintEnabled(boolean b)
-    {
         canSprint = b;
     }
 

@@ -16,11 +16,14 @@ package me.dags.daflight;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
-import me.dags.daflight.ui.HUD;
+import me.dags.daflight.ui.hud.HUD;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.PluginChannelUtil;
+import me.dags.daflight.utils.Tools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
@@ -33,10 +36,10 @@ import java.util.List;
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
     public static final DaPlayer DAPLAYER = new DaPlayer();
-    public static boolean disabled;
+    public static boolean wasInGame = false;
     private static HUD hud;
 
     @Override
@@ -48,7 +51,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b3";
+        return "2.0b6";
     }
 
     @Override
@@ -56,6 +59,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     {
         Config.getInstance();
         Config.applySettings();
+        Config.applyDefaults();
     }
 
     @Override
@@ -73,9 +77,23 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
-        if (inGame && !disabled)
+        if (clock && !inGame && wasInGame)
+        {
+            wasInGame = false;
+            Config.reloadConfig();
+            Config.applySettings();
+        }
+        if (Config.getInstance().disabled)
+        {
+            if (clock)
+                DAPLAYER.disableAll();
+        }
+        else if (inGame)
         {
             DAPLAYER.update();
+            wasInGame = true;
+            if (clock)
+                DAPLAYER.tickUpdate();
         }
     }
 
@@ -102,21 +120,28 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public List<String> getChannels()
     {
+        Tools.log("Registering DaFlight channel listener");
         List<String> channel = new ArrayList<String>();
         channel.add("DaFlight");
         return channel;
     }
 
     @Override
-    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket)
-    {
-        DAPLAYER.onGameJoin();
-    }
-
-    @Override
     public void onCustomPayload(String channel, int length, byte[] data)
     {
         PluginChannelUtil.onReceivedPacket(channel, data);
+    }
+
+    @Override
+    public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket)
+    {
+        DAPLAYER.onGameJoin();
+        if (GlobalConfig.perServerConfig())
+        {
+            Config.loadServerConfig();
+            Config.applySettings();
+            Tools.tellPlayer("Server config loaded for: " + MinecraftGame.getServerData().serverIP);
+        }
     }
 
     @SuppressWarnings("unused")

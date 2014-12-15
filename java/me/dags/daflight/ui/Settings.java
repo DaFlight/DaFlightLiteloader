@@ -16,8 +16,10 @@ package me.dags.daflight.ui;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 
 import java.util.LinkedHashMap;
 import java.util.Properties;
@@ -26,6 +28,7 @@ public class Settings
 {
 
     private LinkedHashMap<String, String> keyBinds;
+    private LinkedHashMap<String, String> statuses;
     private LinkedHashMap<String, Float> settings;
     private LinkedHashMap<String, Boolean> booleans;
 
@@ -44,6 +47,11 @@ public class Settings
         return this.keyBinds;
     }
 
+    public LinkedHashMap<String, String> getStatuses()
+    {
+        return this.statuses;
+    }
+
     public LinkedHashMap<String, Float> getSettings()
     {
         return settings;
@@ -59,6 +67,7 @@ public class Settings
         Config c = Config.getInstance();
 
         keyBinds = new LinkedHashMap<String, String>();
+        statuses = new LinkedHashMap<String, String>();
         settings = new LinkedHashMap<String, Float>();
         booleans = new LinkedHashMap<String, Boolean>();
 
@@ -70,7 +79,13 @@ public class Settings
         keyBinds.put("Fly", c.flyKey);
         keyBinds.put("CineFlight", c.cineFlyKey);
         keyBinds.put("Sprint", c.sprintKey);
-        keyBinds.put("SpeedMod", c.speedKey);
+        keyBinds.put("SpeedModifier", c.speedKey);
+
+        statuses.put("FlyStatus", c.flightStatus);
+        statuses.put("CineStatus", c.cineFlightStatus);
+        statuses.put("SprintStatus", c.runStatus);
+        statuses.put("SpeedStatus", c.speedStatus);
+        statuses.put("FBStatus", c.fullBrightStatus);
 
         settings.put("FlySpeed", (float) c.flySpeed);
         settings.put("FlySpeedMultiplier", (float) c.flySpeedMult);
@@ -80,7 +95,8 @@ public class Settings
         settings.put("JumpModifier", (float) c.jumpModifier);
         settings.put("Left/RightModifier", (float) c.lrModifier);
 
-        booleans.put("Disable", LiteModDaFlight.disabled);
+        booleans.put("PerServer", GlobalConfig.perServerConfig());
+        booleans.put("Disable", c.disabled);
         booleans.put("3DFlight", c.threeDFlight);
         booleans.put("DisplayHud", c.showHud);
     }
@@ -128,12 +144,40 @@ public class Settings
             }
             return;
         }
+        if (statuses.containsKey(k))
+        {
+            v = Colour.stripColour(v);
+            if (k.equals("FlyStatus"))
+            {
+                c.flightStatus = v;
+            }
+            else if (k.equals("CineStatus"))
+            {
+                c.cineFlightStatus = v;
+            }
+            else if (k.equals("SprintStatus"))
+            {
+                c.runStatus = v;
+            }
+            else if (k.equals("SpeedStatus"))
+            {
+                c.speedStatus = v;
+            }
+            else if (k.equals("FBStatus"))
+            {
+                c.fullBrightStatus = v;
+            }
+        }
         if (booleans.containsKey(k))
         {
             boolean b = getBool(v);
+            if (k.equals("PerServer"))
+            {
+                GlobalConfig.setPerServerConfig(b);
+            }
             if (k.equals("Disable"))
             {
-                LiteModDaFlight.disabled = b;
+                c.disabled = b;
             }
             else if (k.equals("3DFlight"))
             {
@@ -152,7 +196,7 @@ public class Settings
         }
     }
 
-    public void setKeyBindToggles(String k, boolean b)
+    public void setToggles(String k, boolean b)
     {
         Config c = Config.getInstance();
         KeyBinds binds = DaPlayer.KEY_BINDS;
@@ -178,6 +222,10 @@ public class Settings
         else if (k.equals("FullBright"))
         {
             c.fullbrightIsToggle = b;
+        }
+        else if (k.equals("TextShadow"))
+        {
+            c.textShadow = b;
         }
     }
 

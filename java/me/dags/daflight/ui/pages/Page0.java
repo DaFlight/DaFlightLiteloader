@@ -14,12 +14,13 @@
 package me.dags.daflight.ui.pages;
 
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
-import me.dags.daflight.abstraction.Colour;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.Colour;
+import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.uielements.GuiCheck;
 import me.dags.daflight.ui.Settings;
-import me.dags.daflight.ui.uielements.GuiEntryBox;
-import me.dags.daflight.ui.uielements.GuiLabel;
-import me.dags.daflight.ui.uielements.GuiSlider;
+import me.dags.daflight.minecraft.uielements.GuiEntryBox;
+import me.dags.daflight.minecraft.uielements.GuiLabel;
+import me.dags.daflight.minecraft.uielements.GuiSlider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class Page0 extends MinecraftGame
     private Set<GuiLabel> labels;
     private Set<GuiEntryBox> keyBinds;
     private Set<GuiSlider> sliders;
-    private Set<GuiCheckbox> checkBoxes;
+    private Set<GuiCheck> checkBoxes;
 
     public Page0(Settings s, int width, int height, int page)
     {
@@ -122,7 +123,7 @@ public class Page0 extends MinecraftGame
     {
         this.labels = new HashSet<GuiLabel>();
         this.sliders = new HashSet<GuiSlider>();
-        this.checkBoxes = new HashSet<GuiCheckbox>();
+        this.checkBoxes = new HashSet<GuiCheck>();
 
         int[] xy = new int[]{this.margin + 10, 10};
 
@@ -166,7 +167,6 @@ public class Page0 extends MinecraftGame
 
                 GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 80, temp[1] - 1, 50, 10);
                 gb.name(settings.getKeyBinds().get(s));
-                gb.setIsBind(true);
                 keyBinds.add(gb);
                 temp[1] += 15;
             }
@@ -183,7 +183,7 @@ public class Page0 extends MinecraftGame
 
         for (String s : settings.getBooleans().keySet())
         {
-            GuiCheckbox gc = new GuiCheckbox(5, xTemp, yTemp, s);
+            GuiCheck gc = new GuiCheck(5, xTemp, yTemp, s);
             gc.checked = settings.getBooleans().get(s);
             checkBoxes.add(gc);
 
