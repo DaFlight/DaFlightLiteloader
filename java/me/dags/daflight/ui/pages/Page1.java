@@ -17,6 +17,7 @@ import com.mumfrey.liteloader.client.gui.GuiCheckbox;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.uielements.GuiCheck;
 import me.dags.daflight.minecraft.uielements.GuiEntryBox;
 import me.dags.daflight.minecraft.uielements.GuiLabel;
 import me.dags.daflight.ui.Settings;
@@ -45,14 +46,14 @@ public class Page1 extends MinecraftGame
     private final Set<GuiLabel> labels;
     private final Map<String, GuiEntryBox> keyBinds;
     private final Map<String, GuiEntryBox> statuses;
-    private final Map<String, GuiCheckbox> checkBoxes;
+    private final Map<String, GuiCheck> checkBoxes;
 
     public Page1(Settings s, int width, int height, int page)
     {
         labels = new HashSet<GuiLabel>();
         keyBinds = new HashMap<String, GuiEntryBox>();
         statuses = new HashMap<String, GuiEntryBox>();
-        checkBoxes = new HashMap<String, GuiCheckbox>();
+        checkBoxes = new HashMap<String, GuiCheck>();
 
         settings = s;
         pageTitle = "New Page";
@@ -80,7 +81,7 @@ public class Page1 extends MinecraftGame
         {
             gb.draw();
         }
-        for (GuiCheckbox gc : checkBoxes.values())
+        for (GuiCheck gc : checkBoxes.values())
         {
             gc.drawButton(getMinecraft(), mouseX, mouseY);
             if (hover(gc, mouseX, mouseY))
@@ -264,7 +265,7 @@ public class Page1 extends MinecraftGame
 
                 if (kb.canHold())
                 {
-                    GuiCheckbox gc = new GuiCheckbox(0, temp[0] + 135, temp[1] - 3, "");
+                    GuiCheck gc = new GuiCheck(0, temp[0] + 135, temp[1] - 3, "");
                     gc.checked = kb.isToggle();
                     gc.setHoverMessages("ToggleKey", "HoldKey");
                     checkBoxes.put(kb.getName(), gc);
@@ -303,7 +304,7 @@ public class Page1 extends MinecraftGame
             GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, temp[0], temp[1]);
             gl.setLabel("Text Shadow");
             labels.add(gl);
-            GuiCheckbox gc = new GuiCheckbox(0, temp[0] + 70, temp[1] - 3, "");
+            GuiCheck gc = new GuiCheck(0, temp[0] + 70, temp[1] - 3, "");
             gc.checked = Config.getInstance().textShadow;
             gc.setHoverMessages("", "");
             checkBoxes.put("TextShadow", gc);
