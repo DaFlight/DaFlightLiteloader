@@ -59,7 +59,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     {
         Config.getInstance();
         Config.applySettings();
-        Config.applyDefaults();
+        GlobalConfig.applyDefaults();
     }
 
     @Override

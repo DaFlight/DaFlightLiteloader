@@ -23,6 +23,7 @@ import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
 import me.dags.daflight.player.controller.SprintController;
 import me.dags.daflight.utils.Config;
+import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.PluginChannelUtil;
 
 /**
@@ -186,8 +187,8 @@ public class DaPlayer extends MinecraftGame
         if (flyModOn)
         {
             // back up user's viewBob setting
-            Config.getInstance().viewBobbing = getMinecraft().gameSettings.viewBobbing;
-            Config.saveSettings();
+            GlobalConfig.getInstance().viewBobbing = getMinecraft().gameSettings.viewBobbing;
+            GlobalConfig.saveSettings();
             // disable viewBobbing & save
             getMinecraft().gameSettings.viewBobbing = false;
             getMinecraft().gameSettings.saveOptions();
@@ -195,7 +196,7 @@ public class DaPlayer extends MinecraftGame
         else
         {
             // reset viewBobbing to user's backed-up setting & save
-            getMinecraft().gameSettings.viewBobbing = Config.getInstance().viewBobbing;
+            getMinecraft().gameSettings.viewBobbing = GlobalConfig.getInstance().viewBobbing;
             getMinecraft().gameSettings.saveOptions();
         }
     }
@@ -206,13 +207,13 @@ public class DaPlayer extends MinecraftGame
         if (fullBrightOn || !DF_PERMISSIONS.fbEnabled())
         {
             fullBrightOn = false;
-            brightness = Config.getInstance().brightness;
+            brightness = GlobalConfig.getInstance().brightness;
         }
         else
         {
             fullBrightOn = true;
-            Config.getInstance().brightness = getMinecraft().gameSettings.gammaSetting;
-            Config.saveSettings();
+            GlobalConfig.getInstance().brightness = getMinecraft().gameSettings.gammaSetting;
+            GlobalConfig.saveSettings();
         }
         getMinecraft().gameSettings.gammaSetting = brightness;
     }
@@ -261,11 +262,7 @@ public class DaPlayer extends MinecraftGame
         {
             return wasFlying = true;
         }
-        if (wasFlying || softFallTicks > 0)
-        {
-            return true;
-        }
-        return wasFlying = false;
+        return wasFlying || softFallTicks > 0 || (wasFlying = false);
     }
 
     private IController getActiveController()
