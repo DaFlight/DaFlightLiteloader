@@ -262,11 +262,7 @@ public class DaPlayer extends MinecraftGame
         {
             return wasFlying = true;
         }
-        if (wasFlying || softFallTicks > 0)
-        {
-            return true;
-        }
-        return wasFlying = false;
+        return wasFlying || softFallTicks > 0 || (wasFlying = false);
     }
 
     private IController getActiveController()
