@@ -16,7 +16,7 @@ package me.dags.daflight.transformers;
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -31,7 +31,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 @SuppressWarnings("unused")
 public class EventListener extends MinecraftGame
 {
-    // Prevents FOV changes when toggling flight on
+    // Prevents FOV changes when toggling flightStatus on
     // Updates player's fly state if needed
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<AbstractClientPlayer, Float> e)

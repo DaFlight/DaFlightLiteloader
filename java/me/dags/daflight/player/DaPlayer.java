@@ -14,10 +14,10 @@
 package me.dags.daflight.player;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.input.KeybindHandler;
 import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
@@ -70,8 +70,7 @@ public class DaPlayer extends MinecraftGame
         DF_PERMISSIONS.resetPermissions();
         flySpeed.setMaxSpeed(50D);
         sprintSpeed.setMaxSpeed(50D);
-        byte[] b = new byte[]{1};
-        PluginChannelUtil.dispatchPacket(b);
+        PluginChannelUtil.dispatchPacket(new byte[]{1});
     }
 
     public void tickUpdate()
@@ -96,10 +95,10 @@ public class DaPlayer extends MinecraftGame
                 inMenus = false;
                 KEY_BINDS.updateMovementKeys();
             }
-            MovementHandler.handleMovementInput(this);
             KeybindHandler.handleInput(this);
             if (isModOn() && controller != null)
             {
+                MovementHandler.handleMovementInput(this);
                 controller.input(movementVector);
             }
         }
@@ -237,7 +236,7 @@ public class DaPlayer extends MinecraftGame
         }
     }
 
-    public void disableFly()
+    public void disableMovementMods()
     {
         if (flyModOn)
         {
@@ -245,7 +244,7 @@ public class DaPlayer extends MinecraftGame
         }
         if (sprintModOn)
         {
-            toggleFlight();
+            toggleSprint();
         }
         flySpeed.setBoost(false);
         sprintSpeed.setBoost(false);
@@ -254,7 +253,7 @@ public class DaPlayer extends MinecraftGame
 
     public boolean softFallOn()
     {
-        if (Config.getInstance().disabled)
+        if (Config.getInstance().disabled || !DF_PERMISSIONS.noFallDamageEnabled())
         {
             return false;
         }

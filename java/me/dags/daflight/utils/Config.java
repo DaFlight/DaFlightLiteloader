@@ -20,7 +20,7 @@ import com.mumfrey.liteloader.modconfig.ConfigStrategy;
 import com.mumfrey.liteloader.modconfig.Exposable;
 import com.mumfrey.liteloader.modconfig.ExposableOptions;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 
 /**
@@ -28,43 +28,8 @@ import me.dags.daflight.player.DaPlayer;
  */
 
 @ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "daflight.json")
-public class Config implements Exposable
+public class Config extends MinecraftGame implements Exposable
 {
-
-    private static Config instance;
-
-    private Config()
-    {
-        LiteLoader.getInstance().registerExposable(this, "daflight.json");
-    }
-
-    private Config(String server)
-    {
-        String fileName = Tools.getOrCreateConfig("servers", server);
-        LiteLoader.getInstance().registerExposable(this, fileName);
-        saveSettings();
-    }
-
-    public static Config getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new Config();
-        }
-        return instance;
-    }
-
-    public static void loadServerConfig(String server)
-    {
-        instance = new Config(server);
-    }
-
-    public static void reloadConfig()
-    {
-        instance = null;
-        getInstance();
-    }
-
     /**
      * KeyBinds
      */
@@ -156,6 +121,63 @@ public class Config implements Exposable
     @SerializedName("Left-Right_Modifier")
     public double lrModifier = 0.85;
 
+    /**
+     * HudElements
+     */
+    @Expose
+    @SerializedName("Flight_Status")
+    public String flightStatus = "f";
+    @Expose
+    @SerializedName("Cine_Flight_Status")
+    public String cineFlightStatus = "c";
+    @Expose
+    @SerializedName("Sprint_Status")
+    public String runStatus = "r";
+    @Expose
+    @SerializedName("FullBright_Status")
+    public String fullBrightStatus = "fb";
+    @Expose
+    @SerializedName("Speed_Status")
+    public String speedStatus = "*";
+    @Expose
+    @SerializedName("Status_Shadow")
+    public boolean textShadow = true;
+
+    private static Config instance;
+
+    private Config()
+    {
+        LiteLoader.getInstance().registerExposable(this, "daflight.json");
+    }
+
+    private Config(String server)
+    {
+        String fileName = Tools.getOrCreateConfig("servers", server);
+        LiteLoader.getInstance().registerExposable(this, fileName);
+        saveSettings();
+    }
+
+    public static Config getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Config();
+        }
+        return instance;
+    }
+
+    public static void loadServerConfig()
+    {
+        instance = new Config(getServerData().serverIP.replace(":", "-"));
+    }
+
+    public static void reloadConfig()
+    {
+        instance = null;
+        getInstance();
+    }
+
+
     public static void saveSettings()
     {
         LiteLoader.getInstance().writeConfig(getInstance());
@@ -175,9 +197,9 @@ public class Config implements Exposable
     public static void applyDefaults()
     {
         Config c = getInstance();
-        MinecraftGame.getMinecraft().gameSettings.viewBobbing = c.viewBobbing;
-        MinecraftGame.getMinecraft().gameSettings.gammaSetting = c.brightness;
-        MinecraftGame.getMinecraft().gameSettings.saveOptions();
+        getGameSettings().viewBobbing = c.viewBobbing;
+        getGameSettings().gammaSetting = c.brightness;
+        getGameSettings().saveOptions();
     }
 
 }

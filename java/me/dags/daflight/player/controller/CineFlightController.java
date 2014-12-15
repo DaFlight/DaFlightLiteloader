@@ -14,7 +14,7 @@
 package me.dags.daflight.player.controller;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Direction;
 import me.dags.daflight.player.Vector;

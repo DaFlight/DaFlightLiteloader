@@ -14,12 +14,12 @@
 package me.dags.daflight.ui.pages;
 
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
-import me.dags.daflight.abstraction.Colour;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.Colour;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.ui.Settings;
-import me.dags.daflight.ui.uielements.GuiEntryBox;
-import me.dags.daflight.ui.uielements.GuiLabel;
-import me.dags.daflight.ui.uielements.GuiSlider;
+import me.dags.daflight.minecraft.uielements.GuiEntryBox;
+import me.dags.daflight.minecraft.uielements.GuiLabel;
+import me.dags.daflight.minecraft.uielements.GuiSlider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -166,7 +166,6 @@ public class Page0 extends MinecraftGame
 
                 GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 80, temp[1] - 1, 50, 10);
                 gb.name(settings.getKeyBinds().get(s));
-                gb.setIsBind(true);
                 keyBinds.add(gb);
                 temp[1] += 15;
             }

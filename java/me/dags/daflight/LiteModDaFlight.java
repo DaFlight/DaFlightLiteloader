@@ -19,10 +19,11 @@ import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import me.dags.daflight.api.DaFlightUI;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
-import me.dags.daflight.ui.HUD;
+import me.dags.daflight.ui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.PluginChannelUtil;
+import me.dags.daflight.utils.Tools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.INetHandler;
@@ -37,7 +38,7 @@ import java.util.List;
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean wasInGame = false;
@@ -52,7 +53,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public String getVersion()
     {
-        return "2.0b5";
+        return "2.0b6";
     }
 
     @Override
@@ -91,8 +92,8 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
         }
         else if (inGame)
         {
-            wasInGame = inGame;
             DAPLAYER.update();
+            wasInGame = true;
             if (clock)
                 DAPLAYER.tickUpdate();
         }
@@ -121,6 +122,7 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
     @Override
     public List<String> getChannels()
     {
+        Tools.log("Registering DaFlight channel listener");
         List<String> channel = new ArrayList<String>();
         channel.add("DaFlight");
         return channel;
@@ -138,8 +140,9 @@ public class LiteModDaFlight implements LiteMod, Tickable, HUDRenderListener, Co
         DAPLAYER.onGameJoin();
         if (GlobalConfig.perServerConfig())
         {
-            Config.loadServerConfig(serverData.serverIP);
+            Config.loadServerConfig();
             Config.applySettings();
+            Tools.tellPlayer("Server config loaded for: " + serverData.serverIP);
         }
     }
 

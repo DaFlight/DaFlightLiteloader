@@ -16,7 +16,7 @@ package me.dags.daflight.ui;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.ui.pages.Page0;
 import me.dags.daflight.ui.pages.Page1;
 import me.dags.daflight.utils.Config;
@@ -72,15 +72,15 @@ public class ConfigGUI extends MinecraftGame implements ConfigPanel
             page0.setMargin(0);
             page1.setMargin(170);
             page1.setTopMargin(0);
-            height = 250;
+            height = 275;
         }
         else
         {
             int i = Math.round(width / 4);
             page0.setMargin(i);
             page1.setMargin(i + 3);
-            page1.setTopMargin(245);
-            height = 400;
+            page1.setTopMargin(250);
+            height = 515;
         }
         page0.load();
         page1.load();
@@ -93,9 +93,9 @@ public class ConfigGUI extends MinecraftGame implements ConfigPanel
         page1.save();
         Config.saveSettings();
         GlobalConfig.saveSettings();
-        if (GlobalConfig.perServerConfig() && getMinecraft().getCurrentServerData() != null)
+        if (GlobalConfig.perServerConfig() && getServerData() != null)
         {
-            Config.loadServerConfig(getMinecraft().getCurrentServerData().serverIP);
+            Config.loadServerConfig();
         }
         else
         {

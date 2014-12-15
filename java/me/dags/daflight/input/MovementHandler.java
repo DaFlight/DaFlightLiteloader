@@ -13,7 +13,7 @@
 
 package me.dags.daflight.input;
 
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.input.binds.BindType;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.player.DaPlayer;

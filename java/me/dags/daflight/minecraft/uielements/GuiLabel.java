@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.uielements;
+package me.dags.daflight.minecraft.uielements;
 
 import net.minecraft.client.gui.FontRenderer;
 

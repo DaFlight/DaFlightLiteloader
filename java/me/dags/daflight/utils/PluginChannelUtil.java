@@ -63,18 +63,18 @@ public class PluginChannelUtil
                     {
                         if (DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            Tools.tellPlayer("Flymod disabled!");
+                            Tools.tellPlayer("Fly/Sprint mod disabled!");
                         }
-                        DaPlayer.DF_PERMISSIONS.setFlightEnabled(false);
-                        LiteModDaFlight.DAPLAYER.disableFly();
+                        DaPlayer.DF_PERMISSIONS.setMovementModsEnabled(false);
+                        LiteModDaFlight.DAPLAYER.disableMovementMods();
                     }
                     else if (value == 1)
                     {
                         if (!DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            Tools.tellPlayer("Flymod enabled!");
+                            Tools.tellPlayer("Fly/Sprint mod enabled!");
                         }
-                        DaPlayer.DF_PERMISSIONS.setFlightEnabled(true);
+                        DaPlayer.DF_PERMISSIONS.setMovementModsEnabled(true);
                     }
                     break;
                 case 3:

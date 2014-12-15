@@ -11,10 +11,11 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui;
+package me.dags.daflight.ui.hud;
 
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.Tools;
@@ -38,30 +39,30 @@ public class HUD implements DaFlightUI
         mods = new ArrayList<DFEntry>();
         mods.add(0, new DFEntry("", false));
         mods.add(1, new DFEntry("", false));
-        mods.add(2, new DFEntry("fb", false));
+        mods.add(2, new DFEntry(Colour.addColour(Config.getInstance().fullBrightStatus), false));
         mods.add(3, new DFEntry("", false));
     }
 
     public void updateMsg()
     {
         DaPlayer dp = LiteModDaFlight.DAPLAYER;
-        boolean flyModif = false;
+        boolean flyModifier = false;
         // Flight
         if (dp.flyModOn || DaPlayer.KEY_BINDS.enableFly.keyHeld())
         {
             String s = "";
-            flyModif = DaPlayer.KEY_BINDS.speedModifier.keyHeld();
+            flyModifier = DaPlayer.KEY_BINDS.speedModifier.keyHeld();
             if (dp.flyModOn)
             {
-                s = "f";
+                s = Colour.addColour(Config.getInstance().flightStatus);
                 if (dp.cineFlightOn)
                 {
-                    s = "c";
+                    s = Colour.addColour(Config.getInstance().cineFlightStatus);
                 }
             }
-            if (DaPlayer.DF_PERMISSIONS.flyEnabled() && (dp.flySpeed.isBoost() || flyModif))
+            if (DaPlayer.DF_PERMISSIONS.flyEnabled() && (dp.flySpeed.isBoost() || flyModifier))
             {
-                s = s + "*";
+                s = s + Colour.addColour(Config.getInstance().speedStatus);
             }
             mods.get(0).setTitle(s);
             mods.get(0).setShow(true);
@@ -73,10 +74,10 @@ public class HUD implements DaFlightUI
         // Sprint
         if (DaPlayer.DF_PERMISSIONS.sprintEnabled() && (dp.sprintModOn || DaPlayer.KEY_BINDS.enableSprint.keyHeld()))
         {
-            String s = "r";
-            if (dp.sprintSpeed.isBoost() || (DaPlayer.KEY_BINDS.speedModifier.keyHeld() && !flyModif))
+            String s = Colour.addColour(Config.getInstance().runStatus);
+            if (dp.sprintSpeed.isBoost() || (DaPlayer.KEY_BINDS.speedModifier.keyHeld() && !flyModifier))
             {
-                s = "r*";
+                s = s + Colour.addColour(Config.getInstance().speedStatus);
             }
             mods.get(1).setTitle(s);
             mods.get(1).setShow(true);
@@ -85,7 +86,8 @@ public class HUD implements DaFlightUI
         {
             mods.get(1).setShow(false);
         }
-        // Fullbright
+        // FullBright
+        mods.get(2).setTitle(Colour.addColour(Config.getInstance().fullBrightStatus));
         mods.get(2).setShow(dp.fullBrightOn);
     }
 
@@ -115,7 +117,14 @@ public class HUD implements DaFlightUI
             {
                 if (d.isShown())
                 {
-                    Tools.getMinecraft().fontRendererObj.drawStringWithShadow(d.getTitle(), 5, slot, 0xFFFFFF);
+                    if (Config.getInstance().textShadow)
+                    {
+                        Tools.getMinecraft().fontRendererObj.drawStringWithShadow(d.getTitle(), 5, slot, 0xFFFFFF);
+                    }
+                    else
+                    {
+                        Tools.getMinecraft().fontRendererObj.drawString(d.getTitle(), 5, slot, 0xFFFFFF);
+                    }
                     slot += 10;
                 }
             }

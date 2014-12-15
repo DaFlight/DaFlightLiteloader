@@ -13,7 +13,7 @@
 
 package me.dags.daflight.player.controller;
 
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Vector;
 import me.dags.daflight.utils.Config;

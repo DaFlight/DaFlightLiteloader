@@ -13,7 +13,7 @@
 
 package me.dags.daflight.input.binds;
 
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.utils.Config;
 
 public class KeyBinds extends MinecraftGame

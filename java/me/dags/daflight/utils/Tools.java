@@ -15,7 +15,7 @@ package me.dags.daflight.utils;
 
 import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.util.log.LiteLoaderLogger;
-import me.dags.daflight.abstraction.MinecraftGame;
+import me.dags.daflight.minecraft.MinecraftGame;
 
 import java.io.File;
 import java.io.IOException;

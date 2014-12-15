@@ -14,12 +14,13 @@
 package me.dags.daflight.ui.pages;
 
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
-import me.dags.daflight.abstraction.Colour;
-import me.dags.daflight.abstraction.MinecraftGame;
 import me.dags.daflight.input.binds.KeyBind;
+import me.dags.daflight.minecraft.Colour;
+import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.uielements.GuiEntryBox;
+import me.dags.daflight.minecraft.uielements.GuiLabel;
 import me.dags.daflight.ui.Settings;
-import me.dags.daflight.ui.uielements.GuiEntryBox;
-import me.dags.daflight.ui.uielements.GuiLabel;
+import me.dags.daflight.utils.Config;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
@@ -30,6 +31,9 @@ import java.util.Set;
 
 public class Page1 extends MinecraftGame
 {
+    /*
+        Holds keyBinds and status messages
+     */
 
     private Settings settings;
 
@@ -40,12 +44,14 @@ public class Page1 extends MinecraftGame
 
     private final Set<GuiLabel> labels;
     private final Map<String, GuiEntryBox> keyBinds;
+    private final Map<String, GuiEntryBox> statuses;
     private final Map<String, GuiCheckbox> checkBoxes;
 
     public Page1(Settings s, int width, int height, int page)
     {
         labels = new HashSet<GuiLabel>();
         keyBinds = new HashMap<String, GuiEntryBox>();
+        statuses = new HashMap<String, GuiEntryBox>();
         checkBoxes = new HashMap<String, GuiCheckbox>();
 
         settings = s;
@@ -70,17 +76,16 @@ public class Page1 extends MinecraftGame
         {
             gb.draw();
         }
+        for (GuiEntryBox gb : statuses.values())
+        {
+            gb.draw();
+        }
         for (GuiCheckbox gc : checkBoxes.values())
         {
             gc.drawButton(getMinecraft(), mouseX, mouseY);
             if (hover(gc, mouseX, mouseY))
             {
-                String hoverMsg = "ToggleKey";
-                if (!gc.checked)
-                {
-                    hoverMsg = "HoldKey";
-                }
-                getMinecraft().fontRendererObj.drawString(hoverMsg, mouseX + 10, mouseY, 0XAFAFAF);
+                getMinecraft().fontRendererObj.drawString(gc.getHoverMessage(), mouseX + 10, mouseY, 0XAFAFAF);
             }
         }
     }
@@ -95,6 +100,18 @@ public class Page1 extends MinecraftGame
     public void clicked(int mouseX, int mouseY, int mouseButton)
     {
         for (GuiEntryBox gb : keyBinds.values())
+        {
+            gb.mouseClicked(mouseX, mouseY, mouseButton);
+            if (gb.isFocused())
+            {
+                gb.setActive();
+            }
+            else
+            {
+                gb.unsetActive();
+            }
+        }
+        for (GuiEntryBox gb : statuses.values())
         {
             gb.mouseClicked(mouseX, mouseY, mouseButton);
             if (gb.isFocused())
@@ -141,6 +158,32 @@ public class Page1 extends MinecraftGame
                 gb.setText(Keyboard.getKeyName(keyCode));
             }
         }
+        for (GuiEntryBox gb : statuses.values())
+        {
+            if (gb.isActive())
+            {
+                if (keyCode == Keyboard.KEY_RETURN)
+                {
+                    gb.setFocused(false);
+                    gb.unsetActive();
+                    break;
+                }
+                if (keyCode == Keyboard.KEY_ESCAPE)
+                {
+                    gb.setFocused(false);
+                    gb.setText("");
+                    gb.unsetActive();
+                    escape = false;
+                    break;
+                }
+                gb.setFocused(true);
+                gb.entry(keyChar, keyCode);
+            }
+            else
+            {
+                gb.setFocused(false);
+            }
+        }
         return escape;
     }
 
@@ -168,19 +211,25 @@ public class Page1 extends MinecraftGame
         for (String s : keyBinds.keySet())
         {
             GuiEntryBox gb = keyBinds.get(s);
-            settings.updateSetting(s, gb.getText());
+            settings.updateSetting(s, gb.getString());
+        }
+        for (String s : statuses.keySet())
+        {
+            GuiEntryBox gb = statuses.get(s);
+            settings.updateSetting(s, gb.getString());
         }
         for (String s : checkBoxes.keySet())
         {
             GuiCheckbox gb = checkBoxes.get(s);
-            settings.setKeyBindToggles(s, gb.checked);
+            settings.setToggles(s, gb.checked);
         }
     }
 
     public void load()
     {
         int[] xy = new int[]{margin + 10, topMargin + 10};
-        loadBinds(xy[0], xy[1]);
+        xy = loadBinds(xy[0], xy[1]);
+        loadStatuses(xy[0], xy[1]);
     }
 
     private int[] setTitle(String s, int x, int y)
@@ -212,13 +261,13 @@ public class Page1 extends MinecraftGame
 
                 GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
                 gb.name(kb.getKeyName());
-                gb.setIsBind(true);
                 keyBinds.put(kb.getName(), gb);
 
                 if (kb.canHold())
                 {
                     GuiCheckbox gc = new GuiCheckbox(0, temp[0] + 135, temp[1] - 3, "");
                     gc.checked = kb.isToggle();
+                    gc.setHoverMessages("ToggleKey", "HoldKey");
                     checkBoxes.put(kb.getName(), gc);
                 }
 
@@ -229,14 +278,37 @@ public class Page1 extends MinecraftGame
         return temp;
     }
 
-    private int[] loadChecks(int x, int y)
+    private int[] loadStatuses(int x, int y)
     {
-        return null;
-    }
+        int[] temp = new int[]{x, y};
+        if (!settings.getStatuses().isEmpty())
+        {
+            temp = setTitle("Status Messages", temp[0] - 3, temp[1]);
 
-    public Settings getSettings()
-    {
-        return settings;
-    }
+            temp[0] += 3;
+            temp[1] += 5;
+            for (String s : settings.getStatuses().keySet())
+            {
+                String status = settings.getStatuses().get(s);
+                GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, temp[0], temp[1]);
+                gl.setLabel(s);
+                labels.add(gl);
 
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
+                gb.name(status);
+                gb.setEnabled(true);
+                statuses.put(s, gb);
+
+                temp[1] += 15;
+            }
+            GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, temp[0], temp[1]);
+            gl.setLabel("Text Shadow");
+            labels.add(gl);
+            GuiCheckbox gc = new GuiCheckbox(0, temp[0] + 70, temp[1] - 3, "");
+            gc.checked = Config.getInstance().textShadow;
+            gc.setHoverMessages("", "");
+            checkBoxes.put("TextShadow", gc);
+        }
+        return temp;
+    }
 }
