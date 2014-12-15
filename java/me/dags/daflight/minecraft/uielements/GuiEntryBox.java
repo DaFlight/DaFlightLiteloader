@@ -21,21 +21,14 @@ import org.lwjgl.input.Keyboard;
 
 public class GuiEntryBox extends GuiTextField
 {
-
+    private boolean coloured = true;
     private boolean isActive;
-    private int x;
-    private int y;
-    private int width;
-    private int height;
 
-    public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height)
+    public GuiEntryBox(FontRenderer fr, int x, int y, int width, int height, boolean colour)
     {
         super(fr, x, y, width, height);
         this.setFocused(false);
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.coloured = colour;
     }
 
     public boolean isActive()
@@ -43,9 +36,14 @@ public class GuiEntryBox extends GuiTextField
         return this.isActive;
     }
 
-    public void name(String s)
+    public void setString(String s)
     {
-        this.setText(Colour.addColour(s));
+        if (coloured)
+        {
+            setText(Colour.addColour(s));
+            return;
+        }
+        this.setText(s);
     }
 
     public void draw()
@@ -55,25 +53,33 @@ public class GuiEntryBox extends GuiTextField
 
     public void setActive()
     {
-        if (!isActive)
+        if (coloured)
         {
-            String text = Colour.stripColour(getText());
-            setText(EnumChatFormatting.RED.toString() + text);
+            setText(Colour.stripColour(getText()));
+            this.setFocused(true);
+        }
+        else
+        {
+            setText(EnumChatFormatting.RED + getText());
+            this.setFocused(false);
         }
         this.isActive = true;
-        this.setFocused(true);
     }
 
     public void unsetActive()
     {
         this.isActive = false;
-        name(getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
         this.setFocused(false);
+        if (!coloured)
+        {
+            setText(getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
+        }
+        setString(getText());
     }
 
     public void entry(char keyChar, int id)
     {
-        if (id == Keyboard.KEY_BACK && this.getText().length() <= 2)
+        if (id == Keyboard.KEY_BACK && this.getText().length() == 0)
         {
             return;
         }
@@ -82,12 +88,10 @@ public class GuiEntryBox extends GuiTextField
 
     public String getString()
     {
-        return getText().replaceFirst(EnumChatFormatting.RED.toString(), "");
+        if (coloured)
+        {
+            return getText().replaceFirst(EnumChatFormatting.RED.toString(), "");
+        }
+        return getText();
     }
-
-    public boolean click(int mouseX, int mouseY)
-    {
-        return ((mouseX > this.x) && (mouseX < this.x + width)) && ((mouseY > this.y) && (mouseY < this.x + height));
-    }
-
 }

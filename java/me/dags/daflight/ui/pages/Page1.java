@@ -13,6 +13,7 @@
 
 package me.dags.daflight.ui.pages;
 
+import com.mumfrey.liteloader.client.gui.GuiCheckbox;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MinecraftGame;
@@ -90,7 +91,7 @@ public class Page1 extends MinecraftGame
         }
     }
 
-    private boolean hover(GuiCheck gb, int mouseX, int mouseY)
+    private boolean hover(GuiCheckbox gb, int mouseX, int mouseY)
     {
         int checkX = gb.xPosition;
         int checkY = gb.yPosition;
@@ -123,7 +124,7 @@ public class Page1 extends MinecraftGame
                 gb.unsetActive();
             }
         }
-        for (GuiCheck gc : checkBoxes.values())
+        for (GuiCheckbox gc : checkBoxes.values())
         {
             if (gc.mousePressed(getMinecraft(), mouseX, mouseY))
             {
@@ -219,7 +220,7 @@ public class Page1 extends MinecraftGame
         }
         for (String s : checkBoxes.keySet())
         {
-            GuiCheck gb = checkBoxes.get(s);
+            GuiCheckbox gb = checkBoxes.get(s);
             settings.setToggles(s, gb.checked);
         }
     }
@@ -258,8 +259,8 @@ public class Page1 extends MinecraftGame
                 gl.setLabel(kb.getName());
                 labels.add(gl);
 
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
-                gb.name(kb.getKeyName());
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10, false);
+                gb.setString(kb.getKeyName());
                 keyBinds.put(kb.getName(), gb);
 
                 if (kb.canHold())
@@ -293,8 +294,8 @@ public class Page1 extends MinecraftGame
                 gl.setLabel(s);
                 labels.add(gl);
 
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10);
-                gb.name(status);
+                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 70, temp[1] - 2, 60, 10, true);
+                gb.setString(status);
                 gb.setEnabled(true);
                 statuses.put(s, gb);
 

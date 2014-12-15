@@ -22,8 +22,6 @@ public class GuiLabel
     private String label;
     private boolean shadow;
 
-    private int color;
-    private int id;
     private int xPos;
     private int yPos;
 
@@ -32,23 +30,11 @@ public class GuiLabel
         this.fr = fR;
         this.xPos = x;
         this.yPos = y;
-        this.id = 0;
-        this.color = 0xFFFFFF;
     }
 
     public void setLabel(String s)
     {
         this.label = s;
-    }
-
-    public void setId(int i)
-    {
-        this.id = i;
-    }
-
-    public void setColor(int i)
-    {
-        this.color = i;
     }
 
     public void setShadow(boolean b)
