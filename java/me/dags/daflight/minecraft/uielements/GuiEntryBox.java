@@ -13,6 +13,7 @@
 
 package me.dags.daflight.minecraft.uielements;
 
+import me.dags.daflight.minecraft.Colour;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
@@ -44,7 +45,7 @@ public class GuiEntryBox extends GuiTextField
 
     public void name(String s)
     {
-        this.setText(s);
+        this.setText(Colour.addColour(s));
     }
 
     public void draw()
@@ -54,15 +55,19 @@ public class GuiEntryBox extends GuiTextField
 
     public void setActive()
     {
+        if (!isActive)
+        {
+            String text = Colour.stripColour(getText());
+            setText(EnumChatFormatting.RED.toString() + text);
+        }
         this.isActive = true;
-        setText(EnumChatFormatting.RED.toString() + this.getText());
-        this.setFocused(false);
+        this.setFocused(true);
     }
 
     public void unsetActive()
     {
         this.isActive = false;
-        setText(this.getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
+        name(getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
         this.setFocused(false);
     }
 

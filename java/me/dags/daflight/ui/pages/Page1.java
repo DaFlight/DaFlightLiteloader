@@ -176,7 +176,6 @@ public class Page1 extends MinecraftGame
                     escape = false;
                     break;
                 }
-                gb.setFocused(true);
                 gb.entry(keyChar, keyCode);
             }
             else
