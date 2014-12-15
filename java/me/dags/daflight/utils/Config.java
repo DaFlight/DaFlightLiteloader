@@ -84,9 +84,6 @@ public class Config extends MinecraftGame implements Exposable
     @SerializedName("Disable_Mod")
     public boolean disabled = false;
     @Expose
-    @SerializedName("View_Bobbing")
-    public boolean viewBobbing = true;
-    @Expose
     @SerializedName("3D_Flight")
     public boolean threeDFlight = false;
     @Expose
@@ -96,9 +93,6 @@ public class Config extends MinecraftGame implements Exposable
     /**
      * Parameters
      */
-    @Expose
-    @SerializedName("Brightness")
-    public float brightness = 0.5f;
     @Expose
     @SerializedName("Fly_Speed")
     public double flySpeed = 0.1;
@@ -194,13 +188,4 @@ public class Config extends MinecraftGame implements Exposable
         daPlayer.sprintSpeed.setMultiplier(c.sprintSpeedMult);
         LiteModDaFlight.getHud().refreshStatuses();
     }
-
-    public static void applyDefaults()
-    {
-        Config c = getInstance();
-        getGameSettings().viewBobbing = c.viewBobbing;
-        getGameSettings().gammaSetting = c.brightness;
-        getGameSettings().saveOptions();
-    }
-
 }

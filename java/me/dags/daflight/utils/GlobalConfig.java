@@ -19,21 +19,28 @@ import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigStrategy;
 import com.mumfrey.liteloader.modconfig.Exposable;
 import com.mumfrey.liteloader.modconfig.ExposableOptions;
+import me.dags.daflight.minecraft.MinecraftGame;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
 @ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "global.json")
-public class GlobalConfig implements Exposable
+public class GlobalConfig extends MinecraftGame implements Exposable
 {
     private static GlobalConfig instance;
 
     @Expose
     @SerializedName("Per_server_Configs")
     public boolean perServerConfigs = false;
+    @Expose
+    @SerializedName("Brightness")
+    public float brightness = 0.5f;
+    @Expose
+    @SerializedName("View_Bobbing")
+    public boolean viewBobbing = true;
 
-    private static GlobalConfig getInstance()
+    public static GlobalConfig getInstance()
     {
         if (instance == null)
         {
@@ -47,6 +54,14 @@ public class GlobalConfig implements Exposable
         String fileName = Tools.createGlobalConfig();
         LiteLoader.getInstance().registerExposable(this, fileName);
         LiteLoader.getInstance().writeConfig(this);
+    }
+
+    public static void applyDefaults()
+    {
+        GlobalConfig c = getInstance();
+        getGameSettings().viewBobbing = c.viewBobbing;
+        getGameSettings().gammaSetting = c.brightness;
+        getGameSettings().saveOptions();
     }
 
     public static boolean perServerConfig()

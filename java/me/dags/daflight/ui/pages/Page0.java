@@ -16,10 +16,9 @@ package me.dags.daflight.ui.pages;
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MinecraftGame;
-import me.dags.daflight.ui.Settings;
-import me.dags.daflight.minecraft.uielements.GuiEntryBox;
 import me.dags.daflight.minecraft.uielements.GuiLabel;
 import me.dags.daflight.minecraft.uielements.GuiSlider;
+import me.dags.daflight.ui.Settings;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +33,6 @@ public class Page0 extends MinecraftGame
     public int pageNumber;
 
     private Set<GuiLabel> labels;
-    private Set<GuiEntryBox> keyBinds;
     private Set<GuiSlider> sliders;
     private Set<GuiCheckbox> checkBoxes;
 
@@ -126,11 +124,6 @@ public class Page0 extends MinecraftGame
 
         int[] xy = new int[]{this.margin + 10, 10};
 
-        if (this.pageNumber == 1)
-        {
-            xy = loadBinds(xy[0], xy[1]);
-        }
-
         xy = setTitle("Preferences", xy[0], xy[1]);
         xy = loadChecks(xy[0], xy[1]);
         xy = setTitle("Settings", xy[0], xy[1]);
@@ -147,32 +140,6 @@ public class Page0 extends MinecraftGame
         y += 10;
 
         return new int[]{x, y};
-    }
-
-    private int[] loadBinds(int x, int y)
-    {
-        int[] temp = new int[]{x, y};
-
-        if (!settings.getKeyBinds().isEmpty())
-        {
-            temp = setTitle("KeyBinds", temp[0], temp[1]);
-            temp[1] += 5;
-
-            for (String s : settings.getKeyBinds().keySet())
-            {
-                GuiLabel gl = new GuiLabel(getMinecraft().fontRendererObj, temp[0], temp[1]);
-                gl.setLabel(s);
-                this.labels.add(gl);
-
-                GuiEntryBox gb = new GuiEntryBox(getMinecraft().fontRendererObj, temp[0] + 80, temp[1] - 1, 50, 10, false);
-                gb.setString(settings.getKeyBinds().get(s));
-                keyBinds.add(gb);
-                temp[1] += 15;
-            }
-            temp[1] += 5;
-        }
-
-        return temp;
     }
 
     private int[] loadChecks(int x, int y)
@@ -266,10 +233,5 @@ public class Page0 extends MinecraftGame
         }
         xTemp = this.margin + 10;
         return new int[]{xTemp, yTemp};
-    }
-
-    public Settings getSettings()
-    {
-        return this.settings;
     }
 }
