@@ -22,7 +22,7 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
  * @author dags_ <dags@dags.me>
  */
 
-public class FovTransformer extends EventInjectionTransformer
+public class ViewTransformer extends EventInjectionTransformer
 {
     @Override
     protected void addEvents()
@@ -32,6 +32,11 @@ public class FovTransformer extends EventInjectionTransformer
         MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
         addEvent(fovCheck, getFOVModifier, injectionPoint);
         fovCheck.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFovCheck"));
+
+        Event onSetupViewBobbing = Event.getOrCreate("onSetupViewBobbing", true);
+        MethodInfo setupViewBobbing = new MethodInfo(ObfTable.EntityRenderer, ObfTable.setupViewBobbing, "(F)V");
+        addEvent(onSetupViewBobbing, setupViewBobbing, injectionPoint);
+        onSetupViewBobbing.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onSetupViewBobbing"));
     }
 
 }

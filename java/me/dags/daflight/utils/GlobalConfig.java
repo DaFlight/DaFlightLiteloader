@@ -36,9 +36,6 @@ public class GlobalConfig extends MinecraftGame implements Exposable
     @Expose
     @SerializedName("Brightness")
     public float brightness = 0.5f;
-    @Expose
-    @SerializedName("View_Bobbing")
-    public boolean viewBobbing = true;
 
     public static GlobalConfig getInstance()
     {
@@ -59,7 +56,6 @@ public class GlobalConfig extends MinecraftGame implements Exposable
     public static void applyDefaults()
     {
         GlobalConfig c = getInstance();
-        getGameSettings().viewBobbing = c.viewBobbing;
         getGameSettings().gammaSetting = c.brightness;
         getGameSettings().saveOptions();
     }

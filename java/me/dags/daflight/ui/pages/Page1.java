@@ -211,12 +211,12 @@ public class Page1 extends MinecraftGame
         for (String s : keyBinds.keySet())
         {
             GuiEntryBox gb = keyBinds.get(s);
-            settings.updateSetting(s, gb.getString());
+            settings.updateSetting(s, gb.getText());
         }
         for (String s : statuses.keySet())
         {
             GuiEntryBox gb = statuses.get(s);
-            settings.updateSetting(s, gb.getString());
+            settings.updateSetting(s, gb.getText());
         }
         for (String s : checkBoxes.keySet())
         {

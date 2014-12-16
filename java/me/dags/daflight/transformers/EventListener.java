@@ -20,7 +20,7 @@ import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
@@ -53,6 +53,16 @@ public class EventListener extends MinecraftGame
         }
     }
 
+    // Disables viewbobbing whilst flying
+    @SuppressWarnings("unused")
+    public static void onSetupViewBobbing(EventInfo<EntityRenderer> e, float f)
+    {
+        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        {
+            e.cancel();
+        }
+    }
+
     // Intercepts falling
     @SuppressWarnings("unused")
     public static void onFall(EventInfo<EntityPlayer> e, float distance, float damageMultiplier)
@@ -63,6 +73,7 @@ public class EventListener extends MinecraftGame
         }
     }
 
+    /*
     // Ignore ladder effects if player is flying
     @SuppressWarnings("unused")
     public static void isOnLadder(ReturnEventInfo<EntityLivingBase, Boolean> e)
@@ -72,6 +83,7 @@ public class EventListener extends MinecraftGame
             e.setReturnValue(false);
         }
     }
+    */
 
     private static int ticksSinceMovePacket = 0;
     private static boolean wasSneaking = false;

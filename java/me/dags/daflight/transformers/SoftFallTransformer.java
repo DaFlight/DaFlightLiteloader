@@ -24,6 +24,7 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 
 public class SoftFallTransformer extends EventInjectionTransformer
 {
+
     @Override
     protected void addEvents()
     {
@@ -38,5 +39,12 @@ public class SoftFallTransformer extends EventInjectionTransformer
         MethodInfo updateWalkingPlayer = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onUpdateWalkingPlayer, "()V");
         addEvent(onUpdateWalkingPlayer, updateWalkingPlayer, injectionPoint);
         onUpdateWalkingPlayer.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onUpdateWalkingPlayer"));
+
+        /*
+        Event onIsOnLadder = Event.getOrCreate("onIsOnLadder", true);
+        MethodInfo isOnLadder = new MethodInfo(ObfTable.EntityLivingBase, ObfTable.isOnLadder, "()Z");
+        addEvent(onIsOnLadder, isOnLadder, injectionPoint);
+        onIsOnLadder.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "isOnLadder"));
+        */
     }
 }
