@@ -16,7 +16,6 @@ package me.dags.daflight.minecraft.uielements;
 import me.dags.daflight.minecraft.Colour;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
 public class GuiEntryBox extends GuiTextField
@@ -40,8 +39,7 @@ public class GuiEntryBox extends GuiTextField
     {
         if (coloured)
         {
-            setText(Colour.addColour(s));
-            return;
+            s = Colour.addColour(s);
         }
         this.setText(s);
     }
@@ -53,16 +51,9 @@ public class GuiEntryBox extends GuiTextField
 
     public void setActive()
     {
-        if (coloured)
-        {
-            setText(Colour.stripColour(getText()));
-            this.setFocused(true);
-        }
-        else
-        {
-            setText(EnumChatFormatting.RED + getText());
-            this.setFocused(false);
-        }
+        this.setText(Colour.stripColour(getText()));
+        this.setFocused(coloured);
+        this.setTextColor(0xFF5555);
         this.isActive = true;
     }
 
@@ -70,11 +61,9 @@ public class GuiEntryBox extends GuiTextField
     {
         this.isActive = false;
         this.setFocused(false);
-        if (!coloured)
-        {
-            setText(getText().replaceFirst(EnumChatFormatting.RED.toString(), ""));
-        }
-        setString(getText());
+        this.setTextColor(0xFFFFFF);
+        this.setString(getText());
+        this.setCursorPositionZero();
     }
 
     public void entry(char keyChar, int id)
@@ -84,14 +73,5 @@ public class GuiEntryBox extends GuiTextField
             return;
         }
         super.textboxKeyTyped(keyChar, id);
-    }
-
-    public String getString()
-    {
-        if (coloured)
-        {
-            return getText().replaceFirst(EnumChatFormatting.RED.toString(), "");
-        }
-        return getText();
     }
 }

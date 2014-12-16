@@ -120,7 +120,6 @@ public class DaPlayer extends MinecraftGame
     {
         flyModOn = DF_PERMISSIONS.flyEnabled() && !flyModOn;
         toggleFlightCommon();
-        toggleViewBobbing();
         if (!flyModOn && !Config.getInstance().speedIsToggle)
         {
             flySpeed.setBoost(false);
@@ -179,25 +178,6 @@ public class DaPlayer extends MinecraftGame
         {
             getPlayer().capabilities.isFlying = false;
             getPlayer().sendPlayerAbilities();
-        }
-    }
-
-    public void toggleViewBobbing()
-    {
-        if (flyModOn)
-        {
-            // back up user's viewBob setting
-            GlobalConfig.getInstance().viewBobbing = getMinecraft().gameSettings.viewBobbing;
-            GlobalConfig.saveSettings();
-            // disable viewBobbing & save
-            getMinecraft().gameSettings.viewBobbing = false;
-            getMinecraft().gameSettings.saveOptions();
-        }
-        else
-        {
-            // reset viewBobbing to user's backed-up setting & save
-            getMinecraft().gameSettings.viewBobbing = GlobalConfig.getInstance().viewBobbing;
-            getMinecraft().gameSettings.saveOptions();
         }
     }
 

@@ -19,6 +19,7 @@ import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.minecraft.MinecraftGame;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
@@ -43,6 +44,16 @@ public class EventListener extends MinecraftGame
                 e.getSource().capabilities.isFlying = true;
                 e.getSource().sendPlayerAbilities();
             }
+        }
+    }
+
+    // Disables viewbobbing whilst flying
+    @SuppressWarnings("unused")
+    public static void onSetupViewBobbing(EventInfo<EntityRenderer> e, float f)
+    {
+        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        {
+            e.cancel();
         }
     }
 

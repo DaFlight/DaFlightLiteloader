@@ -16,10 +16,9 @@ package me.dags.daflight.ui.pages;
 import com.mumfrey.liteloader.client.gui.GuiCheckbox;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MinecraftGame;
-import me.dags.daflight.ui.Settings;
-import me.dags.daflight.minecraft.uielements.GuiEntryBox;
 import me.dags.daflight.minecraft.uielements.GuiLabel;
 import me.dags.daflight.minecraft.uielements.GuiSlider;
+import me.dags.daflight.ui.Settings;
 
 import java.util.HashSet;
 import java.util.Set;

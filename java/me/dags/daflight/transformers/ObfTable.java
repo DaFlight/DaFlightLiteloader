@@ -28,6 +28,9 @@ public class ObfTable extends Obf
     public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "blk");
     public static ObfTable getFOVModifier = new ObfTable("func_71151_f", "t", "getFOVMultiplier");
 
+    public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "blt");
+    public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "g", "setupViewBobbing");
+
     public static ObfTable EntityClientPlayerMP = new ObfTable("net.minecraft.client.entity.EntityClientPlayerMP", "bjk");
     public static ObfTable sendMotionUpdates = new ObfTable("func_71166_b", "a", "sendMotionUpdates");
 
