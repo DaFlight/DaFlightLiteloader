@@ -27,7 +27,7 @@ import me.dags.daflight.player.Vector;
 public class MovementHandler extends MinecraftGame
 {
 
-    private static final double sr = Math.sqrt(2);
+    private static final double sr = 1 / Math.sqrt(2);
 
     public static void handleMovementInput(DaPlayer daPlayer)
     {
@@ -77,14 +77,12 @@ public class MovementHandler extends MinecraftGame
                         y += (0 - kb.getModX()) * movementVector.getSpeed() * (pitch / 90);
                     }
                 }
-                if (b1 && b2)
-                {
-                    x = x / sr;
-                    y = y / sr;
-                    z = z / sr;
-                }
                 movementVector.add(x, y, z);
             }
+        }
+        if (b1 && b2)
+        {
+            movementVector.multiply(sr);
         }
         daPlayer.direction = direction;
         daPlayer.movementVector = movementVector;
