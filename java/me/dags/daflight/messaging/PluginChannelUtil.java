@@ -11,12 +11,13 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.utils;
+package me.dags.daflight.messaging;
 
 import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.player.DaPlayer;
+import me.dags.daflight.utils.Tools;
 
 public class PluginChannelUtil
 {
@@ -97,8 +98,7 @@ public class PluginChannelUtil
                     // Refresh perms
                     if (LiteModDaFlight.DAPLAYER.flyModOn || LiteModDaFlight.DAPLAYER.sprintModOn)
                     {
-                        byte[] d = new byte[]{2, 1};
-                        dispatchPacket(d);
+                        dispatchPacket(PacketData.MOD_ON);
                     }
                     break;
                 case 100:
@@ -112,9 +112,9 @@ public class PluginChannelUtil
         }
     }
 
-    public static void dispatchPacket(byte[] data)
+    public static void dispatchPacket(PacketData out)
     {
-        ClientPluginChannels.sendMessage("DaFlight", data, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        ClientPluginChannels.sendMessage("DaFlight", out.getData(), PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
     }
 
 }

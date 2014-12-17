@@ -11,33 +11,28 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.uielements;
-
-import com.mumfrey.liteloader.client.gui.GuiCheckbox;
+package me.dags.daflight.messaging;
 
 /**
- * Super-simple implementation of a checkbox control
- * 
- * @author Adam Mummery-Smith
+ * @author dags_ <dags@dags.me>
  */
-public class GuiCheck extends GuiCheckbox
+
+public enum PacketData
 {
-    public String hoverMessageTrue;
-    public String hoverMessageFalse;
+    CONNECT(new byte[]{1}),
+    MOD_ON(new byte[]{2, 1}),
+    MOD_OFF(new byte[]{2, 2}),
+    ;
 
-    public GuiCheck(int controlId, int xPosition, int yPosition, String displayString)
+    private byte[] data;
+
+    PacketData(byte[] b)
     {
-        super(controlId, xPosition, yPosition, displayString);
+        data = b;
     }
 
-    public String getHoverMessage()
+    public byte[] getData()
     {
-        return checked ? hoverMessageTrue : hoverMessageFalse;
-    }
-
-    public void setHoverMessages(String s1, String s2)
-    {
-        hoverMessageTrue = s1;
-        hoverMessageFalse = s2;
+        return data;
     }
 }
