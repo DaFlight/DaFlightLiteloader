@@ -35,7 +35,7 @@ public class GlobalConfig extends MinecraftGame implements Exposable
     public boolean perServerConfigs = false;
     @Expose
     @SerializedName("Brightness")
-    public float brightness = 0.5f;
+    private float brightness = 0.5f;
 
     public static GlobalConfig getInstance()
     {
@@ -73,5 +73,20 @@ public class GlobalConfig extends MinecraftGame implements Exposable
     public static void saveSettings()
     {
         LiteLoader.getInstance().writeConfig(getInstance());
+    }
+
+    public static float getBrightness()
+    {
+        return getInstance().brightness;
+    }
+
+    public static void setBrightness(float f)
+    {
+        if (f < 1.0f)
+        {
+            getInstance().brightness = f;
+            return;
+        }
+        getInstance().brightness = 0.5F;
     }
 }

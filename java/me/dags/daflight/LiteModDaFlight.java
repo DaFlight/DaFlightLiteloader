@@ -17,12 +17,13 @@ import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflight.messaging.PluginChannelUtil;
+import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
 import me.dags.daflight.ui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
-import me.dags.daflight.utils.PluginChannelUtil;
 import me.dags.daflight.utils.Tools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
@@ -53,7 +54,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     @Override
     public String getVersion()
     {
-        return "2.0b7";
+        return "2.0b8";
     }
 
     @Override
@@ -131,14 +132,14 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     @Override
     public void onCustomPayload(String channel, PacketBuffer data)
     {
-        PluginChannelUtil.onReceivedPacket(channel, data);
+        PluginChannelUtil.onReceivedPacket(channel, data.array());
     }
 
     @Override
     public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
     {
         DAPLAYER.onGameJoin();
-        if (GlobalConfig.perServerConfig())
+        if (GlobalConfig.perServerConfig() && !MinecraftGame.getMinecraft().isSingleplayer())
         {
             Config.loadServerConfig();
             Config.applySettings();

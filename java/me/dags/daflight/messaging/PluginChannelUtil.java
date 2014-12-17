@@ -11,21 +11,21 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.utils;
+package me.dags.daflight.messaging;
 
 import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
 import io.netty.buffer.Unpooled;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.player.DaPlayer;
+import me.dags.daflight.utils.Tools;
 import net.minecraft.network.PacketBuffer;
 
 public class PluginChannelUtil
 {
 
-    public static void onReceivedPacket(String channel, PacketBuffer pb)
+    public static void onReceivedPacket(String channel, byte[] data)
     {
-        byte[] data = pb.array();
         int length = data.length;
         if (channel.equals("DaFlight"))
         {
@@ -100,8 +100,7 @@ public class PluginChannelUtil
                     // Refresh perms
                     if (LiteModDaFlight.DAPLAYER.flyModOn || LiteModDaFlight.DAPLAYER.sprintModOn)
                     {
-                        byte[] d = new byte[]{2, 1};
-                        dispatchPacket(d);
+                        dispatchPacket(PacketData.MOD_ON);
                     }
                     break;
                 case 100:
@@ -115,10 +114,9 @@ public class PluginChannelUtil
         }
     }
 
-    public static void dispatchPacket(byte[] data)
+    public static void dispatchPacket(PacketData out)
     {
-        PacketBuffer pb = new PacketBuffer(Unpooled.copiedBuffer(data));
-        ClientPluginChannels.sendMessage("DaFlight", pb, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        ClientPluginChannels.sendMessage("DaFlight", new PacketBuffer(Unpooled.copiedBuffer(out.getData())), PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
     }
 
 }

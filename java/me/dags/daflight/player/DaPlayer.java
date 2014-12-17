@@ -17,6 +17,8 @@ import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.input.KeybindHandler;
 import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.messaging.PacketData;
+import me.dags.daflight.messaging.PluginChannelUtil;
 import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
@@ -24,7 +26,6 @@ import me.dags.daflight.player.controller.IController;
 import me.dags.daflight.player.controller.SprintController;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
-import me.dags.daflight.utils.PluginChannelUtil;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -71,7 +72,7 @@ public class DaPlayer extends MinecraftGame
         DF_PERMISSIONS.resetPermissions();
         flySpeed.setMaxSpeed(50D);
         sprintSpeed.setMaxSpeed(50D);
-        PluginChannelUtil.dispatchPacket(new byte[]{1});
+        PluginChannelUtil.dispatchPacket(PacketData.CONNECT);
     }
 
     public void tickUpdate()
@@ -137,6 +138,7 @@ public class DaPlayer extends MinecraftGame
         {
             getGameSettings().smoothCamera = true;
         }
+        notifyServer();
     }
 
     public void toggleCineFlight()
@@ -157,6 +159,7 @@ public class DaPlayer extends MinecraftGame
         {
             sprintSpeed.setBoost(false);
         }
+        notifyServer();
     }
 
     public void toggleSpeedModifier()
@@ -181,18 +184,28 @@ public class DaPlayer extends MinecraftGame
         }
     }
 
+    private void notifyServer()
+    {
+        if (flyModOn || sprintModOn)
+        {
+            PluginChannelUtil.dispatchPacket(PacketData.MOD_ON);
+            return;
+        }
+        PluginChannelUtil.dispatchPacket(PacketData.MOD_OFF);
+    }
+
     public void toggleFullbright()
     {
         float brightness = 9999F;
         if (fullBrightOn || !DF_PERMISSIONS.fbEnabled())
         {
             fullBrightOn = false;
-            brightness = GlobalConfig.getInstance().brightness;
+            brightness = GlobalConfig.getBrightness();
         }
         else
         {
             fullBrightOn = true;
-            GlobalConfig.getInstance().brightness = getMinecraft().gameSettings.gammaSetting;
+            GlobalConfig.setBrightness(getMinecraft().gameSettings.gammaSetting);
             GlobalConfig.saveSettings();
         }
         getMinecraft().gameSettings.gammaSetting = brightness;
