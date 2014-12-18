@@ -14,7 +14,7 @@
 package me.dags.daflight.ui.hud;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflightapi.ui.DaFlightUI;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
@@ -149,6 +149,10 @@ public class HUD implements DaFlightUI
             setTemp(false);
         }
     }
+
+    @Override
+    public void draw()
+    {}
 
     @SuppressWarnings("unused")
     @Override

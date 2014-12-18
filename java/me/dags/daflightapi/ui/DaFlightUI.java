@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.api;
+package me.dags.daflightapi.ui;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -46,5 +46,7 @@ public interface DaFlightUI
      * @param status New status message to apply
      */
     public void setStatus(int id, String status);
+
+    public void draw();
 
 }

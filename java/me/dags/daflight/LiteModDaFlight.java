@@ -15,7 +15,7 @@ package me.dags.daflight;
 
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
-import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflightapi.ui.DaFlightUI;
 import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
@@ -51,7 +51,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     @Override
     public String getVersion()
     {
-        return "2.0b8";
+        return "2.0r1";
     }
 
     @Override
