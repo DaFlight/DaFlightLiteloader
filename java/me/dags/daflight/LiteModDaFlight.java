@@ -15,15 +15,16 @@ package me.dags.daflight;
 
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
-import me.dags.daflightapi.ui.DaFlightUI;
+import me.dags.daflight.messaging.PluginChannelUtil;
 import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.ui.ConfigGUI;
 import me.dags.daflight.ui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
-import me.dags.daflight.messaging.PluginChannelUtil;
 import me.dags.daflight.utils.Tools;
+import me.dags.daflightapi.DaFlightAPI;
+import me.dags.daflightapi.ui.DaFlightUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
@@ -36,7 +37,7 @@ import java.util.List;
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements DaFlightAPI, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
 {
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean wasInGame = false;
@@ -144,8 +145,8 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
         }
     }
 
-    @SuppressWarnings("unused")
-    public static DaFlightUI getDaFlightUI()
+    @Override
+    public DaFlightUI getDaFlightUI()
     {
         return getHud();
     }
