@@ -24,10 +24,11 @@ public class GuiTextFieldYPositionReflector extends FieldReflector
 {
     private static final Class OWNER = GuiTextField.class;
     private static final String MCP_NAME = "yPosition";
+    private static final String SRG_NAME = "field_146210_g";
     private static final String OBF_NAME = "g";
 
     public GuiTextFieldYPositionReflector()
     {
-        super(OWNER, new String[]{MCP_NAME, OBF_NAME});
+        super(OWNER, new String[]{SRG_NAME, MCP_NAME, OBF_NAME});
     }
 }

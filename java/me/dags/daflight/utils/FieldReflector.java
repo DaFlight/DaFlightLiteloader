@@ -39,7 +39,7 @@ public class FieldReflector
 
     private Field getField(Class ownerClass)
     {
-        if (this.attempt > this.fieldNames.length)
+        if (this.attempt >= this.fieldNames.length)
             return null;
         Field f;
         try
