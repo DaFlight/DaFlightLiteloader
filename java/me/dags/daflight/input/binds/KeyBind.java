@@ -166,9 +166,7 @@ public class KeyBind
             {
                 toggleState = !toggleState;
             }
-            press = true;
-            held = true;
-            return true;
+            return press = held = true;
         }
         press = false;
         return false;

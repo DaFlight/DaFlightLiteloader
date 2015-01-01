@@ -21,8 +21,7 @@ public enum PacketData
 {
     CONNECT(new byte[]{1}),
     MOD_ON(new byte[]{2, 1}),
-    MOD_OFF(new byte[]{2, 2}),
-    ;
+    MOD_OFF(new byte[]{2, 2}),;
 
     private byte[] data;
 

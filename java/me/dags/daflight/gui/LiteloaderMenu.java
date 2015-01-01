@@ -1,0 +1,94 @@
+/*
+ * Copyright (c) 2014, dags_ <dags@dags.me>
+ *
+ *  Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
+ *  granted, provided that the above copyright notice and this permission notice appear in all copies.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
+ *  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL,
+ *  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+ *  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
+ *  USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+package me.dags.daflight.gui;
+
+import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
+import me.dags.daflight.minecraft.gui.ConfigGui;
+
+/**
+ * @author dags_ <dags@dags.me>
+ */
+
+public class LiteloaderMenu extends ConfigGui implements ConfigPanel
+{
+    @Override
+    public String getPanelTitle()
+    {
+        return "DaFlight Config";
+    }
+
+    @Override
+    public int getContentHeight()
+    {
+        return super.getContentHeight() + 5;
+    }
+
+    @Override
+    public void onPanelShown(ConfigPanelHost host)
+    {
+        onPanelResize(host);
+    }
+
+    @Override
+    public void onPanelResize(ConfigPanelHost host)
+    {
+        super.applySizeChange(host.getWidth(), host.getHeight());
+        super.setScrollBarVisibility(false);
+    }
+
+    @Override
+    public void onPanelHidden()
+    {
+        super.save();
+    }
+
+    @Override
+    public void onTick(ConfigPanelHost host)
+    {
+
+    }
+
+    @Override
+    public void drawPanel(ConfigPanelHost host, int mouseX, int mouseY, float partialTicks)
+    {
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public void mousePressed(ConfigPanelHost host, int mouseX, int mouseY, int mouseButton)
+    {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void mouseReleased(ConfigPanelHost host, int mouseX, int mouseY, int mouseButton)
+    {
+        super.mouseReleased(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void mouseMoved(ConfigPanelHost host, int mouseX, int mouseY)
+    {
+        super.mouseClickMove(mouseX, mouseY, 0, 0);
+    }
+
+    @Override
+    public void keyPressed(ConfigPanelHost host, char keyChar, int keyCode)
+    {
+        boolean exit = super.keyInput(keyChar, keyCode);
+        if (exit)
+            host.close();
+    }
+}

@@ -18,6 +18,7 @@ import me.dags.daflight.input.KeybindHandler;
 import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.messaging.PacketData;
+import me.dags.daflight.messaging.PluginChannelUtil;
 import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
@@ -25,7 +26,6 @@ import me.dags.daflight.player.controller.IController;
 import me.dags.daflight.player.controller.SprintController;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
-import me.dags.daflight.messaging.PluginChannelUtil;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -108,7 +108,7 @@ public class DaPlayer extends MinecraftGame
         {
             if (!inMenus)
             {
-              inMenus = true;
+                inMenus = true;
             }
             if (isModOn() && controller != null)
             {
@@ -221,7 +221,7 @@ public class DaPlayer extends MinecraftGame
             }
             if (sprintModOn)
             {
-                toggleFlight();
+                toggleSprint();
             }
             if (fullBrightOn)
             {

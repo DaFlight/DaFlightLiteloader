@@ -106,7 +106,7 @@ public class EventListener extends MinecraftGame
             }
             else if (sendMovementUpdate)
             {
-                ep.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(ep.posX, ep.boundingBox.minY, ep.posY, ep.posZ,true));
+                ep.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(ep.posX, ep.boundingBox.minY, ep.posY, ep.posZ, true));
             }
             else if (sendLookUpdate)
             {

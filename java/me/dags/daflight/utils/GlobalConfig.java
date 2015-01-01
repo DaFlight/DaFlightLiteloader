@@ -34,6 +34,9 @@ public class GlobalConfig extends MinecraftGame implements Exposable
     @SerializedName("Per_server_Configs")
     public boolean perServerConfigs = false;
     @Expose
+    @SerializedName("Config_Tooltips")
+    public boolean configToolTips = true;
+    @Expose
     @SerializedName("Brightness")
     private float brightness = 0.5f;
 

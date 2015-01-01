@@ -11,33 +11,29 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.uielements;
-
-import com.mumfrey.liteloader.client.gui.GuiCheckbox;
+package me.dags.daflight.minecraft.gui.elements;
 
 /**
- * Super-simple implementation of a checkbox control
- * 
- * @author Adam Mummery-Smith
+ * @author dags_ <dags@dags.me>
  */
-public class GuiCheck extends GuiCheckbox
+
+public interface UIElement
 {
-    public String hoverMessageTrue;
-    public String hoverMessageFalse;
+    public void drawElement(int mouseX, int mouseY);
 
-    public GuiCheck(int controlId, int xPosition, int yPosition, String displayString)
-    {
-        super(controlId, xPosition, yPosition, displayString);
-    }
+    public void renderToolTips(int mouseX, int mouseY);
 
-    public String getHoverMessage()
-    {
-        return checked ? hoverMessageTrue : hoverMessageFalse;
-    }
+    public void addToolTip(ToolTip t);
 
-    public void setHoverMessages(String s1, String s2)
-    {
-        hoverMessageTrue = s1;
-        hoverMessageFalse = s2;
-    }
+    public boolean mouseInput(int mouseX, int mouseY);
+
+    public void mouseUnpressed(int mouseX, int mouseY);
+
+    public boolean keyInput(char keyChar, int keyId);
+
+    public void setYOffset(int offset);
+
+    public void setYPos(int pos);
+
+    public void resetYOffset();
 }

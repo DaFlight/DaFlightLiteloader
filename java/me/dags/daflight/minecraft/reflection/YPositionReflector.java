@@ -11,47 +11,35 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.uielements;
+package me.dags.daflight.minecraft.reflection;
 
-import net.minecraft.client.gui.FontRenderer;
+import java.lang.reflect.Field;
 
-public class GuiLabel
+/**
+ * @author dags_ <dags@dags.me>
+ */
+
+public class YPositionReflector extends FieldReflector
 {
-
-    private final FontRenderer fr;
-    private String label;
-    private boolean shadow;
-
-    private int xPos;
-    private int yPos;
-
-    public GuiLabel(FontRenderer fR, int x, int y)
+    public YPositionReflector()
     {
-        this.fr = fR;
-        this.xPos = x;
-        this.yPos = y;
+        super("yPosition", "field_146210_g", "g");
     }
 
-    public void setLabel(String s)
+    public void applyIntValue(Object owner, int value)
     {
-        this.label = s;
-    }
-
-    public void setShadow(boolean b)
-    {
-        this.shadow = b;
-    }
-
-    public void draw()
-    {
-        if (shadow)
+        Field f = this.getField();
+        if (f != null)
         {
-            this.fr.drawStringWithShadow(this.label, this.xPos, this.yPos, 0xFFFFFF);
-        }
-        else
-        {
-            this.fr.drawString(this.label, this.xPos, this.yPos, 0xFFFFFF);
+            try
+            {
+                f.setAccessible(true);
+                f.setInt(owner, value);
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
-
 }

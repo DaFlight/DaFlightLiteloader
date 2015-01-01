@@ -14,12 +14,14 @@
 package me.dags.daflight;
 
 import com.mumfrey.liteloader.*;
+import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import me.dags.daflight.input.binds.MenuBind;
 import me.dags.daflight.messaging.PluginChannelUtil;
 import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
-import me.dags.daflight.ui.ConfigGUI;
-import me.dags.daflight.ui.hud.HUD;
+import me.dags.daflight.gui.LiteloaderMenu;
+import me.dags.daflight.gui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.Tools;
@@ -28,6 +30,7 @@ import me.dags.daflightapi.ui.DaFlightUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
+import org.lwjgl.input.Keyboard;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,8 +40,9 @@ import java.util.List;
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements DaFlightAPI, Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUDRenderListener, JoinGameListener, PluginChannelListener
 {
+    public static final MenuBind MENU_BINDING = new MenuBind("Quick Menu", Keyboard.KEY_F10, "DaFlight");
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean wasInGame = false;
     private static HUD hud;
@@ -52,7 +56,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, HUDRenderListener
     @Override
     public String getVersion()
     {
-        return "2.0r1";
+        return "2.1r1";
     }
 
     @Override
@@ -61,6 +65,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, HUDRenderListener
         Config.getInstance();
         Config.applySettings();
         GlobalConfig.applyDefaults();
+        LiteLoader.getInput().registerKeyBinding(MENU_BINDING);
     }
 
     @Override
@@ -72,30 +77,32 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, HUDRenderListener
     @Override
     public Class<? extends ConfigPanel> getConfigPanelClass()
     {
-        return ConfigGUI.class;
+        return LiteloaderMenu.class;
     }
 
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
+        if (clock && MENU_BINDING.isKeyPressed())
+            MENU_BINDING.displayGui();
         if (clock && !inGame && wasInGame)
         {
             wasInGame = false;
             Config.reloadConfig();
             Config.applySettings();
         }
-        if (Config.getInstance().disabled)
+        if (!Config.getInstance().disabled)
         {
-            if (clock)
-                DAPLAYER.disableAll();
+            if (inGame)
+            {
+                DAPLAYER.update();
+                wasInGame = true;
+                if (clock)
+                    DAPLAYER.tickUpdate();
+            }
         }
-        else if (inGame)
-        {
-            DAPLAYER.update();
-            wasInGame = true;
-            if (clock)
-                DAPLAYER.tickUpdate();
-        }
+        else if (clock)
+            DAPLAYER.disableAll();
     }
 
     @Override

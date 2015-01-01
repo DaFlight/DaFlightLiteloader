@@ -19,6 +19,7 @@ import me.dags.daflight.minecraft.MinecraftGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Direction;
 import me.dags.daflight.player.Vector;
+import me.dags.daflight.utils.Config;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -39,6 +40,7 @@ public class MovementHandler extends MinecraftGame
 
         boolean b1 = false;
         boolean b2 = false;
+        double lrMod = Config.getInstance().lrModifier;
 
         for (KeyBind kb : DaPlayer.KEY_BINDS.movementBinds)
         {
@@ -55,9 +57,9 @@ public class MovementHandler extends MinecraftGame
                 if (kb.getType().equals(BindType.STRAFE))
                 {
                     b1 = true;
-                    x = direction.getZ() * kb.getModX() * movementVector.getSpeed();
+                    x = direction.getZ() * kb.getModX() * movementVector.getSpeed() * lrMod;
                     y = 1.15 * kb.getModY() * movementVector.getSpeed();
-                    z = direction.getX() * kb.getModZ() * movementVector.getSpeed();
+                    z = direction.getX() * kb.getModZ() * movementVector.getSpeed() * lrMod;
 
                     movementVector.setHasLateralInput(true);
                 }

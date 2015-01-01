@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.hud;
+package me.dags.daflight.gui.hud;
 
 public class DFEntry
 {

@@ -15,6 +15,7 @@ package me.dags.daflight.minecraft;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ChatComponentText;
@@ -25,6 +26,11 @@ import net.minecraft.util.MathHelper;
  */
 public class MinecraftGame
 {
+
+    private static ScaledResolution scaledResolution;
+    private static int lastGuiScale = 0;
+    private static int lastWidth = 0;
+    private static int lastHeight = 0;
 
     /**
      * Minecraft methods
@@ -72,5 +78,22 @@ public class MinecraftGame
     public static ServerData getServerData()
     {
         return getMinecraft().getCurrentServerData();
+    }
+
+    public static ScaledResolution getScaledResolution()
+    {
+        if (screenSizeChanged())
+        {
+            lastWidth = getMinecraft().displayWidth;
+            lastHeight = getMinecraft().displayHeight;
+            lastGuiScale = getGameSettings().guiScale;
+            scaledResolution = new ScaledResolution(getMinecraft(), getMinecraft().displayWidth, getMinecraft().displayHeight);
+        }
+        return scaledResolution;
+    }
+
+    public static boolean screenSizeChanged()
+    {
+        return scaledResolution == null || getMinecraft().displayWidth != lastWidth || getMinecraft().displayHeight != lastHeight || getGameSettings().guiScale != lastGuiScale;
     }
 }

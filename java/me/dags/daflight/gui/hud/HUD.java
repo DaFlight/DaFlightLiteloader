@@ -11,14 +11,14 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.ui.hud;
+package me.dags.daflight.gui.hud;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflightapi.ui.DaFlightUI;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.Tools;
+import me.dags.daflightapi.ui.DaFlightUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +152,8 @@ public class HUD implements DaFlightUI
 
     @Override
     public void draw()
-    {}
+    {
+    }
 
     @SuppressWarnings("unused")
     @Override
