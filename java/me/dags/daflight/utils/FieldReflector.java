@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
  * @author dags_ <dags@dags.me>
  */
 
-public class FieldReflector
+public abstract class FieldReflector
 {
     private final Field field;
     private final String[] fieldNames;
