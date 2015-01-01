@@ -11,7 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.guielements;
+package me.dags.daflight.gui;
+
+import me.dags.daflight.minecraft.uielements.ToolTip;
 
 /**
  * @author dags_ <dags@dags.me>

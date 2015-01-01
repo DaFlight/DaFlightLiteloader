@@ -11,44 +11,42 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.guielements;
+package me.dags.daflight.minecraft.uielements;
 
+import me.dags.daflight.gui.UIElement;
 import me.dags.daflight.minecraft.MCGame;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.EnumChatFormatting;
-import org.lwjgl.input.Keyboard;
 
-public class BindButton extends GuiButton implements UIElement
+/**
+ * @author dags_ <dags@dags.me>
+ */
+
+public class ToggleButton extends GuiButton implements UIElement
 {
     private ToolTip toolTip;
-    private String name;
-    private String value;
-    private boolean active;
+    private boolean toggle = false;
+    private String[] statusText;
     private int defaultY;
 
-    public BindButton(int x, int y, int width, int height, boolean colour, String name, String value)
+    public ToggleButton(int id, int x, int y, int width, int height, String name, boolean toggleState)
     {
-        super(0, x, y, width, height, name);
-        this.name = name;
-        this.value = value;
-        super.displayString = getDisplayString();
+        super(id, x, y, width, height, name);
+        this.enabled = true;
+        this.toggle = toggleState;
+        this.statusText = new String[]{name + ": false", name + ": true"};
+        this.displayString = getDisplayString();
         defaultY = y;
     }
 
-    public String getDisplayString()
+    public ToggleButton(int id, int x, int y, int width, int height, String name, boolean toggleState, String[] toggleText)
     {
-        return active ? EnumChatFormatting.RED + name + ":" : name + ": " + value;
-    }
-
-    public void setValue(String s)
-    {
-        value = s;
-        super.displayString = getDisplayString();
-    }
-
-    public String getValue()
-    {
-        return value;
+        super(id, x, y, width, height, name);
+        this.enabled = true;
+        this.toggle = toggleState;
+        this.statusText = toggleText;
+        this.displayString = getDisplayString();
+        defaultY = y;
     }
 
     @Override
@@ -73,9 +71,13 @@ public class BindButton extends GuiButton implements UIElement
     @Override
     public boolean mouseInput(int x, int y)
     {
-        active = super.mousePressed(MCGame.getMinecraft(), x, y);
-        super.displayString = getDisplayString();
-        return active;
+        boolean result = super.mousePressed(MCGame.getMinecraft(), x, y);
+        if (result)
+        {
+            this.toggle = !toggle;
+            this.displayString = getDisplayString();
+        }
+        return result;
     }
 
     @Override
@@ -87,36 +89,40 @@ public class BindButton extends GuiButton implements UIElement
     @Override
     public boolean keyInput(char keyChar, int keyId)
     {
-        if (active)
-        {
-            active = false;
-            if (keyId == Keyboard.KEY_ESCAPE)
-            {
-                value = "";
-                super.displayString = getDisplayString();
-                return true;
-            }
-            value = Keyboard.getKeyName(keyId);
-            super.displayString = getDisplayString();
-        }
         return false;
     }
 
     @Override
     public void setYOffset(int offset)
     {
-        this.yPosition += offset;
+        super.yPosition += offset;
     }
 
     @Override
     public void setYPos(int pos)
     {
-        this.yPosition = this.defaultY + pos;
+        super.yPosition = this.defaultY + pos;
     }
 
     @Override
     public void resetYOffset()
     {
-        this.yPosition = defaultY;
+        super.yPosition = defaultY;
+    }
+
+    @Override
+    public void drawButton(Minecraft m, int x, int y)
+    {
+        super.drawButton(m, x, y);
+    }
+
+    public String getDisplayString()
+    {
+        return toggle ? statusText[1] : statusText[0];
+    }
+
+    public boolean getToggleState()
+    {
+        return enabled && toggle;
     }
 }

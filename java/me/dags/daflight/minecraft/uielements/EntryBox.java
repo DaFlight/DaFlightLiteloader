@@ -11,8 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.guielements;
+package me.dags.daflight.minecraft.uielements;
 
+import me.dags.daflight.gui.UIElement;
 import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.minecraft.reflection.GuiTextFieldYPositionReflector;

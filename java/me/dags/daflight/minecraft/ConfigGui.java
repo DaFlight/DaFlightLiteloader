@@ -14,8 +14,9 @@
 package me.dags.daflight.minecraft;
 
 import me.dags.daflight.LiteModDaFlight;
+import me.dags.daflight.gui.UIElement;
 import me.dags.daflight.input.binds.KeyBinds;
-import me.dags.daflight.minecraft.guielements.*;
+import me.dags.daflight.minecraft.uielements.*;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
 import net.minecraft.client.gui.GuiScreen;
