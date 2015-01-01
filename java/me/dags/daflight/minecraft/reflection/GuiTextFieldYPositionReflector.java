@@ -13,33 +13,21 @@
 
 package me.dags.daflight.minecraft.reflection;
 
-import java.lang.reflect.Field;
+import me.dags.daflight.utils.FieldReflector;
+import net.minecraft.client.gui.GuiTextField;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
-public class YPositionReflector extends FieldReflector
+public class GuiTextFieldYPositionReflector extends FieldReflector
 {
-    public YPositionReflector()
-    {
-        super("yPosition", "field_146210_g", "g");
-    }
+    private static final Class OWNER = GuiTextField.class;
+    private static final String MCP_NAME = "yPosition";
+    private static final String OBF_NAME = "g";
 
-    public void applyIntValue(Object owner, int value)
+    public GuiTextFieldYPositionReflector()
     {
-        Field f = this.getField();
-        if (f != null)
-        {
-            try
-            {
-                f.setAccessible(true);
-                f.setInt(owner, value);
-            }
-            catch (IllegalAccessException e)
-            {
-                e.printStackTrace();
-            }
-        }
+        super(OWNER, new String[]{MCP_NAME, OBF_NAME});
     }
 }

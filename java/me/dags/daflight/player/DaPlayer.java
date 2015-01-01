@@ -19,7 +19,7 @@ import me.dags.daflight.input.MovementHandler;
 import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.messaging.PacketData;
 import me.dags.daflight.messaging.PluginChannelUtil;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.controller.CineFlightController;
 import me.dags.daflight.player.controller.FlightController;
 import me.dags.daflight.player.controller.IController;
@@ -31,7 +31,7 @@ import me.dags.daflight.utils.GlobalConfig;
  * @author dags_ <dags@dags.me>
  */
 
-public class DaPlayer extends MinecraftGame
+public class DaPlayer extends MCGame
 {
 
     public static final KeyBinds KEY_BINDS = new KeyBinds();

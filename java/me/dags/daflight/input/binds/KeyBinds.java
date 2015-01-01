@@ -13,11 +13,13 @@
 
 package me.dags.daflight.input.binds;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.utils.Config;
+import org.lwjgl.input.Keyboard;
 
-public class KeyBinds extends MinecraftGame
+public class KeyBinds extends MCGame
 {
+    public static final MenuBind MENU_BINDING = new MenuBind("Quick Menu", Keyboard.KEY_F10, "DaFlight");
 
     public KeyBind[] binds;
     public KeyBind[] movementBinds;

@@ -11,9 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 
@@ -75,7 +75,7 @@ public class Logo implements UIElement
 
     public void draw()
     {
-        MinecraftGame.getMinecraft().getTextureManager().bindTexture(LOGO);
+        MCGame.getMinecraft().getTextureManager().bindTexture(LOGO);
         glDrawTexturedRect(xPos, yPos, width, height, 1, 1, imageWidth, imageHeight);
     }
 

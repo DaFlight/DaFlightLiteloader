@@ -14,13 +14,13 @@
 package me.dags.daflight.player.controller;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Direction;
 import me.dags.daflight.player.Vector;
 import me.dags.daflight.utils.Config;
 
-public class CineFlightController extends MinecraftGame implements IController
+public class CineFlightController extends MCGame implements IController
 {
 
     private Config c = Config.getInstance();

@@ -20,7 +20,7 @@ import com.mumfrey.liteloader.modconfig.ConfigStrategy;
 import com.mumfrey.liteloader.modconfig.Exposable;
 import com.mumfrey.liteloader.modconfig.ExposableOptions;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 
 /**
@@ -28,7 +28,7 @@ import me.dags.daflight.player.DaPlayer;
  */
 
 @ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "daflight.json")
-public class Config extends MinecraftGame implements Exposable
+public class Config extends MCGame implements Exposable
 {
     /**
      * KeyBinds

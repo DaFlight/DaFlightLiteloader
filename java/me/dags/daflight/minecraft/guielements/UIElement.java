@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
 /**
  * @author dags_ <dags@dags.me>

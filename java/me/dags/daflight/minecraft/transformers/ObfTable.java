@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.transformers;
+package me.dags.daflight.minecraft.transformers;
 
 import com.mumfrey.liteloader.core.runtime.Obf;
 

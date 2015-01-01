@@ -13,12 +13,12 @@
 
 package me.dags.daflight.player.controller;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Vector;
 import me.dags.daflight.utils.Config;
 
-public class FlightController extends MinecraftGame implements IController
+public class FlightController extends MCGame implements IController
 {
     @Override
     public void input(Vector v)

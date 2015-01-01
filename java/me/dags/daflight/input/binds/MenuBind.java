@@ -13,7 +13,7 @@
 
 package me.dags.daflight.input.binds;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.gui.QuickMenu;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
@@ -57,6 +57,6 @@ public class MenuBind extends KeyBinding
 
     public void displayGui()
     {
-        MinecraftGame.getMinecraft().displayGuiScreen(new QuickMenu(MinecraftGame.getMinecraft().currentScreen));
+        MCGame.getMinecraft().displayGuiScreen(new QuickMenu(MCGame.getMinecraft().currentScreen));
     }
 }

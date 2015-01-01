@@ -11,12 +11,12 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.transformers;
+package me.dags.daflight.minecraft.transformers;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -29,7 +29,7 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
  */
 
 @SuppressWarnings("unused")
-public class EventListener extends MinecraftGame
+public class EventListener extends MCGame
 {
 
     @SuppressWarnings("unused")

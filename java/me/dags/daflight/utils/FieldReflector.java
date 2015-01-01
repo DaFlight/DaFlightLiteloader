@@ -11,9 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.reflection;
-
-import net.minecraft.client.gui.GuiTextField;
+package me.dags.daflight.utils;
 
 import java.lang.reflect.Field;
 
@@ -21,39 +19,59 @@ import java.lang.reflect.Field;
  * @author dags_ <dags@dags.me>
  */
 
-public abstract class FieldReflector
+public class FieldReflector
 {
+    private final Field field;
+    private final String[] fieldNames;
     private int attempt = 0;
-    protected final String MCP_NAME;
-    protected final String SRG_NAME;
-    protected final String OBF_NAME;
 
-    public FieldReflector(String mcp, String srg, String obf)
+    public FieldReflector(Class owner, String[] fieldNames)
     {
-        MCP_NAME = mcp;
-        SRG_NAME = srg;
-        OBF_NAME = obf;
+        this.fieldNames = fieldNames;
+        this.field = getField(owner);
     }
 
-    public Field getField()
+    public FieldReflector(Class owner, String fieldName)
     {
-        if (attempt > 2)
+        this.fieldNames = new String[]{fieldName};
+        this.field = getField(owner);
+    }
+
+    private Field getField(Class ownerClass)
+    {
+        if (this.attempt > this.fieldNames.length)
             return null;
         Field f;
         try
         {
-            f = GuiTextField.class.getDeclaredField(getFieldName());
+            f = ownerClass.getDeclaredField(this.fieldNames[this.attempt]);
+            f.setAccessible(true);
         }
         catch (NoSuchFieldException e)
         {
-            attempt++;
-            f = getField();
+            this.attempt++;
+            f = getField(ownerClass);
         }
         return f;
     }
 
-    private String getFieldName()
+    public Field getField()
     {
-        return attempt == 0 ? OBF_NAME : attempt == 1 ? SRG_NAME : attempt == 2 ? MCP_NAME : "";
+        return this.field;
+    }
+
+    public void applyValue(Object owner, Object value)
+    {
+        if (this.field != null)
+        {
+            try
+            {
+                this.field.set(owner, value);
+            }
+            catch (IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }

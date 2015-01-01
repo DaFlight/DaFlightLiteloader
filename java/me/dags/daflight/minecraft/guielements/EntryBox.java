@@ -11,17 +11,17 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
 import me.dags.daflight.minecraft.Colour;
-import me.dags.daflight.minecraft.MinecraftGame;
-import me.dags.daflight.minecraft.reflection.YPositionReflector;
+import me.dags.daflight.minecraft.MCGame;
+import me.dags.daflight.minecraft.reflection.GuiTextFieldYPositionReflector;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
 public class EntryBox extends GuiTextField implements UIElement
 {
-    private static final YPositionReflector reflector = new YPositionReflector();
+    private static final GuiTextFieldYPositionReflector reflector = new GuiTextFieldYPositionReflector();
     private ToolTip toolTip;
     private boolean hovered;
     private String label;
@@ -34,7 +34,7 @@ public class EntryBox extends GuiTextField implements UIElement
 
     public EntryBox(int x, int y, int width, int height, String label, boolean colour)
     {
-        super(MinecraftGame.getMinecraft().fontRendererObj, x, y, width, height);
+        super(MCGame.getMinecraft().fontRendererObj, x, y, width, height);
         this.setFocused(false);
         this.setEnabled(true);
         this.coloured = colour;
@@ -141,20 +141,20 @@ public class EntryBox extends GuiTextField implements UIElement
     public void setYOffset(int offset)
     {
         this.yPos += offset;
-        reflector.applyIntValue(this, yPos);
+        reflector.applyValue(this, yPos);
     }
 
     @Override
     public void setYPos(int pos)
     {
         this.yPos = this.defaultY + pos;
-        reflector.applyIntValue(this, yPos);
+        reflector.applyValue(this, yPos);
     }
 
     @Override
     public void resetYOffset()
     {
         this.yPos = defaultY;
-        reflector.applyIntValue(this, yPos);
+        reflector.applyValue(this, yPos);
     }
 }

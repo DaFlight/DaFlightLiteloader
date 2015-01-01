@@ -11,11 +11,11 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui;
+package me.dags.daflight.minecraft;
 
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MinecraftGame;
-import me.dags.daflight.minecraft.gui.elements.*;
+import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.minecraft.guielements.*;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
 import net.minecraft.client.gui.GuiScreen;
@@ -32,9 +32,9 @@ import java.util.List;
 public abstract class ConfigGui extends GuiScreen
 {
     protected final GuiScreen parent;
-    private final Config config = Config.getInstance();
-    protected final List<UIElement> uiElements;
+    protected final Config config = Config.getInstance();
 
+    protected final List<UIElement> uiElements;
     protected boolean singleColumnMode;
     protected int columnHeight = 320;
 
@@ -45,10 +45,10 @@ public abstract class ConfigGui extends GuiScreen
     private ToggleButton perServer;
 
     private Slider flySpeed;
-    private Slider flyMulltiplier;
+    private Slider flyMultiplier;
     private Slider flySmoothing;
     private Slider sprintSpeed;
-    private Slider sprintMulltiplier;
+    private Slider sprintMultiplier;
     private Slider jumpMultiplier;
     private Slider leftRightMultiplier;
 
@@ -75,21 +75,21 @@ public abstract class ConfigGui extends GuiScreen
 
     protected ScrollBar scrollBar;
 
-    public boolean isScrollable;
-    public int maxYOffset = 0;
-    public int yOffset = 0;
+    protected boolean isScrollable;
+    protected int maxYOffset = 0;
+    protected int yOffset = 0;
 
     public ConfigGui()
     {
         uiElements = new ArrayList<UIElement>();
-        init(MinecraftGame.getScaledResolution().getScaledWidth(), MinecraftGame.getScaledResolution().getScaledHeight());
+        init(MCGame.getScaledResolution().getScaledWidth(), MCGame.getScaledResolution().getScaledHeight());
         this.parent = null;
     }
 
     public ConfigGui(GuiScreen parent)
     {
         uiElements = new ArrayList<UIElement>();
-        init(MinecraftGame.getScaledResolution().getScaledWidth(), MinecraftGame.getScaledResolution().getScaledHeight());
+        init(MCGame.getScaledResolution().getScaledWidth(), MCGame.getScaledResolution().getScaledHeight());
         this.parent = parent;
     }
 
@@ -146,10 +146,10 @@ public abstract class ConfigGui extends GuiScreen
         y = singleColumn ? y + 31 : yTop;
         uiElements.add(new Label(xRight, y, "Settings").setColour(EnumChatFormatting.DARK_AQUA));
         uiElements.add(flySpeed = new Slider(1, xRight, y += 11, 0F, 5F, 200).setDisplayString("FlySpeed").setDefaultValue((float) config.flySpeed * 10));
-        uiElements.add(flyMulltiplier = new Slider(1, xRight, y += 21, 0F, 10F, 200).setDisplayString("FlySpeedMultiplier").setDefaultValue((float) config.flySpeedMult));
+        uiElements.add(flyMultiplier = new Slider(1, xRight, y += 21, 0F, 10F, 200).setDisplayString("FlySpeedMultiplier").setDefaultValue((float) config.flySpeedMult));
         uiElements.add(flySmoothing = new Slider(1, xRight, y += 21, 0F, 1F, 200).setDisplayString("FlySmoothing").setDefaultValue((float) config.flySmoothing));
         uiElements.add(sprintSpeed = new Slider(1, xRight, y += 21, 0F, 5F, 200).setDisplayString("SprintSpeed").setDefaultValue((float) config.sprintSpeed * 10));
-        uiElements.add(sprintMulltiplier = new Slider(1, xRight, y += 21, 0F, 10F, 200).setDisplayString("SprintSpeedMultiplier").setDefaultValue((float) config.sprintSpeedMult));
+        uiElements.add(sprintMultiplier = new Slider(1, xRight, y += 21, 0F, 10F, 200).setDisplayString("SprintSpeedMultiplier").setDefaultValue((float) config.sprintSpeedMult));
         uiElements.add(jumpMultiplier = new Slider(1, xRight, y += 21, 0F, 1F, 200).setDisplayString("JumpMultiplier").setDefaultValue((float) config.jumpModifier));
         uiElements.add(leftRightMultiplier = new Slider(1, xRight, y += 21, 0F, 1F, 200).setDisplayString("Left/RightMultiplier").setDefaultValue((float) config.lrModifier));
 
@@ -177,10 +177,10 @@ public abstract class ConfigGui extends GuiScreen
         speedHold.addToolTip(hold);
         fbHold.addToolTip(hold);
         flySpeed.addToolTip(new ToolTip("FlySpeed", new String[]{"Set the base fly speed."}));
-        flyMulltiplier.addToolTip(new ToolTip("FlySpeedMultiplier", new String[]{"Set the boosted fly speed (toggled", "by the speed key)"}));
+        flyMultiplier.addToolTip(new ToolTip("FlySpeedMultiplier", new String[]{"Set the boosted fly speed (toggled", "by the speed key)"}));
         flySmoothing.addToolTip(new ToolTip("FlySmoothing", new String[]{"Set the amount of momentum to be applied", "when flying."}));
         sprintSpeed.addToolTip(new ToolTip("SprintSpeed", new String[]{"Set the base sprint speed."}));
-        sprintMulltiplier.addToolTip(new ToolTip("SprintSpeedMultiplier", new String[]{"Set the boosted sprint speed (toggled by", "the speed key)."}));
+        sprintMultiplier.addToolTip(new ToolTip("SprintSpeedMultiplier", new String[]{"Set the boosted sprint speed (toggled by", "the speed key)."}));
         jumpMultiplier.addToolTip(new ToolTip("JumpMultiplier", new String[]{"Adjust the amount of vertical speed to", "be applied when jumping with sprint mod", "on."}));
         leftRightMultiplier.addToolTip(new ToolTip("Left/RightMultiplier", new String[]{"Adjust the amount of side-to-side speed", "to be applied when strafing with sprint or", "fly mod on."}));
     }
@@ -213,13 +213,9 @@ public abstract class ConfigGui extends GuiScreen
     {
         boolean exit = keyId == Keyboard.KEY_ESCAPE;
         for (UIElement e : uiElements)
-        {
             if (e.keyInput(keyChar, keyId))
-            {
                 exit = false;
-            }
-        }
-        return exit || LiteModDaFlight.MENU_BINDING.isKeyPressed();
+        return exit || KeyBinds.MENU_BINDING.isKeyPressed();
     }
 
     public void handleScrollbar(int mouseX, int mouseY)
@@ -280,10 +276,10 @@ public abstract class ConfigGui extends GuiScreen
         config.showHud = showHud.getToggleState();
 
         config.flySpeed = flySpeed.getValue() / 10F;
-        config.flySpeedMult = flyMulltiplier.getValue();
+        config.flySpeedMult = flyMultiplier.getValue();
         config.flySmoothing = flySmoothing.getValue();
         config.sprintSpeed = sprintSpeed.getValue() / 10F;
-        config.sprintSpeedMult = sprintMulltiplier.getValue();
+        config.sprintSpeedMult = sprintMultiplier.getValue();
         config.jumpModifier = jumpMultiplier.getValue();
         config.lrModifier = leftRightMultiplier.getValue();
 

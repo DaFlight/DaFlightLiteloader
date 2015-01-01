@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
 import net.minecraft.client.gui.Gui;
 
@@ -23,7 +23,7 @@ public class ScrollBar extends Gui implements UIElement
 {
     private static final int BAR = 0x66D1D1D1;
     private static final int BAR_HOVER = 0x99B3B3B3;
-    private static final int RUNNER = 0x66B3B3B3;
+    private static final int RUNNER = 0xFF9E9E9E;
     private static final int RUNNER_HOVER = 0xFFD1D1D1;
     private static final int RUNNER_LENGTH = 15;
 

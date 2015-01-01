@@ -15,7 +15,7 @@ package me.dags.daflight.input;
 
 import me.dags.daflight.input.binds.BindType;
 import me.dags.daflight.input.binds.KeyBind;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.player.Direction;
 import me.dags.daflight.player.Vector;
@@ -25,7 +25,7 @@ import me.dags.daflight.utils.Config;
  * @author dags_ <dags@dags.me>
  */
 
-public class MovementHandler extends MinecraftGame
+public class MovementHandler extends MCGame
 {
 
     private static final double sr = 1 / Math.sqrt(2);

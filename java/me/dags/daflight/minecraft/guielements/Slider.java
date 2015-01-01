@@ -11,9 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.settings.GameSettings;
@@ -63,7 +63,7 @@ public class Slider extends GuiOptionSlider implements UIElement
     @Override
     public void drawElement(int mouseX, int mouseY)
     {
-        this.drawButton(MinecraftGame.getMinecraft(), mouseX, mouseY);
+        this.drawButton(MCGame.getMinecraft(), mouseX, mouseY);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Slider extends GuiOptionSlider implements UIElement
     @Override
     public boolean mouseInput(int mouseX, int mouseY)
     {
-        return super.mousePressed(MinecraftGame.getMinecraft(), mouseX, mouseY);
+        return super.mousePressed(MCGame.getMinecraft(), mouseX, mouseY);
     }
 
     @Override

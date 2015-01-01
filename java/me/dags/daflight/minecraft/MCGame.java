@@ -24,7 +24,7 @@ import net.minecraft.util.MathHelper;
 /**
  * @author dags_ <dags@dags.me>
  */
-public class MinecraftGame
+public class MCGame
 {
 
     private static ScaledResolution scaledResolution;

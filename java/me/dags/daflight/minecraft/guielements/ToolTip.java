@@ -11,9 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -43,7 +43,7 @@ public class ToolTip extends Gui
 
             for (String s : lines)
             {
-                int var7 = MinecraftGame.getMinecraft().fontRendererObj.getStringWidth(s);
+                int var7 = MCGame.getMinecraft().fontRendererObj.getStringWidth(s);
                 if (var7 > var4)
                 {
                     var4 = var7;
@@ -75,7 +75,7 @@ public class ToolTip extends Gui
 
             for (int i = 0; i < lines.length; i++)
             {
-                MinecraftGame.getMinecraft().fontRendererObj.drawStringWithShadow(lines[i], xPos, yPos, -1);
+                MCGame.getMinecraft().fontRendererObj.drawStringWithShadow(lines[i], xPos, yPos, -1);
                 if (i == 0)
                     yPos += 2;
                 yPos += 10;

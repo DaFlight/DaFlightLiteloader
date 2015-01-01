@@ -15,7 +15,7 @@ package me.dags.daflight.utils;
 
 import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.util.log.LiteLoaderLogger;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class Tools extends MinecraftGame
+public class Tools extends MCGame
 {
 
     public static DecimalFormat df1;

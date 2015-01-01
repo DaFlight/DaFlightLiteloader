@@ -11,9 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
@@ -54,7 +54,7 @@ public class BindButton extends GuiButton implements UIElement
     @Override
     public void drawElement(int mouseX, int mouseY)
     {
-        super.drawButton(MinecraftGame.getMinecraft(), mouseX, mouseY);
+        super.drawButton(MCGame.getMinecraft(), mouseX, mouseY);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class BindButton extends GuiButton implements UIElement
     @Override
     public boolean mouseInput(int x, int y)
     {
-        active = super.mousePressed(MinecraftGame.getMinecraft(), x, y);
+        active = super.mousePressed(MCGame.getMinecraft(), x, y);
         super.displayString = getDisplayString();
         return active;
     }

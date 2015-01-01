@@ -19,14 +19,14 @@ import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigStrategy;
 import com.mumfrey.liteloader.modconfig.Exposable;
 import com.mumfrey.liteloader.modconfig.ExposableOptions;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
 @ExposableOptions(strategy = ConfigStrategy.Unversioned, filename = "global.json")
-public class GlobalConfig extends MinecraftGame implements Exposable
+public class GlobalConfig extends MCGame implements Exposable
 {
     private static GlobalConfig instance;
 

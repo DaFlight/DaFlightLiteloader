@@ -16,9 +16,12 @@ package me.dags.daflight;
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
+import com.mumfrey.liteloader.util.InputHandler;
+import me.dags.daflight.input.KeybindHandler;
+import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.input.binds.MenuBind;
 import me.dags.daflight.messaging.PluginChannelUtil;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.gui.LiteloaderMenu;
 import me.dags.daflight.gui.hud.HUD;
@@ -42,7 +45,6 @@ import java.util.List;
 
 public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUDRenderListener, JoinGameListener, PluginChannelListener
 {
-    public static final MenuBind MENU_BINDING = new MenuBind("Quick Menu", Keyboard.KEY_F10, "DaFlight");
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean wasInGame = false;
     private static HUD hud;
@@ -65,7 +67,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
         Config.getInstance();
         Config.applySettings();
         GlobalConfig.applyDefaults();
-        LiteLoader.getInput().registerKeyBinding(MENU_BINDING);
+        LiteLoader.getInput().registerKeyBinding(KeyBinds.MENU_BINDING);
     }
 
     @Override
@@ -83,13 +85,15 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
-        if (clock && MENU_BINDING.isKeyPressed())
-            MENU_BINDING.displayGui();
-        if (clock && !inGame && wasInGame)
+        if (clock)
         {
-            wasInGame = false;
-            Config.reloadConfig();
-            Config.applySettings();
+            KeybindHandler.checkMenuKey();
+            if (!inGame && wasInGame)
+            {
+                wasInGame = false;
+                Config.reloadConfig();
+                Config.applySettings();
+            }
         }
         if (!Config.getInstance().disabled)
         {
@@ -144,11 +148,11 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
     public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket)
     {
         DAPLAYER.onGameJoin();
-        if (GlobalConfig.perServerConfig() && !MinecraftGame.getMinecraft().isSingleplayer())
+        if (GlobalConfig.perServerConfig() && !MCGame.getMinecraft().isSingleplayer())
         {
             Config.loadServerConfig();
             Config.applySettings();
-            Tools.tellPlayer("Server config loaded for: " + MinecraftGame.getServerData().serverIP);
+            Tools.tellPlayer("Server config loaded for: " + MCGame.getServerData().serverIP);
         }
     }
 

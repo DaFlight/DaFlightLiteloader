@@ -11,9 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.gui.elements;
+package me.dags.daflight.minecraft.guielements;
 
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.util.EnumChatFormatting;
 
 public class Label implements UIElement
@@ -43,7 +43,7 @@ public class Label implements UIElement
     @Override
     public void drawElement(int mouseX, int mouseY)
     {
-        MinecraftGame.getMinecraft().fontRendererObj.drawStringWithShadow(this.color + this.label, this.xPos, this.yPos, 0xFFFFFF);
+        MCGame.getMinecraft().fontRendererObj.drawStringWithShadow(this.color + this.label, this.xPos, this.yPos, 0xFFFFFF);
     }
 
     @Override
