@@ -13,8 +13,8 @@
 
 package me.dags.daflight.input.binds;
 
-import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.gui.QuickMenu;
+import me.dags.daflight.minecraft.MCGame;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 

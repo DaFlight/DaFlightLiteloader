@@ -14,10 +14,10 @@
 package me.dags.daflight.input;
 
 import me.dags.daflight.LiteModDaFlight;
+import me.dags.daflight.gui.hud.HUD;
 import me.dags.daflight.input.binds.KeyBind;
 import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.player.DaPlayer;
-import me.dags.daflight.gui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.Tools;
 

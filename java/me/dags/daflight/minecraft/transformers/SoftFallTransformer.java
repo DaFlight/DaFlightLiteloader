@@ -33,12 +33,12 @@ public class SoftFallTransformer extends EventInjectionTransformer
         Event onFall = Event.getOrCreate("onFall", true);
         MethodInfo fall = new MethodInfo(ObfTable.EntityPlayer, ObfTable.fall, "(F)V");
         addEvent(onFall, fall, injectionPoint);
-        onFall.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onFall"));
+        onFall.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onFall"));
 
         Event onSendMotionUpdates = Event.getOrCreate("onSendMotionUpdates", true);
         MethodInfo sendMotionUpdates = new MethodInfo(ObfTable.EntityClientPlayerMP, ObfTable.sendMotionUpdates, "()V");
         addEvent(onSendMotionUpdates, sendMotionUpdates, injectionPoint);
-        onSendMotionUpdates.addListener(new MethodInfo("me.dags.daflight.transformers.EventListener", "onSendMotionUpdates"));
+        onSendMotionUpdates.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onSendMotionUpdates"));
     }
 
 }
