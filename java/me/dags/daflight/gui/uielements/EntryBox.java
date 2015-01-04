@@ -20,53 +20,76 @@
  * THE SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.uielements;
+package me.dags.daflight.gui.uielements;
 
 import me.dags.daflight.gui.UIElement;
+import me.dags.daflight.minecraft.Colour;
 import me.dags.daflight.minecraft.MCGame;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
-public class BindButton extends GuiButton implements UIElement
+public class EntryBox extends GuiTextField implements UIElement
 {
     private ToolTip toolTip;
-    private String name;
-    private String value;
+    private boolean hovered;
+    private String label;
     private String defaultValue;
-    private boolean active;
+    private boolean coloured = true;
+    private boolean isActive;
+    private int xPos;
+    private int height;
     private int defaultY;
 
-    public BindButton(int x, int y, int width, int height, boolean colour, String name, String value, String defaultValue)
+    public EntryBox(int x, int y, int width, int height, String label, String defaultValue, boolean colour)
     {
-        super(0, x, y, width, height, name);
-        this.name = name;
-        this.value = value;
-        super.displayString = getDisplayString();
+        super(0, MCGame.getMinecraft().fontRendererObj, x, y, width, height);
+        this.setFocused(false);
+        this.setEnabled(true);
+        this.coloured = colour;
+        this.xPos = x;
+        this.height = height;
         this.defaultY = y;
+        this.label = label + ": ";
         this.defaultValue = defaultValue;
     }
 
-    public String getDisplayString()
+    public EntryBox setString(String s)
     {
-        return active ? EnumChatFormatting.RED + name + ":" : name + ": " + value;
+        if (coloured)
+        {
+            s = Colour.addColour(s);
+        }
+        this.setText(label + s);
+        return this;
     }
 
-    public void setValue(String s)
+    public void setActive()
     {
-        value = s;
-        super.displayString = getDisplayString();
+        this.setText(Colour.stripColour(getText().replace(label, "")));
+        this.setFocused(coloured);
+        this.setTextColor(0xFF5555);
+        this.isActive = true;
+    }
+
+    public void unsetActive()
+    {
+        this.isActive = false;
+        this.setFocused(false);
+        this.setTextColor(0xFFFFFF);
+        this.setString(getText());
+        this.setCursorPositionZero();
     }
 
     public String getValue()
     {
-        return value;
+        return Colour.stripColour(getText().replace(label, ""));
     }
 
     @Override
     public void drawElement(int mouseX, int mouseY)
     {
-        super.drawButton(MCGame.getMinecraft(), mouseX, mouseY);
+        super.drawTextBox();
+        hovered = mouseX >= this.xPos && mouseX <= this.xPos + this.getWidth() && mouseY >= this.yPosition && mouseY <= this.yPosition + this.height;
     }
 
     @Override
@@ -83,41 +106,49 @@ public class BindButton extends GuiButton implements UIElement
     }
 
     @Override
-    public boolean mouseInput(int x, int y)
+    public boolean mouseInput(int mouseX, int mouseY)
     {
-        this.active = super.mousePressed(MCGame.getMinecraft(), x, y);
-        super.displayString = getDisplayString();
-        return active;
+        super.mouseClicked(mouseX, mouseY, 0);
+        if (this.isFocused())
+        {
+            if (!this.isActive)
+            {
+                this.setActive();
+                return true;
+            }
+        }
+        else if (this.isActive)
+        {
+            this.unsetActive();
+        }
+        return false;
     }
 
     @Override
     public boolean shiftClicked()
     {
         if (this.hovered)
-            this.setValue(defaultValue);
+            this.setString(this.defaultValue);
         return this.hovered;
     }
 
     @Override
     public void mouseUnpressed(int mouseX, int mouseY)
     {
-        super.mouseReleased(mouseX, mouseY);
     }
 
     @Override
     public boolean keyInput(char keyChar, int keyId)
     {
-        if (active)
+        if (keyId == Keyboard.KEY_BACK && this.getText().length() == 0)
         {
-            active = false;
-            if (keyId == Keyboard.KEY_ESCAPE)
-            {
-                value = "";
-                super.displayString = getDisplayString();
-                return true;
-            }
-            value = Keyboard.getKeyName(keyId);
-            super.displayString = getDisplayString();
+            return false;
+        }
+        super.textboxKeyTyped(keyChar, keyId);
+        if (this.isActive && (keyId == Keyboard.KEY_RETURN || keyId == Keyboard.KEY_ESCAPE))
+        {
+            this.unsetActive();
+            return true;
         }
         return false;
     }

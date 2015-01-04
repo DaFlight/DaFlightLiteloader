@@ -24,7 +24,6 @@ package me.dags.daflight.gui;
 
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
-import me.dags.daflight.minecraft.ConfigGui;
 
 /**
  * @author dags_ <dags@dags.me>
