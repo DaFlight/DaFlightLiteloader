@@ -1,36 +1,51 @@
 /*
  * Copyright (c) 2014, dags_ <dags@dags.me>
  *
- *  Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
- *  granted, provided that the above copyright notice and this permission notice appear in all copies.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
- *  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL,
- *  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- *  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
- *  USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
-package me.dags.daflight.transformers;
+package me.dags.daflight.minecraft.transformers;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.utils.Config;
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
 @SuppressWarnings("unused")
-public class EventListener extends MinecraftGame
+public class EventListener extends MCGame
 {
     // Prevents FOV changes when toggling flightStatus on
     // Updates player's fly state if needed
@@ -152,4 +167,66 @@ public class EventListener extends MinecraftGame
             e.cancel();
         }
     }
+
+    @SuppressWarnings("unused")
+    public static void getPlayerRelativeBlockHardness(ReturnEventInfo<Block, Float> e, EntityPlayer ep, World w, BlockPos pos)
+    {
+        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        {
+            Block b = e.getSource();
+            float var4 = e.getSource().getBlockHardness(w, pos);
+            float value = var4 < 0.0F ? 0.0F : (!ep.canHarvestBlock(b) ? getToolDigEfficiency(ep, b) / var4 / 100.0F : getToolDigEfficiency(ep, b) / var4 / 30.0F);
+            e.setReturnValue(value);
+            e.cancel();
+        }
+    }
+
+    private static float getToolDigEfficiency(EntityPlayer ep, Block target)
+    {
+        float var2 = ep.inventory.getStrVsBlock(target);
+
+        if (var2 > 1.0F)
+        {
+            int var3 = EnchantmentHelper.getEfficiencyModifier(ep);
+            ItemStack var4 = ep.inventory.getCurrentItem();
+
+            if (var3 > 0 && var4 != null)
+            {
+                var2 += (float)(var3 * var3 + 1);
+            }
+        }
+
+        if (ep.isPotionActive(Potion.digSpeed))
+        {
+            var2 *= 1.0F + (float)(ep.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2F;
+        }
+
+        if (ep.isPotionActive(Potion.digSlowdown))
+        {
+            float var5;
+
+            switch (ep.getActivePotionEffect(Potion.digSlowdown).getAmplifier())
+            {
+                case 0:
+                    var5 = 0.3F;
+                    break;
+
+                case 1:
+                    var5 = 0.09F;
+                    break;
+
+                case 2:
+                    var5 = 0.0027F;
+                    break;
+
+                case 3:
+                default:
+                    var5 = 8.1E-4F;
+            }
+
+            var2 *= var5;
+        }
+        return var2;
+    }
+
 }

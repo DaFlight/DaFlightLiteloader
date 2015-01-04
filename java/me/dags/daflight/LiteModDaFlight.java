@@ -1,30 +1,43 @@
 /*
  * Copyright (c) 2014, dags_ <dags@dags.me>
  *
- *  Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
- *  granted, provided that the above copyright notice and this permission notice appear in all copies.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- *  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
- *  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL,
- *  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
- *  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
- *  USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 package me.dags.daflight;
 
 import com.mojang.realmsclient.dto.RealmsServer;
 import com.mumfrey.liteloader.*;
+import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
-import me.dags.daflight.api.DaFlightUI;
+import me.dags.daflight.gui.LiteloaderMenu;
+import me.dags.daflight.gui.hud.HUD;
+import me.dags.daflight.input.KeybindHandler;
+import me.dags.daflight.input.binds.KeyBinds;
 import me.dags.daflight.messaging.PluginChannelUtil;
-import me.dags.daflight.minecraft.MinecraftGame;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
-import me.dags.daflight.ui.ConfigGUI;
-import me.dags.daflight.ui.hud.HUD;
 import me.dags.daflight.utils.Config;
 import me.dags.daflight.utils.GlobalConfig;
 import me.dags.daflight.utils.Tools;
+import me.dags.daflightapi.DaFlightAPI;
+import me.dags.daflightapi.ui.DaFlightUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.INetHandler;
@@ -39,7 +52,7 @@ import java.util.List;
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurable, JoinGameListener, PluginChannelListener, DaFlightAPI
 {
     public static final DaPlayer DAPLAYER = new DaPlayer();
     public static boolean wasInGame = false;
@@ -54,7 +67,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     @Override
     public String getVersion()
     {
-        return "2.0b9";
+        return "2.1";
     }
 
     @Override
@@ -63,6 +76,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
         Config.getInstance();
         Config.applySettings();
         GlobalConfig.applyDefaults();
+        LiteLoader.getInput().registerKeyBinding(KeyBinds.MENU_BINDING);
     }
 
     @Override
@@ -74,24 +88,25 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     @Override
     public Class<? extends ConfigPanel> getConfigPanelClass()
     {
-        return ConfigGUI.class;
+        return LiteloaderMenu.class;
     }
 
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
-        if (clock && !inGame && wasInGame)
+        if (clock)
         {
-            wasInGame = false;
-            Config.reloadConfig();
-            Config.applySettings();
-        }
-        if (Config.getInstance().disabled)
-        {
-            if (clock)
+            KeybindHandler.checkMenuKey();
+            if (!inGame && wasInGame)
+            {
+                wasInGame = false;
+                Config.reloadConfig();
+                Config.applySettings();
+            }
+            if (Config.getInstance().disabled)
                 DAPLAYER.disableAll();
         }
-        else if (inGame)
+        if (inGame && !Config.getInstance().disabled)
         {
             DAPLAYER.update();
             wasInGame = true;
@@ -139,7 +154,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
     public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket, ServerData serverData, RealmsServer realmsServer)
     {
         DAPLAYER.onGameJoin();
-        if (GlobalConfig.perServerConfig() && !MinecraftGame.getMinecraft().isSingleplayer())
+        if (GlobalConfig.perServerConfig() && !MCGame.getMinecraft().isSingleplayer())
         {
             Config.loadServerConfig();
             Config.applySettings();
@@ -147,8 +162,8 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
         }
     }
 
-    @SuppressWarnings("unused")
-    public static DaFlightUI getDaFlightUI()
+    @Override
+    public DaFlightUI getDaFlightUI()
     {
         return getHud();
     }
