@@ -27,18 +27,12 @@ import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.utils.Config;
-import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -87,18 +81,6 @@ public class EventListener extends MCGame
             e.cancel();
         }
     }
-
-    /*
-    // Ignore ladder effects if player is flying
-    @SuppressWarnings("unused")
-    public static void isOnLadder(ReturnEventInfo<EntityLivingBase, Boolean> e)
-    {
-        if (e.getSource().getEntityId() == getPlayer().getEntityId() && LiteModDaFlight.DAPLAYER.flyModOn)
-        {
-            e.setReturnValue(false);
-        }
-    }
-    */
 
     private static int ticksSinceMovePacket = 0;
     private static boolean wasSneaking = false;
@@ -169,64 +151,12 @@ public class EventListener extends MCGame
     }
 
     @SuppressWarnings("unused")
-    public static void getPlayerRelativeBlockHardness(ReturnEventInfo<Block, Float> e, EntityPlayer ep, World w, BlockPos pos)
+    public static void onJump(EventInfo<EntityPlayer> e)
     {
-        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        if (LiteModDaFlight.DAPLAYER.sprintModOn && !e.getSource().capabilities.isFlying)
         {
-            Block b = e.getSource();
-            float var4 = e.getSource().getBlockHardness(w, pos);
-            float value = var4 < 0.0F ? 0.0F : (!ep.canHarvestBlock(b) ? getToolDigEfficiency(ep, b) / var4 / 100.0F : getToolDigEfficiency(ep, b) / var4 / 30.0F);
-            e.setReturnValue(value);
+            e.getSource().motionY = 0.42F * Config.getInstance().jumpModifier;
             e.cancel();
         }
     }
-
-    private static float getToolDigEfficiency(EntityPlayer ep, Block target)
-    {
-        float var2 = ep.inventory.getStrVsBlock(target);
-
-        if (var2 > 1.0F)
-        {
-            int var3 = EnchantmentHelper.getEfficiencyModifier(ep);
-            ItemStack var4 = ep.inventory.getCurrentItem();
-
-            if (var3 > 0 && var4 != null)
-            {
-                var2 += (float)(var3 * var3 + 1);
-            }
-        }
-
-        if (ep.isPotionActive(Potion.digSpeed))
-        {
-            var2 *= 1.0F + (float)(ep.getActivePotionEffect(Potion.digSpeed).getAmplifier() + 1) * 0.2F;
-        }
-
-        if (ep.isPotionActive(Potion.digSlowdown))
-        {
-            float var5;
-
-            switch (ep.getActivePotionEffect(Potion.digSlowdown).getAmplifier())
-            {
-                case 0:
-                    var5 = 0.3F;
-                    break;
-
-                case 1:
-                    var5 = 0.09F;
-                    break;
-
-                case 2:
-                    var5 = 0.0027F;
-                    break;
-
-                case 3:
-                default:
-                    var5 = 8.1E-4F;
-            }
-
-            var2 *= var5;
-        }
-        return var2;
-    }
-
 }

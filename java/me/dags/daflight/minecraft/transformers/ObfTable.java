@@ -41,14 +41,9 @@ public class ObfTable extends Obf
 
     public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "ahd");
     public static ObfTable fall = new ObfTable("func_180430_e", "e", "fall");
+    public static ObfTable jump = new ObfTable("func_70664_aZ", "bE", "jump");
 
     public static String listenerPath = EventListener.class.getCanonicalName();
-
-    /*
-     * Can't seem to transform this :[
-        public static ObfTable EntityLivingBase = new ObfTable("net.minecraft.entity.EntityLivingBase", "xm");
-        public static ObfTable isOnLadder = new ObfTable("func_70617_f_", "j_", "isOnLadder");
-    */
 
     public ObfTable(String seargeName, String obfName)
     {

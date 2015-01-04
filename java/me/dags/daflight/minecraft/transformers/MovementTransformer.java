@@ -31,7 +31,7 @@ import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
  * @author dags_ <dags@dags.me>
  */
 
-public class SoftFallTransformer extends EventInjectionTransformer
+public class MovementTransformer extends EventInjectionTransformer
 {
     @Override
     protected void addEvents()
@@ -47,5 +47,10 @@ public class SoftFallTransformer extends EventInjectionTransformer
         MethodInfo updateWalkingPlayer = new MethodInfo(ObfTable.EntityPlayerSP, ObfTable.onUpdateWalkingPlayer, "()V");
         addEvent(onUpdateWalkingPlayer, updateWalkingPlayer, injectionPoint);
         onUpdateWalkingPlayer.addListener(new MethodInfo(ObfTable.listenerPath, "onUpdateWalkingPlayer"));
+
+        Event onJump = Event.getOrCreate("onJump", true);
+        MethodInfo jump = new MethodInfo(ObfTable.EntityPlayer, ObfTable.jump, "()V");
+        addEvent(onJump, jump, injectionPoint);
+        onJump.addListener(new MethodInfo(ObfTable.listenerPath, "onJump"));
     }
 }
