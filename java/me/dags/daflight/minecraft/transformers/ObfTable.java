@@ -24,6 +24,7 @@ public class ObfTable extends Obf
 
     public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "yz");
     public static ObfTable fall = new ObfTable("func_70069_a", "b", "fall");
+    public static ObfTable jump = new ObfTable("func_70664_aZ", "bj", "jump");
 
     public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "blk");
     public static ObfTable getFOVModifier = new ObfTable("func_71151_f", "t", "getFOVMultiplier");

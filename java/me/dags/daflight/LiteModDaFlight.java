@@ -55,7 +55,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
     @Override
     public String getVersion()
     {
-        return "2.1r1";
+        return "2.1";
     }
 
     @Override

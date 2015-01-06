@@ -6,6 +6,6 @@
     "description": "A fly mod!",
     "classTransformerClasses": [
             "me.dags.daflight.minecraft.transformers.ViewTransformer",
-            "me.dags.daflight.minecraft.transformers.SoftFallTransformer"
+            "me.dags.daflight.minecraft.transformers.MovementTransformer"
         ]
 }

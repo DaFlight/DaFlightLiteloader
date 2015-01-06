@@ -17,6 +17,7 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.minecraft.MCGame;
+import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -31,7 +32,6 @@ import net.minecraft.network.play.client.C0BPacketEntityAction;
 @SuppressWarnings("unused")
 public class EventListener extends MCGame
 {
-
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<EntityPlayerSP, Float> e)
     {
@@ -129,6 +129,15 @@ public class EventListener extends MCGame
                 oldRotationPitch = ep.rotationPitch;
                 oldRotationYaw = ep.rotationYaw;
             }
+            e.cancel();
+        }
+    }
+
+    public static void onJump(EventInfo<EntityPlayer> e)
+    {
+        if (LiteModDaFlight.DAPLAYER.sprintModOn && !e.getSource().capabilities.isFlying)
+        {
+            e.getSource().motionY = 0.42F * Config.getInstance().jumpModifier;
             e.cancel();
         }
     }
