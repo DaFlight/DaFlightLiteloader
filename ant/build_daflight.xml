@@ -1,31 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!--
-  ~ Copyright (c) 2014, dags_ <dags@dags.me>
-  ~
-  ~  Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby
-  ~  granted, provided that the above copyright notice and this permission notice appear in all copies.
-  ~
-  ~  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING
-  ~  ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL,
-  ~  DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-  ~  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
-  ~  USE OR PERFORMANCE OF THIS SOFTWARE.
-  -->
-
-<!-- This file is part of the LiteLoader Example mod and is provided for you to use as a base    -->
-<!-- for your own build scripts. This file is provided with ABSOLUTELY NO WARRANTY and I won't   -->
-<!-- be responsible for any failures caused by using this script such as premature hair loss or  -->
-<!-- accidental triggering of global thermonuclear warfare.                                      -->
-<!--                                                                                             -->
-<!-- Like the liteloader build script, this build script requires the clean MCP sources to be    -->
-<!-- located in MCPDIR/src/mcp and NOT in MCPDIR/src/minecraft: that folder will be DELETED by   -->
-<!-- this script and therefore anything contained within it will be lost, so if you're working   -->
-<!-- in a "traditional" MCP setup then DO NOT RUN THIS SCRIPT WITHOUT BACKING UP YOUR WORK!      -->
-<!--                                                                                             -->
-<!-- The file is well commented and you should have a read through this script before making     -->
-<!-- changes to ensure that you know how it works.                                               -->
-
 <project name="DaFlight" basedir="." default="main">
 
 	<!-- The version of your mod, can be any string as long as it's valid as part of a file name -->
@@ -164,14 +138,10 @@
 	<target name="contributesource" description="Contribute an upstream project source code to the source path">
 		<echo level="info" message="Contributing project ${lib}" />
 		<copy todir="${target.dir}" verbose="false" overwrite="true" failonerror="false">
-			<!-- Eclipse default -->
-			<fileset dir="${eclipse.dir}/${lib}/src" />
 			<!-- Legacy default -->
 			<fileset dir="${eclipse.dir}/${lib}/java" />
 
             <fileset dir="${eclipse.dir}/${project}/DaFlightCommon/java" />
-			<!-- Maven default -->
-			<fileset dir="${eclipse.dir}/${lib}/src/main/java" />
 		</copy>
 	</target>
 
@@ -179,21 +149,11 @@
 	<target name="contributeresources" description="Contribute resources to the staging path">
 		<echo level="info" message="Contributing project resources for ${lib}" />
 		<copy todir="${stage.dir}" verbose="false" failonerror="false">
-			<fileset dir="${eclipse.dir}/${lib}/res" excludes=".svn/**">
-				<exclude name="**/Thumbs.db" />
-				<exclude name="**/classes" />
-				<exclude name="liteloader.properties" />
-			</fileset>
             <fileset dir="${eclipse.dir}/${project}/DaFlightCommon/res" excludes=".svn/**">
                 <exclude name="**/Thumbs.db" />
                 <exclude name="**/classes" />
                 <exclude name="liteloader.properties" />
             </fileset>
-			<fileset dir="${eclipse.dir}/${lib}/src/main/resources" excludes=".svn/**">
-				<exclude name="**/Thumbs.db" />
-				<exclude name="**/classes" />
-				<exclude name="liteloader.properties" />
-			</fileset>
 		</copy>
 	</target>
 	

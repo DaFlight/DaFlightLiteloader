@@ -14,3 +14,4 @@ hs_err_pid*
 Mess/
 bin/
 debug/
+ant/buildnumber.txt

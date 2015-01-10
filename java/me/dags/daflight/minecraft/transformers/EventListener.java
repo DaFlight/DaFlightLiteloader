@@ -137,7 +137,7 @@ public class EventListener extends MCGame
     {
         if (LiteModDaFlight.DAPLAYER.sprintModOn && !e.getSource().capabilities.isFlying)
         {
-            e.getSource().motionY = 0.42F * Config.getInstance().jumpModifier;
+            e.getSource().motionY = 4.2F * Config.getInstance().jumpModifier * LiteModDaFlight.DAPLAYER.getSpeed();
             e.cancel();
         }
     }
