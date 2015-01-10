@@ -26,6 +26,7 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.LiteModDaFlight;
 import me.dags.daflight.minecraft.MCGame;
+import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -155,7 +156,7 @@ public class EventListener extends MCGame
     {
         if (LiteModDaFlight.DAPLAYER.sprintModOn && !e.getSource().capabilities.isFlying)
         {
-            e.getSource().motionY = 0.42F * Config.getInstance().jumpModifier;
+            e.getSource().motionY = 4.2F * Config.getInstance().jumpModifier * LiteModDaFlight.DAPLAYER.getSpeed();
             e.cancel();
         }
     }
