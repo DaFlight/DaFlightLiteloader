@@ -104,8 +104,8 @@ public class PluginChannelUtil
                 case 100:
                     // MaxSpeed perms
                     Tools.tellPlayer("Max speed set by server! " + value);
-                    LiteModDaFlight.DAPLAYER.flySpeed.setMaxSpeed((double) value);
-                    LiteModDaFlight.DAPLAYER.sprintSpeed.setMaxSpeed((double) value);
+                    LiteModDaFlight.DAPLAYER.flySpeed.setMaxSpeed(value);
+                    LiteModDaFlight.DAPLAYER.sprintSpeed.setMaxSpeed(value);
                     LiteModDaFlight.getHud().updateMsg();
                     break;
             }
