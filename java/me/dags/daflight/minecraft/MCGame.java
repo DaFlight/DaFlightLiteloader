@@ -27,15 +27,13 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.*;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 public class MCGame
 {
-
     private static ScaledResolution scaledResolution;
     private static int lastGuiScale = 0;
     private static int lastWidth = 0;
@@ -56,10 +54,16 @@ public class MCGame
         return GameSettings.Options.getEnumOptions(0);
     }
 
-    public static ChatComponentText getMessage(String s)
+    public static IChatComponent getMessage(String s)
     {
-        String format = Colour.DARK_PURPLE + "[DaFlight]" + Colour.GREY + " %2$s";
-        return new ChatComponentText(format.replace("%2$s", s));
+        IChatComponent message = new ChatComponentText("[DaFlight] ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_PURPLE));
+        message.appendSibling(new ChatComponentText(s).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY)));
+        return message;
+    }
+
+    public static void tellPlayer(String msg)
+    {
+        getPlayer().addChatMessage(getMessage(msg));
     }
 
     public static boolean onSolidBlock()

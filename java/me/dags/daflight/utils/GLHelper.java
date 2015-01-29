@@ -5,10 +5,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 
 import static com.mumfrey.liteloader.gl.GL.*;
 
-/**
- * @author dags_ <dags@dags.me>
- */
-
 public class GLHelper
 {
     public static void glDrawTexturedRect(int x, int y, int width, int height, int u, int v, int u2, int v2)
@@ -19,7 +15,7 @@ public class GLHelper
         glEnableTexture2D();
         glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        float texMapScale = 0.001953125F; // 512px
+        float texMapScale = 0.001953125F;
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldRenderer = tessellator.getWorldRenderer();

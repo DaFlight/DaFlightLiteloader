@@ -158,7 +158,7 @@ public class LiteModDaFlight implements Tickable, HUDRenderListener, Configurabl
         {
             Config.loadServerConfig();
             Config.applySettings();
-            Tools.tellPlayer("Server config loaded for: " + serverData.serverIP);
+            MCGame.tellPlayer("Server config loaded for: " + serverData.serverIP);
         }
     }
 
