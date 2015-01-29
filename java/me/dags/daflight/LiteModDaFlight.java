@@ -149,7 +149,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
         {
             Config.loadServerConfig();
             Config.applySettings();
-            Tools.tellPlayer("Server config loaded for: " + MCGame.getServerData().serverIP);
+            MCGame.tellPlayer("Server config loaded for: " + MCGame.getServerData().serverIP);
         }
     }
 

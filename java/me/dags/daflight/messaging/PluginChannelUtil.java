@@ -16,6 +16,7 @@ package me.dags.daflight.messaging;
 import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
 import me.dags.daflight.LiteModDaFlight;
+import me.dags.daflight.minecraft.MCGame;
 import me.dags.daflight.player.DaPlayer;
 import me.dags.daflight.utils.Tools;
 
@@ -42,7 +43,7 @@ public class PluginChannelUtil
                     {
                         if (DaPlayer.DF_PERMISSIONS.fbEnabled())
                         {
-                            Tools.tellPlayer("Fullbright disabled!");
+                            MCGame.tellPlayer("Fullbright disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFullbrightEnabled(false);
                     }
@@ -50,7 +51,7 @@ public class PluginChannelUtil
                     {
                         if (!DaPlayer.DF_PERMISSIONS.fbEnabled())
                         {
-                            Tools.tellPlayer("Fullbright enabled!");
+                            MCGame.tellPlayer("Fullbright enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setFullbrightEnabled(true);
                     }
@@ -61,7 +62,7 @@ public class PluginChannelUtil
                     {
                         if (DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            Tools.tellPlayer("Fly/Sprint mod disabled!");
+                            MCGame.tellPlayer("Fly/Sprint mod disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setMovementModsEnabled(false);
                         LiteModDaFlight.DAPLAYER.disableMovementMods();
@@ -70,7 +71,7 @@ public class PluginChannelUtil
                     {
                         if (!DaPlayer.DF_PERMISSIONS.flyEnabled())
                         {
-                            Tools.tellPlayer("Fly/Sprint mod enabled!");
+                            MCGame.tellPlayer("Fly/Sprint mod enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setMovementModsEnabled(true);
                     }
@@ -81,7 +82,7 @@ public class PluginChannelUtil
                     {
                         if (DaPlayer.DF_PERMISSIONS.noFallDamageEnabled())
                         {
-                            Tools.tellPlayer("Survival SoftFall disabled!");
+                            MCGame.tellPlayer("Survival SoftFall disabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setNoFallDamage(false);
                     }
@@ -89,7 +90,7 @@ public class PluginChannelUtil
                     {
                         if (!DaPlayer.DF_PERMISSIONS.noFallDamageEnabled())
                         {
-                            Tools.tellPlayer("Survival SoftFall enabled!");
+                            MCGame.tellPlayer("Survival SoftFall enabled!");
                         }
                         DaPlayer.DF_PERMISSIONS.setNoFallDamage(true);
                     }
@@ -103,7 +104,7 @@ public class PluginChannelUtil
                     break;
                 case 100:
                     // MaxSpeed perms
-                    Tools.tellPlayer("Max speed set by server! " + value);
+                    MCGame.tellPlayer("Max speed set by server! " + value);
                     LiteModDaFlight.DAPLAYER.flySpeed.setMaxSpeed(value);
                     LiteModDaFlight.DAPLAYER.sprintSpeed.setMaxSpeed(value);
                     LiteModDaFlight.getHud().updateMsg();
