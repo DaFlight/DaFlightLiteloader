@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.transformers;
+package me.dags.daflightliteloader.minecraft.transformers;
 
 import com.mumfrey.liteloader.core.runtime.Obf;
 

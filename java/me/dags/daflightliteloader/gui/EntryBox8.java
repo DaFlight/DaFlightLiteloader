@@ -1,34 +1,17 @@
-/*
- * Copyright (c) 2014, dags_ <dags@dags.me>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+package me.dags.daflightliteloader.gui;
 
-package me.dags.daflight.gui.uielements;
-
-import me.dags.daflight.gui.UIElement;
+import me.dags.daflight.DaFlight;
+import me.dags.daflight.gui.uielements.ToolTip;
 import me.dags.daflight.minecraft.Colour;
-import me.dags.daflight.minecraft.MCGame;
+import me.dags.daflightapi.ui.element.IEntryBox;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
-public class EntryBox extends GuiTextField implements UIElement
+/**
+ * @author dags_ <dags@dags.me>
+ */
+
+public class EntryBox8 extends GuiTextField implements IEntryBox
 {
     private ToolTip toolTip;
     private boolean hovered;
@@ -40,9 +23,9 @@ public class EntryBox extends GuiTextField implements UIElement
     private int height;
     private int defaultY;
 
-    public EntryBox(int x, int y, int width, int height, String label, String defaultValue, boolean colour)
+    public EntryBox8(int x, int y, int width, int height, String label, String defaultValue, boolean colour)
     {
-        super(0, MCGame.getMinecraft().fontRendererObj, x, y, width, height);
+        super(0, DaFlight.getMC().getMinecraft().fontRendererObj, x, y, width, height);
         this.setFocused(false);
         this.setEnabled(true);
         this.coloured = colour;
@@ -53,7 +36,7 @@ public class EntryBox extends GuiTextField implements UIElement
         this.defaultValue = defaultValue;
     }
 
-    public EntryBox setString(String s)
+    public IEntryBox setString(String s)
     {
         if (coloured)
         {

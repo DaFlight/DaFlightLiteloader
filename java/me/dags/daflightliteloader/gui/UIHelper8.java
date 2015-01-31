@@ -1,13 +1,21 @@
-package me.dags.daflight.utils;
+package me.dags.daflightliteloader.gui;
 
+import me.dags.daflightapi.ui.UIHelper;
+import me.dags.daflightapi.ui.element.IEntryBox;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 
 import static com.mumfrey.liteloader.gl.GL.*;
 
-public class GLHelper
+public class UIHelper8 implements UIHelper
 {
-    public static void glDrawTexturedRect(int x, int y, int width, int height, int u, int v, int u2, int v2)
+    @Override
+    public IEntryBox getEntryBox(int x, int y, int width, int height, String label, String defaultValue, boolean colour)
+    {
+        return new EntryBox8(x, y, width, height, label, defaultValue, colour);
+    }
+
+    public void glDrawTexturedRect(int x, int y, int width, int height, int u, int v, int u2, int v2)
     {
         glDisableLighting();
         glEnableBlend();
