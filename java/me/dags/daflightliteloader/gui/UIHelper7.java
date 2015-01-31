@@ -11,8 +11,10 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.utils;
+package me.dags.daflightliteloader.gui;
 
+import me.dags.daflightapi.ui.element.IEntryBox;
+import me.dags.daflightapi.ui.UIHelper;
 import net.minecraft.client.renderer.Tessellator;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -21,9 +23,16 @@ import static org.lwjgl.opengl.GL11.*;
  * @author dags_ <dags@dags.me>
  */
 
-public class GLHelper
+public class UIHelper7 implements UIHelper
 {
-    public static void glDrawTexturedRect(int x, int y, int width, int height, int u, int v, int u2, int v2)
+    @Override
+    public IEntryBox getEntryBox(int x, int y, int width, int height, String label, String defaultValue, boolean colour)
+    {
+        return new EntryBox7(x, y, width, height,label, defaultValue, colour);
+    }
+
+    @Override
+    public void glDrawTexturedRect(int x, int y, int width, int height, int u, int v, int u2, int v2)
     {
         glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);

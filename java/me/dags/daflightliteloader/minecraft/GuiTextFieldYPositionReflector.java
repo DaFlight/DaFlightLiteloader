@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.reflection;
+package me.dags.daflightliteloader.minecraft;
 
 import me.dags.daflight.utils.FieldReflector;
 import net.minecraft.client.gui.GuiTextField;

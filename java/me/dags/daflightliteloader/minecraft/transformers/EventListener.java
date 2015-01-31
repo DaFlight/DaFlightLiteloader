@@ -11,12 +11,12 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft.transformers;
+package me.dags.daflightliteloader.minecraft.transformers;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
-import me.dags.daflight.LiteModDaFlight;
-import me.dags.daflight.minecraft.MCGame;
+import me.dags.daflight.DaFlight;
+import me.dags.daflightliteloader.minecraft.MCGame;
 import me.dags.daflight.utils.Config;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -35,7 +35,7 @@ public class EventListener extends MCGame
     @SuppressWarnings("unused")
     public static void onFovCheck(ReturnEventInfo<EntityPlayerSP, Float> e)
     {
-        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        if (DaFlight.get().daPlayer.flyModOn)
         {
             e.setReturnValue(1.0F);
             e.cancel();
@@ -51,7 +51,7 @@ public class EventListener extends MCGame
     @SuppressWarnings("unused")
     public static void onSetupViewBobbing(EventInfo<EntityRenderer> e, float f)
     {
-        if (LiteModDaFlight.DAPLAYER.flyModOn)
+        if (DaFlight.get().daPlayer.flyModOn)
         {
             e.cancel();
         }
@@ -60,7 +60,7 @@ public class EventListener extends MCGame
     @SuppressWarnings("unused")
     public static void onFall(EventInfo<EntityPlayer> e, float distance)
     {
-        if (LiteModDaFlight.DAPLAYER.softFallOn())
+        if (DaFlight.get().daPlayer.softFallOn())
         {
             e.cancel();
         }
@@ -77,7 +77,7 @@ public class EventListener extends MCGame
     @SuppressWarnings("unused")
     public static void onSendMotionUpdates(EventInfo<EntityClientPlayerMP> e)
     {
-        if (LiteModDaFlight.DAPLAYER.softFallOn())
+        if (DaFlight.get().daPlayer.softFallOn())
         {
             EntityClientPlayerMP ep = e.getSource();
             boolean sneaking = ep.isSneaking();
@@ -135,9 +135,9 @@ public class EventListener extends MCGame
 
     public static void onJump(EventInfo<EntityPlayer> e)
     {
-        if (LiteModDaFlight.DAPLAYER.sprintModOn && !e.getSource().capabilities.isFlying)
+        if (DaFlight.get().daPlayer.sprintModOn && !e.getSource().capabilities.isFlying)
         {
-            e.getSource().motionY = 0.42F + 1.25F * Config.getInstance().jumpModifier * LiteModDaFlight.DAPLAYER.getSpeed();
+            e.getSource().motionY = 0.42F + 1.25F * Config.getInstance().jumpModifier * DaFlight.get().daPlayer.getSpeed();
             e.cancel();
         }
     }

@@ -11,59 +11,53 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight;
+package me.dags.daflightliteloader;
 
 import com.mumfrey.liteloader.*;
 import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
-import me.dags.daflight.gui.LiteloaderMenu;
-import me.dags.daflight.gui.hud.HUD;
-import me.dags.daflight.input.KeybindHandler;
+import me.dags.daflight.DaFlight;
+import me.dags.daflight.DaFlightMod;
 import me.dags.daflight.input.binds.KeyBinds;
-import me.dags.daflight.messaging.PluginChannelUtil;
-import me.dags.daflight.minecraft.MCGame;
-import me.dags.daflight.player.DaPlayer;
-import me.dags.daflight.utils.Config;
-import me.dags.daflight.utils.GlobalConfig;
-import me.dags.daflight.utils.Tools;
+import me.dags.daflight.messaging.ChannelMessaging;
+import me.dags.daflight.messaging.MessageHandler;
 import me.dags.daflightapi.DaFlightAPI;
 import me.dags.daflightapi.ui.DaFlightUI;
+import me.dags.daflightliteloader.gui.LiteloaderMenu;
+import me.dags.daflightliteloader.messaging.MessageDispatcher;
+import me.dags.daflightliteloader.minecraft.MCGame;
+import me.dags.daflightliteloader.gui.UIHelper7;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
-public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUDRenderListener, JoinGameListener, PluginChannelListener
+public class LiteModDaFlight implements Tickable, Configurable, HUDRenderListener, JoinGameListener, PluginChannelListener, DaFlightAPI
 {
-    public static final DaPlayer DAPLAYER = new DaPlayer();
-    public static boolean wasInGame = false;
-    private static HUD hud;
+    private final DaFlightMod DAFLIGHT_MOD = new DaFlightMod();
 
     @Override
     public String getName()
     {
-        return "DaFlight";
+        return DAFLIGHT_MOD.getName();
     }
 
     @Override
     public String getVersion()
     {
-        return "2.1r2";
+        return DAFLIGHT_MOD.getVersion();
     }
 
     @Override
     public void init(File configPath)
     {
-        Config.getInstance();
-        Config.applySettings();
-        GlobalConfig.applyDefaults();
+        DAFLIGHT_MOD.onInit(new MCGame(), new ChannelMessaging(new MessageHandler(), new MessageDispatcher()), new UIHelper7(), configPath);
         LiteLoader.getInput().registerKeyBinding(KeyBinds.MENU_BINDING);
     }
 
@@ -82,28 +76,7 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
     @Override
     public void onTick(Minecraft m, float t, boolean inGame, boolean clock)
     {
-        if (clock)
-        {
-            KeybindHandler.checkMenuKey();
-            if (!inGame && wasInGame)
-            {
-                wasInGame = false;
-                Config.reloadConfig();
-                Config.applySettings();
-            }
-        }
-        if (!Config.getInstance().disabled)
-        {
-            if (inGame)
-            {
-                DAPLAYER.update();
-                wasInGame = true;
-                if (clock)
-                    DAPLAYER.tickUpdate();
-            }
-        }
-        else if (clock)
-            DAPLAYER.disableAll();
+        DAFLIGHT_MOD.onTick(clock, inGame);
     }
 
     @Override
@@ -114,48 +87,30 @@ public class LiteModDaFlight implements DaFlightAPI, Tickable, Configurable, HUD
     @Override
     public void onPostRenderHUD(int screenWidth, int screenHeight)
     {
-        getHud().render();
-    }
-
-    public static HUD getHud()
-    {
-        if (hud == null)
-        {
-            hud = new HUD();
-        }
-        return hud;
+        DAFLIGHT_MOD.onRender();
     }
 
     @Override
     public List<String> getChannels()
     {
-        Tools.log("Registering DaFlight channel listener");
-        List<String> channel = new ArrayList<String>();
-        channel.add("DaFlight");
-        return channel;
+        return DAFLIGHT_MOD.getPluginChannels();
     }
 
     @Override
     public void onCustomPayload(String channel, int length, byte[] data)
     {
-        PluginChannelUtil.onReceivedPacket(channel, data);
+        DAFLIGHT_MOD.onPluginMessage(channel, data);
     }
 
     @Override
     public void onJoinGame(INetHandler netHandler, S01PacketJoinGame joinGamePacket)
     {
-        DAPLAYER.onGameJoin();
-        if (GlobalConfig.perServerConfig() && !MCGame.getMinecraft().isSingleplayer())
-        {
-            Config.loadServerConfig();
-            Config.applySettings();
-            MCGame.tellPlayer("Server config loaded for: " + MCGame.getServerData().serverIP);
-        }
+        DAFLIGHT_MOD.onJoinGame();
     }
 
     @Override
     public DaFlightUI getDaFlightUI()
     {
-        return getHud();
+        return DaFlight.getHud();
     }
 }

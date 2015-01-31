@@ -11,10 +11,11 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.gui;
+package me.dags.daflightliteloader.gui;
 
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import com.mumfrey.liteloader.modconfig.ConfigPanelHost;
+import me.dags.daflight.gui.ConfigGui;
 
 /**
  * @author dags_ <dags@dags.me>

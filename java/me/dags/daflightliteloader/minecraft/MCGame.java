@@ -11,8 +11,9 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflight.minecraft;
+package me.dags.daflightliteloader.minecraft;
 
+import me.dags.daflightapi.minecraft.MinecraftGame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -23,7 +24,7 @@ import net.minecraft.util.*;
 /**
  * @author dags_ <dags@dags.me>
  */
-public class MCGame
+public class MCGame implements MinecraftGame
 {
 
     private static ScaledResolution scaledResolution;
@@ -35,29 +36,29 @@ public class MCGame
      * Minecraft methods
      */
 
-    public static Minecraft getMinecraft()
+    public Minecraft getMinecraft()
     {
         return Minecraft.getMinecraft();
     }
 
-    public static GameSettings getGameSettings()
+    public GameSettings getGameSettings()
     {
         return getMinecraft().gameSettings;
     }
 
-    public static IChatComponent getMessage(String s)
+    public IChatComponent getMessage(String s)
     {
         IChatComponent message = new ChatComponentText("[DaFlight] ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_PURPLE));
         message.appendSibling(new ChatComponentText(s).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY)));
         return message;
     }
 
-    public static void tellPlayer(String s)
+    public void tellPlayer(String s)
     {
         getPlayer().addChatMessage(getMessage(s));
     }
 
-    public static boolean onSolidBlock()
+    public boolean onSolidBlock()
     {
         int x = floorDouble(getPlayer().posX);
         int y = floorDouble(getPlayer().lastTickPosY) - 2;
@@ -65,22 +66,22 @@ public class MCGame
         return getMinecraft().theWorld.getBlock(x, y, z).getMaterial().isSolid();
     }
 
-    public static int floorDouble(double d)
+    public int floorDouble(double d)
     {
         return MathHelper.floor_double(d);
     }
 
-    public static EntityPlayerSP getPlayer()
+    public EntityPlayerSP getPlayer()
     {
         return getMinecraft().thePlayer;
     }
 
-    public static ServerData getServerData()
+    public ServerData getServerData()
     {
         return getMinecraft().getCurrentServerData();
     }
 
-    public static ScaledResolution getScaledResolution()
+    public ScaledResolution getScaledResolution()
     {
         if (screenSizeChanged())
         {
@@ -92,7 +93,7 @@ public class MCGame
         return scaledResolution;
     }
 
-    public static boolean screenSizeChanged()
+    public boolean screenSizeChanged()
     {
         return scaledResolution == null || getMinecraft().displayWidth != lastWidth || getMinecraft().displayHeight != lastHeight || getGameSettings().guiScale != lastGuiScale;
     }
