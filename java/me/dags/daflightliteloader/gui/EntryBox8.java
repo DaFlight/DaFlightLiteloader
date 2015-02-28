@@ -89,7 +89,7 @@ public class EntryBox8 extends GuiTextField implements IEntryBox
     }
 
     @Override
-    public boolean mouseInput(int mouseX, int mouseY)
+    public boolean mouseInput(int mouseX, int mouseY, int button)
     {
         super.mouseClicked(mouseX, mouseY, 0);
         if (this.isFocused())
