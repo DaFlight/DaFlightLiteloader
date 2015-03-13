@@ -36,15 +36,9 @@ public class ViewTransformer extends EventInjectionTransformer
     @Override
     protected void addEvents()
     {
-        MethodHead injectionPoint = new MethodHead();
-        Event fovCheck = Event.getOrCreate("fovCheck", true);
-        MethodInfo getFOVModifier = new MethodInfo(ObfTable.AbstractClientPlayer, ObfTable.getFOVModifier, "()F");
-        addEvent(fovCheck, getFOVModifier, injectionPoint);
-        fovCheck.addListener(new MethodInfo(ObfTable.listenerPath, "onFovCheck"));
-
         Event onSetupViewBobbing = Event.getOrCreate("onSetupViewBobbing", true);
         MethodInfo setupViewBobbing = new MethodInfo(ObfTable.EntityRenderer, ObfTable.setupViewBobbing, "(F)V");
-        addEvent(onSetupViewBobbing, setupViewBobbing, injectionPoint);
+        addEvent(onSetupViewBobbing, setupViewBobbing, new MethodHead());
         onSetupViewBobbing.addListener(new MethodInfo(ObfTable.listenerPath, "onSetupViewBobbing"));
     }
 

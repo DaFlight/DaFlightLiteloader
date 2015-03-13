@@ -30,18 +30,8 @@ import com.mumfrey.liteloader.core.runtime.Obf;
 
 public class ObfTable extends Obf
 {
-    public static ObfTable AbstractClientPlayer = new ObfTable("net.minecraft.client.entity.AbstractClientPlayer", "cil");
-    public static ObfTable getFOVModifier = new ObfTable("func_175156_o", "o", "getFovModifier");
-
     public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "cji");
     public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "f", "setupViewBobbing");
-
-    public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "cio");
-    public static ObfTable onUpdateWalkingPlayer = new ObfTable("func_175161_p", "p", "onUpdateWalkingPlayer");
-
-    public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "ahd");
-    public static ObfTable fall = new ObfTable("func_180430_e", "e", "fall");
-    public static ObfTable jump = new ObfTable("func_70664_aZ", "bE", "jump");
 
     public static String listenerPath = EventListener.class.getCanonicalName();
 
