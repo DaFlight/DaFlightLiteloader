@@ -49,7 +49,7 @@ public class EntityDaFlier extends EntityClientPlayerMP
     {
         if (DaFlight.get().daPlayer.softFallOn())
         {
-            boolean sneaking = super.isSneaking();
+            boolean sneaking = this.isSneaking();
             if (sneaking != wasSneaking)
             {
                 if (sneaking)
