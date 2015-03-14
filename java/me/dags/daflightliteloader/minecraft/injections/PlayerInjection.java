@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.TypeInsnNode;
 
 public class PlayerInjection extends Injection
 {
-    private static final String DA_FLIER = "me/dags/daflightliteloader/minecraft/extended/EntityDaFlier";
+    private static final String DA_FLIER = "me/dags/daflightliteloader/minecraft/extended/EntityDaFlyer";
     private static final String DA_FLIER_DESC_SRG = "(Lnet/minecraft/client/Minecraft;Lnet/minecraft/world/World;Lnet/minecraft/client/network/NetHandlerPlayClient;Lnet/minecraft/stats/StatFileWriter;)V";
     private static final String DA_FLIER_DESC_OBF = "(Lbsu;Laqu;Lcee;Ltz;)V";
 

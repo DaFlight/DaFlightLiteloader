@@ -16,21 +16,22 @@ import net.minecraft.world.World;
  * @author dags_ <dags@dags.me>
  */
 
-public class EntityDaFlier extends EntityPlayerSP
+public class EntityDaFlyer extends EntityPlayerSP
 {
-    private DaFlightMovement movementInput;
+    private DFMovementInput movementInput;
     private int ticksSinceMovePacket = 0;
     private boolean wasSneaking = false;
+
     private double oldPosX;
     private double oldMinY;
     private double oldPosZ;
     private double oldRotationYaw;
     private double oldRotationPitch;
 
-    public EntityDaFlier(Minecraft mc, World world, NetHandlerPlayClient netHandlerPlayClient, StatFileWriter fileWriter)
+    public EntityDaFlyer(Minecraft mc, World world, NetHandlerPlayClient netHandlerPlayClient, StatFileWriter fileWriter)
     {
         super(mc, world, netHandlerPlayClient, fileWriter);
-        this.movementInput = new DaFlightMovement();
+        this.movementInput = new DFMovementInput();
     }
 
     @Override
@@ -38,7 +39,7 @@ public class EntityDaFlier extends EntityPlayerSP
     {
         if (super.movementInput != this.movementInput)
             super.movementInput = this.movementInput;
-        this.movementInput.block = flyModOn();
+        this.movementInput.block = DaFlight.get().daPlayer.flyModOn;
         super.onLivingUpdate();
     }
 
@@ -67,21 +68,26 @@ public class EntityDaFlier extends EntityPlayerSP
             double pitchChange = rotationPitch - oldRotationPitch;
             boolean sendMovementUpdate = xChange * xChange + yChange * yChange + zChange * zChange > 9.0E-4D || ticksSinceMovePacket >= 20;
             boolean sendLookUpdate = rotationChange != 0.0D || pitchChange != 0.0D;
+            boolean ground = true;
+            if (DaFlight.get().daPlayer.flyModOn)
+            {
+                ground = !this.capabilities.allowFlying;
+            }
             if (sendMovementUpdate && sendLookUpdate)
             {
-                sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, true));
+                sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, ground));
             }
             else if (sendMovementUpdate)
             {
-                sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.getEntityBoundingBox().minY, this.posZ, true));
+                sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(this.posX, this.getEntityBoundingBox().minY, this.posZ, ground));
             }
             else if (sendLookUpdate)
             {
-                sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, true));
+                sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, ground));
             }
             else
             {
-                sendQueue.addToSendQueue(new C03PacketPlayer(true));
+                sendQueue.addToSendQueue(new C03PacketPlayer(ground));
             }
             ++ticksSinceMovePacket;
             if (sendMovementUpdate)
@@ -107,7 +113,7 @@ public class EntityDaFlier extends EntityPlayerSP
     public void moveEntityWithHeading(float f1, float f2)
     {
         super.moveEntityWithHeading(f1, f2);
-        if (this.isOnLadder() && !flyModOn() && sprintModOn())
+        if (this.isOnLadder() && !DaFlight.get().daPlayer.flyModOn && DaFlight.get().daPlayer.sprintModOn)
         {
             if (this.isCollidedHorizontally)
             {
@@ -136,23 +142,21 @@ public class EntityDaFlier extends EntityPlayerSP
     @Override
     public float getFovModifier()
     {
-        if (!DaFlight.getConfig().disabled)
-            if (flyModOn())
+        if (!DaFlight.getConfig().disabled && DaFlight.get().daPlayer.flyModOn)
+        {
+            if (!this.capabilities.isFlying)
             {
-                if (!this.capabilities.isFlying)
-                {
-                    this.capabilities.isFlying = true;
-                    this.sendPlayerAbilities();
-                }
-                return 1.0F;
+                this.capabilities.isFlying = true;
             }
+            return 1.0F;
+        }
         return super.getFovModifier();
     }
 
     @Override
     public boolean isOnLadder()
     {
-        return !flyModOn() && super.isOnLadder();
+        return !DaFlight.get().daPlayer.flyModOn && super.isOnLadder();
     }
 
     @Override
@@ -168,7 +172,7 @@ public class EntityDaFlier extends EntityPlayerSP
     public float getToolDigEfficiency(Block b)
     {
         float f = super.getToolDigEfficiency(b);
-        if (flyModOn() && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
+        if (DaFlight.get().daPlayer.flyModOn && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
             f *= 5.0F;
         return f;
     }
@@ -176,16 +180,6 @@ public class EntityDaFlier extends EntityPlayerSP
     @Override
     public boolean isSneaking()
     {
-        return (flyModOn() && movementInput.wasSneaking) || super.isSneaking();
-    }
-
-    public boolean flyModOn()
-    {
-        return DaFlight.get().daPlayer.flyModOn;
-    }
-
-    public boolean sprintModOn()
-    {
-        return DaFlight.get().daPlayer.sprintModOn;
+        return (DaFlight.get().daPlayer.flyModOn && movementInput.wasSneaking) || super.isSneaking();
     }
 }

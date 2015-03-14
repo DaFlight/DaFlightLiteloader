@@ -7,12 +7,12 @@ import net.minecraft.util.MovementInputFromOptions;
  * @author dags_ <dags@dags.me>
  */
 
-public class DaFlightMovement extends MovementInputFromOptions
+public class DFMovementInput extends MovementInputFromOptions
 {
     public boolean block = false;
     public boolean wasSneaking = false;
 
-    public DaFlightMovement()
+    public DFMovementInput()
     {
         super(DaFlight.getMC().getGameSettings());
     }

@@ -23,6 +23,7 @@
 package me.dags.daflightliteloader.minecraft.transformers;
 
 import com.mumfrey.liteloader.core.runtime.Obf;
+import me.dags.daflightliteloader.minecraft.EventListener;
 
 /**
  * @author dags_ <dags@dags.me>
