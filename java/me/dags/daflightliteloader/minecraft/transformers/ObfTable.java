@@ -21,19 +21,8 @@ import com.mumfrey.liteloader.core.runtime.Obf;
 
 public class ObfTable extends Obf
 {
-
-    public static ObfTable EntityPlayer = new ObfTable("net.minecraft.entity.player.EntityPlayer", "yz");
-    public static ObfTable fall = new ObfTable("func_70069_a", "b", "fall");
-    public static ObfTable jump = new ObfTable("func_70664_aZ", "bj", "jump");
-
-    public static ObfTable EntityPlayerSP = new ObfTable("net.minecraft.client.entity.EntityPlayerSP", "blk");
-    public static ObfTable getFOVModifier = new ObfTable("func_71151_f", "t", "getFOVMultiplier");
-
     public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "blt");
     public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "g", "setupViewBobbing");
-
-    public static ObfTable EntityClientPlayerMP = new ObfTable("net.minecraft.client.entity.EntityClientPlayerMP", "bjk");
-    public static ObfTable sendMotionUpdates = new ObfTable("func_71166_b", "a", "sendMotionUpdates");
 
     public ObfTable(String seargeName, String obfName)
     {
@@ -44,5 +33,4 @@ public class ObfTable extends Obf
     {
         super(seargeName, obfName, mcpName);
     }
-
 }

@@ -18,15 +18,15 @@ import com.mumfrey.liteloader.core.LiteLoader;
 import com.mumfrey.liteloader.modconfig.ConfigPanel;
 import me.dags.daflight.DaFlight;
 import me.dags.daflight.DaFlightMod;
-import me.dags.daflight.input.binds.KeyBinds;
+import me.dags.daflight.input.Binds;
 import me.dags.daflight.messaging.ChannelMessaging;
 import me.dags.daflight.messaging.MessageHandler;
 import me.dags.daflightapi.DaFlightAPI;
 import me.dags.daflightapi.ui.DaFlightUI;
 import me.dags.daflightliteloader.gui.LiteloaderMenu;
+import me.dags.daflightliteloader.gui.UIHelper7;
 import me.dags.daflightliteloader.messaging.MessageDispatcher;
 import me.dags.daflightliteloader.minecraft.MCGame;
-import me.dags.daflightliteloader.gui.UIHelper7;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.play.server.S01PacketJoinGame;
@@ -58,7 +58,7 @@ public class LiteModDaFlight implements Tickable, Configurable, HUDRenderListene
     public void init(File configPath)
     {
         DAFLIGHT_MOD.onInit(new MCGame(), new ChannelMessaging(new MessageHandler(), new MessageDispatcher()), new UIHelper7(), configPath);
-        LiteLoader.getInput().registerKeyBinding(KeyBinds.MENU_BINDING);
+        LiteLoader.getInput().registerKeyBinding(Binds.MENU_BINDING);
     }
 
     @Override
