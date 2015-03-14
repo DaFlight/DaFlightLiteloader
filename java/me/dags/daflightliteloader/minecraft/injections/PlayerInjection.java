@@ -12,7 +12,7 @@ public class PlayerInjection extends Injection
 {
     private static final String DA_FLIER = "me/dags/daflightliteloader/minecraft/extended/EntityDaFlier";
     private static final String DA_FLIER_DESC_SRG = "(Lnet/minecraft/client/Minecraft;Lnet/minecraft/world/World;Lnet/minecraft/util/Session;Lnet/minecraft/client/network/NetHandlerPlayClient;Lnet/minecraft/stats/StatFileWriter;)V";
-    private static final String DA_FLIER_DESC_OBF = "(Lbao;Lbbs;Lahb;bjb;Lpq;)V";
+    private static final String DA_FLIER_DESC_OBF = "(Lbao;Lahb;Lbbs;Lbjb;Lpq;)V";
 
 
     public PlayerInjection()
