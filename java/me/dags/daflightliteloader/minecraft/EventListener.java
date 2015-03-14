@@ -11,7 +11,7 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflightliteloader.minecraft.transformers;
+package me.dags.daflightliteloader.minecraft;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import me.dags.daflight.DaFlight;

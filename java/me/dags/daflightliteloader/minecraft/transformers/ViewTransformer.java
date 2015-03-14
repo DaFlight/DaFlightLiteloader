@@ -17,6 +17,7 @@ import com.mumfrey.liteloader.transformers.event.Event;
 import com.mumfrey.liteloader.transformers.event.EventInjectionTransformer;
 import com.mumfrey.liteloader.transformers.event.MethodInfo;
 import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
+import me.dags.daflightliteloader.minecraft.EventListener;
 
 /**
  * @author dags_ <dags@dags.me>

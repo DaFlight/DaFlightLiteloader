@@ -1,7 +1,7 @@
 package me.dags.daflightliteloader.minecraft.transformers;
 
+import me.dags.daflight.minecraft.DFTransformer;
 import me.dags.daflightliteloader.minecraft.injections.PlayerInjection;
-import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -13,15 +13,14 @@ import org.objectweb.asm.tree.MethodNode;
  * @author dags_ <dags@dags.me>
  */
 
-public class ControllerMPTransformer implements IClassTransformer
+public class ControllerMPTransformer extends DFTransformer
 {
     private final PlayerInjection playerInjection = new PlayerInjection();
 
     @Override
-    public byte[] transform(String className, String transformedName, byte[] classBytes)
+    public boolean matches(String transformedName, boolean isObf)
     {
-        boolean isObf = !transformedName.startsWith("net.minecraft");
-        return transformedName.equals(playerInjection.getClass(isObf)) ? transform(transformedName, classBytes, isObf) : classBytes;
+        return transformedName.equals(playerInjection.getClass(isObf));
     }
 
     public byte[] transform(String transformedName, byte[] classBytes, boolean isObf)

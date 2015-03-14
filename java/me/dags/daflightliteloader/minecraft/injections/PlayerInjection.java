@@ -1,5 +1,6 @@
 package me.dags.daflightliteloader.minecraft.injections;
 
+import me.dags.daflight.minecraft.Injection;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
