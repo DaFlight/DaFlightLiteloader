@@ -42,9 +42,9 @@ public class PlayerTransformer extends EventInjectionTransformer
         addEvent(onSetupViewBobbing, setupViewBobbing, new MethodHead());
         onSetupViewBobbing.addListener(new MethodInfo(ObfTable.listenerPath, "onSetupViewBobbing"));
 
-        Event onUpdateMP = Event.getOrCreate("onUpdateMP", true);
-        MethodInfo onEntityUpdateMP = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onUpdateEntity, "()V");
-        addEvent(onUpdateMP, onEntityUpdateMP, new BeforeReturn());
-        onUpdateMP.addListener(new MethodInfo(ObfTable.listenerPath, "onEntityUpdateMP"));
+        Event onUpdate = Event.getOrCreate("onUpdate", true);
+        MethodInfo onEntityUpdate = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onUpdate, "()V");
+        addEvent(onUpdate, onEntityUpdate, new BeforeReturn());
+        onUpdate.addListener(new MethodInfo(ObfTable.listenerPath, "onEntityUpdate"));
     }
 }

@@ -42,7 +42,7 @@ public class EventListener
         }
     }
 
-    public static void onEntityUpdateMP(EventInfo<EntityPlayer> e)
+    public static void onEntityUpdate(EventInfo<EntityPlayer> e)
     {
         if (e.getSource().capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
         {
