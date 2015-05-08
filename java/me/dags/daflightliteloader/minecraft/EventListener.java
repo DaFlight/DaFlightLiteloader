@@ -25,6 +25,7 @@ package me.dags.daflightliteloader.minecraft;
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import me.dags.daflight.DaFlight;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -35,9 +36,17 @@ public class EventListener
 {
     public static void onSetupViewBobbing(EventInfo<EntityRenderer> e, float f)
     {
-        if (DaFlight.get().daPlayer.flyModOn)
+        if (DaFlight.get().DFController.flyModOn)
         {
             e.cancel();
+        }
+    }
+
+    public static void onEntityUpdateMP(EventInfo<EntityPlayer> e)
+    {
+        if (e.getSource().capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+        {
+            e.getSource().noClip = true;
         }
     }
 }

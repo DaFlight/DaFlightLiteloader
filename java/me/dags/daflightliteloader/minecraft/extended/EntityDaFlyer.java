@@ -39,14 +39,15 @@ public class EntityDaFlyer extends EntityPlayerSP
     {
         if (super.movementInput != this.movementInput)
             super.movementInput = this.movementInput;
-        this.movementInput.block = DaFlight.get().daPlayer.flyModOn;
+        this.movementInput.block = DaFlight.get().DFController.flyModOn;
         super.onLivingUpdate();
+        this.noClip = DaFlight.get().DFController.flyModOn;
     }
 
     @Override
     public void onUpdateWalkingPlayer()
     {
-        if (DaFlight.get().daPlayer.softFallOn())
+        if (DaFlight.get().DFController.softFallOn())
         {
             boolean sneaking = this.isSneaking();
             if (sneaking != wasSneaking)
@@ -69,7 +70,7 @@ public class EntityDaFlyer extends EntityPlayerSP
             boolean sendMovementUpdate = xChange * xChange + yChange * yChange + zChange * zChange > 9.0E-4D || ticksSinceMovePacket >= 20;
             boolean sendLookUpdate = rotationChange != 0.0D || pitchChange != 0.0D;
             boolean ground = true;
-            if (DaFlight.get().daPlayer.flyModOn)
+            if (DaFlight.get().DFController.flyModOn)
             {
                 ground = !this.capabilities.allowFlying;
             }
@@ -113,19 +114,19 @@ public class EntityDaFlyer extends EntityPlayerSP
     public void moveEntityWithHeading(float f1, float f2)
     {
         super.moveEntityWithHeading(f1, f2);
-        if (this.isOnLadder() && !DaFlight.get().daPlayer.flyModOn && DaFlight.get().daPlayer.sprintModOn)
+        if (this.isOnLadder() && !DaFlight.get().DFController.flyModOn && DaFlight.get().DFController.sprintModOn)
         {
             if (this.isCollidedHorizontally)
             {
                 if (this.rotationPitch < -30F)
                 {
-                    double speed = DaFlight.get().daPlayer.getSpeed();
+                    double speed = DaFlight.get().DFController.getSpeed();
                     this.moveEntity(0D, speed, 0D);
                 }
             }
             else if (!isSneaking() && this.rotationPitch > 40F)
             {
-                double speed = DaFlight.get().daPlayer.getSpeed();
+                double speed = DaFlight.get().DFController.getSpeed();
                 this.moveEntity(0D, -speed, 0D);
             }
         }
@@ -134,7 +135,7 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     public void fall(float distance, float damageMultiplier)
     {
-        if (DaFlight.get().daPlayer.softFallOn())
+        if (DaFlight.get().DFController.softFallOn())
             return;
         super.fall(distance, damageMultiplier);
     }
@@ -142,7 +143,7 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     public float getFovModifier()
     {
-        if (!DaFlight.getConfig().disabled && DaFlight.get().daPlayer.flyModOn)
+        if (!DaFlight.getConfig().disabled && DaFlight.get().DFController.flyModOn)
         {
             if (!this.capabilities.isFlying)
             {
@@ -156,14 +157,14 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     public boolean isOnLadder()
     {
-        return !DaFlight.get().daPlayer.flyModOn && super.isOnLadder();
+        return !DaFlight.get().DFController.flyModOn && super.isOnLadder();
     }
 
     @Override
     public void jump()
     {
-        if (DaFlight.get().daPlayer.sprintModOn && !this.capabilities.isFlying)
-            this.motionY = 0.42F + 1.25 * DaFlight.getConfig().jumpModifier * DaFlight.get().daPlayer.getSpeed();
+        if (DaFlight.get().DFController.sprintModOn && !this.capabilities.isFlying)
+            this.motionY = 0.42F + 1.25 * DaFlight.getConfig().jumpModifier * DaFlight.get().DFController.getSpeed();
         else
             super.jump();
     }
@@ -172,7 +173,7 @@ public class EntityDaFlyer extends EntityPlayerSP
     public float getToolDigEfficiency(Block b)
     {
         float f = super.getToolDigEfficiency(b);
-        if (DaFlight.get().daPlayer.flyModOn && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
+        if (DaFlight.get().DFController.flyModOn && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
             f *= 5.0F;
         return f;
     }
@@ -180,6 +181,16 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     public boolean isSneaking()
     {
-        return (DaFlight.get().daPlayer.flyModOn && movementInput.wasSneaking) || super.isSneaking();
+        return (DaFlight.get().DFController.flyModOn && movementInput.wasSneaking) || super.isSneaking();
+    }
+
+    @Override
+    protected boolean pushOutOfBlocks(double x, double y, double z)
+    {
+        if (this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+        {
+            this.noClip = DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        }
+        return super.pushOutOfBlocks(x, y, z);
     }
 }

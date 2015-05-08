@@ -34,6 +34,9 @@ public class ObfTable extends Obf
     public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "cji");
     public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "f", "setupViewBobbing");
 
+    // EntityPlayer
+    public static ObfTable onUpdateEntity = new ObfTable("func_70071_h_", "s_", "onUpdate");
+
     public static String listenerPath = EventListener.class.getCanonicalName();
 
     public ObfTable(String seargeName, String obfName)

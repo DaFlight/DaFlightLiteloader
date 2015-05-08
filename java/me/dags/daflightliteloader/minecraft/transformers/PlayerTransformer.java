@@ -25,13 +25,14 @@ package me.dags.daflightliteloader.minecraft.transformers;
 import com.mumfrey.liteloader.transformers.event.Event;
 import com.mumfrey.liteloader.transformers.event.EventInjectionTransformer;
 import com.mumfrey.liteloader.transformers.event.MethodInfo;
+import com.mumfrey.liteloader.transformers.event.inject.BeforeReturn;
 import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
-public class ViewTransformer extends EventInjectionTransformer
+public class PlayerTransformer extends EventInjectionTransformer
 {
     @Override
     protected void addEvents()
@@ -40,6 +41,10 @@ public class ViewTransformer extends EventInjectionTransformer
         MethodInfo setupViewBobbing = new MethodInfo(ObfTable.EntityRenderer, ObfTable.setupViewBobbing, "(F)V");
         addEvent(onSetupViewBobbing, setupViewBobbing, new MethodHead());
         onSetupViewBobbing.addListener(new MethodInfo(ObfTable.listenerPath, "onSetupViewBobbing"));
-    }
 
+        Event onUpdateMP = Event.getOrCreate("onUpdateMP", true);
+        MethodInfo onEntityUpdateMP = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onUpdateEntity, "()V");
+        addEvent(onUpdateMP, onEntityUpdateMP, new BeforeReturn());
+        onUpdateMP.addListener(new MethodInfo(ObfTable.listenerPath, "onEntityUpdateMP"));
+    }
 }
