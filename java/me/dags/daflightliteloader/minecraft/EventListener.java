@@ -26,6 +26,7 @@ import com.mumfrey.liteloader.transformers.event.EventInfo;
 import me.dags.daflight.DaFlight;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -44,9 +45,10 @@ public class EventListener
 
     public static void onEntityUpdate(EventInfo<EntityPlayer> e)
     {
-        if (e.getSource().capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+        EntityPlayer ep = e.getSource();
+        if (ep instanceof EntityPlayerMP && ep.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
         {
-            e.getSource().noClip = true;
+            ep.noClip = true;
         }
     }
 }
