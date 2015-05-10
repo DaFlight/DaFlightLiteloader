@@ -189,7 +189,7 @@ public class EntityDaFlyer extends EntityPlayerSP
     {
         if (this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
         {
-            this.noClip = DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+            this.noClip = true;
         }
         return super.pushOutOfBlocks(x, y, z);
     }
