@@ -1,11 +1,11 @@
 {
-    "name": "${ant.project.name}",
-    "mcversion": "${litemodversion}",
-    "revision": "${build.number}",
-    "author": "${author}",
-    "description": "A fly mod!",
-    "classTransformerClasses": [
-            "me.dags.daflightliteloader.minecraft.transformers.ViewTransformer",
-            "me.dags.daflightliteloader.minecraft.transformers.ControllerMPTransformer"
-        ]
+  "name": "${ant.project.name}",
+  "mcversion": "${litemodversion}",
+  "revision": "${build.number}",
+  "author": "${author}",
+  "description": "A fly mod!",
+  "classTransformerClasses": [
+    "me.dags.daflightliteloader.minecraft.transformers.PlayerTransformer",
+    "me.dags.daflightliteloader.minecraft.transformers.PlayerControllerTransformer"
+  ]
 }

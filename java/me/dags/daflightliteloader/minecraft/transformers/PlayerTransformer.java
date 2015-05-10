@@ -23,7 +23,7 @@ import me.dags.daflightliteloader.minecraft.EventListener;
  * @author dags_ <dags@dags.me>
  */
 
-public class ViewTransformer extends EventInjectionTransformer
+public class PlayerTransformer extends EventInjectionTransformer
 {
 
     @Override

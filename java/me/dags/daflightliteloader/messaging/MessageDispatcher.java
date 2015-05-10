@@ -15,7 +15,6 @@ package me.dags.daflightliteloader.messaging;
 
 import com.mumfrey.liteloader.core.ClientPluginChannels;
 import com.mumfrey.liteloader.core.PluginChannels;
-import me.dags.daflight.messaging.PacketData;
 import me.dags.daflightapi.messaging.PluginMessageDispatcher;
 
 /**
@@ -25,8 +24,8 @@ import me.dags.daflightapi.messaging.PluginMessageDispatcher;
 public class MessageDispatcher implements PluginMessageDispatcher
 {
     @Override
-    public void dispatchMessage(PacketData packetData)
+    public void dispatchMessage(byte[] data)
     {
-        ClientPluginChannels.sendMessage("DaFlight", packetData.getData(), PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
+        ClientPluginChannels.sendMessage("DaFlight", data, PluginChannels.ChannelPolicy.DISPATCH_ALWAYS);
     }
 }

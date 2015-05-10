@@ -11,24 +11,18 @@
  *  USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package me.dags.daflightliteloader.minecraft;
+package me.dags.daflightliteloader.minecraft.transformers;
 
-import me.dags.daflight.utils.FieldReflector;
-import net.minecraft.client.gui.GuiTextField;
+import com.mumfrey.liteloader.transformers.ClassOverlayTransformer;
 
 /**
  * @author dags_ <dags@dags.me>
  */
 
-public class GuiTextFieldYPositionReflector extends FieldReflector
+public class PlayerControllerTransformer extends ClassOverlayTransformer
 {
-    private static final Class OWNER = GuiTextField.class;
-    private static final String MCP_NAME = "yPosition";
-    private static final String SRG_NAME = "field_146210_g";
-    private static final String OBF_NAME = "g";
-
-    public GuiTextFieldYPositionReflector()
+    public PlayerControllerTransformer()
     {
-        super(OWNER, new String[]{SRG_NAME, MCP_NAME, OBF_NAME});
+        super("me/dags/daflightliteloader/minecraft/extended/ControllerMPOverlay");
     }
 }

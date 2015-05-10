@@ -17,7 +17,7 @@ import net.minecraft.world.World;
  * @author dags_ <dags@dags.me>
  */
 
-public class EntityDaFlier extends EntityClientPlayerMP
+public class EntityDaFlyer extends EntityClientPlayerMP
 {
     private DFMovementController movementInput;
     private int ticksSinceMovePacket = 0;
@@ -29,11 +29,10 @@ public class EntityDaFlier extends EntityClientPlayerMP
     private double oldRotationYaw;
     private double oldRotationPitch;
 
-    public EntityDaFlier(Minecraft mc, World world, Session session, NetHandlerPlayClient netHandlerPlayClient, StatFileWriter fileWriter)
+    public EntityDaFlyer(Minecraft mc, World world, Session session, NetHandlerPlayClient netHandlerPlayClient, StatFileWriter fileWriter)
     {
         super(mc, world, session, netHandlerPlayClient, fileWriter);
         this.movementInput = new DFMovementController();
-
     }
 
     @Override
@@ -41,14 +40,14 @@ public class EntityDaFlier extends EntityClientPlayerMP
     {
         if (super.movementInput != this.movementInput)
             super.movementInput = this.movementInput;
-        this.movementInput.block = DaFlight.get().daPlayer.flyModOn;
+        this.movementInput.block = DaFlight.get().DFController.flyModOn;
         super.onLivingUpdate();
     }
 
     @Override
     public void sendMotionUpdates()
     {
-        if (DaFlight.get().daPlayer.softFallOn())
+        if (DaFlight.get().DFController.softFallOn())
         {
             boolean sneaking = this.isSneaking();
             if (sneaking != wasSneaking)
@@ -71,7 +70,7 @@ public class EntityDaFlier extends EntityClientPlayerMP
             boolean sendMovementUpdate = xChange * xChange + yChange * yChange + zChange * zChange > 9.0E-4D || ticksSinceMovePacket >= 20;
             boolean sendLookUpdate = rotationChange != 0.0D || pitchChange != 0.0D;
             boolean ground = true;
-            if (DaFlight.get().daPlayer.flyModOn)
+            if (DaFlight.get().DFController.flyModOn)
             {
                 ground = !this.capabilities.allowFlying;
             }
@@ -115,19 +114,19 @@ public class EntityDaFlier extends EntityClientPlayerMP
     public void moveEntityWithHeading(float f1, float f2)
     {
         super.moveEntityWithHeading(f1, f2);
-        if (this.isOnLadder() && !DaFlight.get().daPlayer.flyModOn && DaFlight.get().daPlayer.sprintModOn)
+        if (this.isOnLadder() && !DaFlight.get().DFController.flyModOn && DaFlight.get().DFController.sprintModOn)
         {
             if (this.isCollidedHorizontally)
             {
                 if (this.rotationPitch < -30F)
                 {
-                    double speed = DaFlight.get().daPlayer.getSpeed();
+                    double speed = DaFlight.get().DFController.getSpeed();
                     this.moveEntity(0D, speed, 0D);
                 }
             }
             else if (!isSneaking() && this.rotationPitch > 40F)
             {
-                double speed = DaFlight.get().daPlayer.getSpeed();
+                double speed = DaFlight.get().DFController.getSpeed();
                 this.moveEntity(0D, -speed, 0D);
             }
         }
@@ -136,7 +135,7 @@ public class EntityDaFlier extends EntityClientPlayerMP
     @Override
     public void fall(float distance)
     {
-        if (DaFlight.get().daPlayer.softFallOn())
+        if (DaFlight.get().DFController.softFallOn())
             return;
         super.fall(distance);
     }
@@ -145,7 +144,7 @@ public class EntityDaFlier extends EntityClientPlayerMP
     public float getFOVMultiplier()
     {
         if (!DaFlight.getConfig().disabled)
-            if (DaFlight.get().daPlayer.flyModOn)
+            if (DaFlight.get().DFController.flyModOn)
             {
                 if (!this.capabilities.isFlying)
                 {
@@ -160,14 +159,14 @@ public class EntityDaFlier extends EntityClientPlayerMP
     @Override
     public boolean isOnLadder()
     {
-        return !DaFlight.get().daPlayer.flyModOn && super.isOnLadder();
+        return !DaFlight.get().DFController.flyModOn && super.isOnLadder();
     }
 
     @Override
     public void jump()
     {
-        if (DaFlight.get().daPlayer.sprintModOn && !this.capabilities.isFlying)
-            this.motionY = 0.42F + 1.25 * DaFlight.getConfig().jumpModifier * DaFlight.get().daPlayer.getSpeed();
+        if (DaFlight.get().DFController.sprintModOn && !this.capabilities.isFlying)
+            this.motionY = 0.42F + 1.25 * DaFlight.getConfig().jumpModifier * DaFlight.get().DFController.getSpeed();
         else
             super.jump();
     }
@@ -176,7 +175,7 @@ public class EntityDaFlier extends EntityClientPlayerMP
     public float getBreakSpeed(Block b, boolean boo)
     {
         float f = super.getBreakSpeed(b, boo);
-        if (DaFlight.get().daPlayer.flyModOn && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
+        if (DaFlight.get().DFController.flyModOn && (!this.onGround || (this.isInsideOfMaterial(Material.water) && !EnchantmentHelper.getAquaAffinityModifier(this))))
             f *= 5.0F;
         return f;
     }
@@ -184,6 +183,26 @@ public class EntityDaFlier extends EntityClientPlayerMP
     @Override
     public boolean isSneaking()
     {
-        return (DaFlight.get().daPlayer.flyModOn && movementInput.wasSneaking) || super.isSneaking();
+        return (DaFlight.get().DFController.flyModOn && movementInput.wasSneaking) || super.isSneaking();
+    }
+
+    @Override
+    public boolean pushOutOfBlocks(double x, double y, double z)
+    {
+        this.noClip = this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        return !this.noClip && super.pushOutOfBlocks(x, y, z);
+    }
+
+    @Override
+    public void moveEntity(double x, double y, double z)
+    {
+        this.noClip = this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        super.moveEntity(x, y, z);
+    }
+
+    @Override
+    public boolean isEntityInsideOpaqueBlock()
+    {
+        return !this.noClip && super.isEntityInsideOpaqueBlock();
     }
 }

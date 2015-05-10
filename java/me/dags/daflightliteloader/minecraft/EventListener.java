@@ -15,7 +15,6 @@ package me.dags.daflightliteloader.minecraft;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import me.dags.daflight.DaFlight;
-import me.dags.daflightliteloader.minecraft.MCGame;
 import net.minecraft.client.renderer.EntityRenderer;
 
 /**
@@ -27,7 +26,7 @@ public class EventListener extends MCGame
 {
     public static void onSetupViewBobbing(EventInfo<EntityRenderer> e, float f)
     {
-        if (DaFlight.get().daPlayer.flyModOn)
+        if (DaFlight.get().DFController.flyModOn)
         {
             e.cancel();
         }

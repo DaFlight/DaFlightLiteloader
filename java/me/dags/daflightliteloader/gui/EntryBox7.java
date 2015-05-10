@@ -16,8 +16,8 @@ package me.dags.daflightliteloader.gui;
 import me.dags.daflight.DaFlight;
 import me.dags.daflight.gui.uielements.ToolTip;
 import me.dags.daflight.minecraft.Colour;
+import me.dags.daflight.utils.FieldAccess;
 import me.dags.daflightapi.ui.element.IEntryBox;
-import me.dags.daflightliteloader.minecraft.GuiTextFieldYPositionReflector;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
@@ -27,7 +27,9 @@ import org.lwjgl.input.Keyboard;
 
 public class EntryBox7 extends GuiTextField implements IEntryBox
 {
-    private static final GuiTextFieldYPositionReflector reflector = new GuiTextFieldYPositionReflector();
+    private static final String[] fieldObf = new String[]{"yPosition", "field_146210_g", "g"};
+    private static final FieldAccess<Integer> reflectYpos = new FieldAccess<Integer>(GuiTextField.class, fieldObf);
+
     private ToolTip toolTip;
     private boolean hovered;
     private String label;
@@ -157,20 +159,20 @@ public class EntryBox7 extends GuiTextField implements IEntryBox
     public void setYOffset(int offset)
     {
         this.yPos += offset;
-        reflector.applyValue(this, yPos);
+        reflectYpos.set(this, yPos);
     }
 
     @Override
     public void setYPos(int pos)
     {
         this.yPos = this.defaultY + pos;
-        reflector.applyValue(this, yPos);
+        reflectYpos.set(this, yPos);
     }
 
     @Override
     public void resetYOffset()
     {
         this.yPos = defaultY;
-        reflector.applyValue(this, yPos);
+        reflectYpos.set(this, yPos);
     }
 }
