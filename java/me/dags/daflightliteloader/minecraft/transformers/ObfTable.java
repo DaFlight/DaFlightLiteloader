@@ -23,7 +23,6 @@
 package me.dags.daflightliteloader.minecraft.transformers;
 
 import com.mumfrey.liteloader.core.runtime.Obf;
-import me.dags.daflightliteloader.minecraft.EventListener;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -33,12 +32,8 @@ public class ObfTable extends Obf
 {
     public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "cji");
     public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "f", "setupViewBobbing");
-    public static ObfTable renderWorldPass = new ObfTable("func_175068_a", "a", "renderWorldPass");
-
     // EntityPlayer
     public static ObfTable onUpdate = new ObfTable("func_70071_h_", "s_", "onUpdate");
-
-    public static String listenerPath = EventListener.class.getCanonicalName();
 
     public ObfTable(String seargeName, String obfName)
     {

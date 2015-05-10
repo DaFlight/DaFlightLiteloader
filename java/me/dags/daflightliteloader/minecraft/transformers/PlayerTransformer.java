@@ -27,6 +27,7 @@ import com.mumfrey.liteloader.transformers.event.EventInjectionTransformer;
 import com.mumfrey.liteloader.transformers.event.MethodInfo;
 import com.mumfrey.liteloader.transformers.event.inject.BeforeReturn;
 import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
+import me.dags.daflightliteloader.minecraft.EventListener;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -40,11 +41,11 @@ public class PlayerTransformer extends EventInjectionTransformer
         Event onSetupViewBobbing = Event.getOrCreate("onSetupViewBobbing", true);
         MethodInfo setupViewBobbing = new MethodInfo(ObfTable.EntityRenderer, ObfTable.setupViewBobbing, "(F)V");
         addEvent(onSetupViewBobbing, setupViewBobbing, new MethodHead());
-        onSetupViewBobbing.addListener(new MethodInfo(ObfTable.listenerPath, "onSetupViewBobbing"));
+        onSetupViewBobbing.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onSetupViewBobbing"));
 
         Event onUpdate = Event.getOrCreate("onUpdate", true);
         MethodInfo onEntityUpdate = new MethodInfo(ObfTable.EntityPlayer, ObfTable.onUpdate, "()V");
         addEvent(onUpdate, onEntityUpdate, new BeforeReturn());
-        onUpdate.addListener(new MethodInfo(ObfTable.listenerPath, "onEntityUpdate"));
+        onUpdate.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onEntityUpdate"));
     }
 }

@@ -20,10 +20,9 @@ public class ControllerMPOverlay
     @Obfuscated(value = {"func_178892_a", "a"})
     public EntityPlayerSP func_178892_a(World worldIn, StatFileWriter fileWriter)
     {
-        String[] obf = new String[]{"b", "field_78774_b", "netClientHandler"};
-        PlayerControllerMP controllerMP = Minecraft.getMinecraft().playerController;
-        FieldAccess<NetHandlerPlayClient> netHandler = new FieldAccess<NetHandlerPlayClient>(controllerMP, obf);
-        NetHandlerPlayClient netHandlerPlayClient = netHandler.get(controllerMP);
+        String[] fieldObf = new String[]{"b", "field_78774_b", "netClientHandler"};
+        FieldAccess<NetHandlerPlayClient> netHandlerAccessor = new FieldAccess<NetHandlerPlayClient>(PlayerControllerMP.class, fieldObf);
+        NetHandlerPlayClient netHandlerPlayClient = netHandlerAccessor.get(Minecraft.getMinecraft().playerController);
         return new EntityDaFlyer(Minecraft.getMinecraft(), worldIn, netHandlerPlayClient, fileWriter);
     }
 }
