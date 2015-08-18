@@ -143,16 +143,16 @@ public class EntityDaFlyer extends EntityClientPlayerMP
     @Override
     public float getFOVMultiplier()
     {
-        if (!DaFlight.getConfig().disabled)
-            if (DaFlight.get().DFController.flyModOn)
+        if (!DaFlight.getConfig().disabled && DaFlight.get().DFController.flyModOn)
+        {
+            if (!this.capabilities.isFlying)
             {
-                if (!this.capabilities.isFlying)
-                {
-                    this.capabilities.isFlying = true;
-                    this.sendPlayerAbilities();
-                }
-                return 1.0F;
+                this.capabilities.isFlying = true;
+                this.sendPlayerAbilities();
             }
+            if (DaFlight.getConfig().disableFov)
+                return 1.0F;
+        }
         return super.getFOVMultiplier();
     }
 
