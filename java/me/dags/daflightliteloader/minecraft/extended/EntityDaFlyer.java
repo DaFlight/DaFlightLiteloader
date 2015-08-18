@@ -41,7 +41,6 @@ public class EntityDaFlyer extends EntityPlayerSP
             super.movementInput = this.movementInput;
         this.movementInput.block = DaFlight.get().DFController.flyModOn;
         super.onLivingUpdate();
-        this.noClip = DaFlight.get().DFController.flyModOn;
     }
 
     @Override
@@ -146,10 +145,9 @@ public class EntityDaFlyer extends EntityPlayerSP
         if (!DaFlight.getConfig().disabled && DaFlight.get().DFController.flyModOn)
         {
             if (!this.capabilities.isFlying)
-            {
                 this.capabilities.isFlying = true;
-            }
-            return 1.0F;
+            if (DaFlight.getConfig().disableFov)
+                return 1.0F;
         }
         return super.getFovModifier();
     }
@@ -187,23 +185,22 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     protected boolean pushOutOfBlocks(double x, double y, double z)
     {
-        if (this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
-        {
+        if (DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
             this.noClip = true;
-        }
         return super.pushOutOfBlocks(x, y, z);
     }
 
     @Override
     public void moveEntity(double x, double y, double z)
     {
-        this.noClip = this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        if (DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+            this.noClip = true;
         super.moveEntity(x, y, z);
     }
 
     @Override
     public boolean isEntityInsideOpaqueBlock()
     {
-        return !this.noClip && super.isEntityInsideOpaqueBlock();
+        return !DaFlight.get().DFController.noClipOn && super.isEntityInsideOpaqueBlock();
     }
 }

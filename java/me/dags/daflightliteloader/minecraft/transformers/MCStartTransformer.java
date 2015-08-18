@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.*;
  * @author dags_ <dags@dags.me>
  */
 
-public class MinecraftTransformer extends DFTransformer
+public class MCStartTransformer extends DFTransformer
 {
     // Minecraft stuff
     private final String obfClass = "bsu";
@@ -74,9 +74,10 @@ public class MinecraftTransformer extends DFTransformer
                     break;
                 }
             }
-            ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
+
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
             node.accept(writer);
-            writer.visitEnd();
+
             return writer.toByteArray();
         }
         catch (Exception e)

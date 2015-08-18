@@ -46,7 +46,7 @@ public class EventListener
     public static void onEntityUpdate(EventInfo<EntityPlayer> e)
     {
         EntityPlayer ep = e.getSource();
-        if (ep instanceof EntityPlayerMP && ep.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+        if (ep instanceof EntityPlayerMP && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
         {
             ep.noClip = true;
         }

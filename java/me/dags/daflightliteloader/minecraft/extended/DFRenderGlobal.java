@@ -20,7 +20,7 @@ public class DFRenderGlobal extends RenderGlobal
     @Override
     public void setupTerrain(Entity viewEntity, double ticks, ICamera camera, int frameCount, boolean spectator)
     {
-        if (DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn && DaFlight.getMC().getPlayer().capabilities.isCreativeMode)
+        if (DaFlight.get().DFController.noClipOn)
         {
             spectator = true;
         }

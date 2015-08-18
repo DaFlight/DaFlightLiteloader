@@ -6,7 +6,7 @@
   "description": "A fly mod!",
   "classTransformerClasses": [
     "me.dags.daflightliteloader.minecraft.transformers.PlayerTransformer",
-    "me.dags.daflightliteloader.minecraft.transformers.MinecraftTransformer",
+    "me.dags.daflightliteloader.minecraft.transformers.MCStartTransformer",
     "me.dags.daflightliteloader.minecraft.transformers.PlayerControllerTransformer"
   ]
 }
