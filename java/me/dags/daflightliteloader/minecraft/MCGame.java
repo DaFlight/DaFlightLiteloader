@@ -6,6 +6,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 
 /**
@@ -44,6 +46,12 @@ public class MCGame implements MinecraftGame
     }
 
     @Override
+    public boolean isSinglePlayer()
+    {
+        return getMinecraft().isSingleplayer();
+    }
+
+    @Override
     public boolean onSolidBlock()
     {
         BlockPos pos = new BlockPos(getPlayer().posX, getPlayer().lastTickPosY, getPlayer().posZ);
@@ -56,6 +64,14 @@ public class MCGame implements MinecraftGame
         IChatComponent message = new ChatComponentText("[DaFlight] ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.DARK_PURPLE));
         message.appendSibling(new ChatComponentText(s).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GRAY)));
         return message;
+    }
+
+    @Override
+    public void setInvulnerable(boolean invulnerable)
+    {
+        EntityPlayer ep = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByUUID(getPlayer().getUniqueID());
+        ep.capabilities.disableDamage = invulnerable;
+        ep.sendPlayerAbilities();
     }
 
     @Override
