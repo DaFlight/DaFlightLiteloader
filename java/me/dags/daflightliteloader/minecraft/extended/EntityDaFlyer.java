@@ -189,20 +189,20 @@ public class EntityDaFlyer extends EntityClientPlayerMP
     @Override
     public boolean pushOutOfBlocks(double x, double y, double z)
     {
-        this.noClip = this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        this.noClip = DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
         return !this.noClip && super.pushOutOfBlocks(x, y, z);
     }
 
     @Override
     public void moveEntity(double x, double y, double z)
     {
-        this.noClip = this.capabilities.isCreativeMode && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
+        this.noClip = DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn;
         super.moveEntity(x, y, z);
     }
 
     @Override
     public boolean isEntityInsideOpaqueBlock()
     {
-        return !this.noClip && super.isEntityInsideOpaqueBlock();
+        return !DaFlight.get().DFController.noClipOn && super.isEntityInsideOpaqueBlock();
     }
 }

@@ -19,6 +19,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.*;
 
 /**
@@ -53,6 +55,16 @@ public class MCGame implements MinecraftGame
         return message;
     }
 
+    @Override
+    public void setInvulnerable(boolean invulnerable)
+    {
+        getPlayer().capabilities.disableDamage = invulnerable;
+        getPlayer().sendPlayerAbilities();
+        EntityPlayer ep = MinecraftServer.getServer().getEntityWorld().getPlayerEntityByName(getMinecraft().getSession().getUsername());
+        ep.capabilities.disableDamage = invulnerable;
+        ep.sendPlayerAbilities();
+    }
+
     public void tellPlayer(String s)
     {
         getPlayer().addChatMessage(getMessage(s));
@@ -79,6 +91,12 @@ public class MCGame implements MinecraftGame
     public ServerData getServerData()
     {
         return getMinecraft().getCurrentServerData();
+    }
+
+    @Override
+    public boolean isSinglePlayer()
+    {
+        return getMinecraft().isSingleplayer();
     }
 
     public ScaledResolution getScaledResolution()

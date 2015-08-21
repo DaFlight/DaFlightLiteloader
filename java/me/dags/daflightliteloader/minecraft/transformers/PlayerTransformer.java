@@ -18,6 +18,10 @@ import com.mumfrey.liteloader.transformers.event.EventInjectionTransformer;
 import com.mumfrey.liteloader.transformers.event.MethodInfo;
 import com.mumfrey.liteloader.transformers.event.inject.MethodHead;
 import me.dags.daflightliteloader.minecraft.EventListener;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
+
+import java.util.List;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -25,7 +29,6 @@ import me.dags.daflightliteloader.minecraft.EventListener;
 
 public class PlayerTransformer extends EventInjectionTransformer
 {
-
     @Override
     protected void addEvents()
     {
@@ -33,6 +36,11 @@ public class PlayerTransformer extends EventInjectionTransformer
         MethodInfo setupViewBobbing = new MethodInfo(ObfTable.EntityRenderer, ObfTable.setupViewBobbing, "(F)V");
         addEvent(onSetupViewBobbing, setupViewBobbing, new MethodHead());
         onSetupViewBobbing.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onSetupViewBobbing"));
-    }
 
+
+        Event onGetCollidingBoundingBoxes = Event.getOrCreate("onGetCollidingBoundingBoxes", true);
+        MethodInfo getCollidingBoundingBoxes = new MethodInfo(ObfTable.World, ObfTable.getCollidingBoundingBoxes, List.class, Entity.class, AxisAlignedBB.class);
+        addEvent(onGetCollidingBoundingBoxes, getCollidingBoundingBoxes, new MethodHead());
+        onGetCollidingBoundingBoxes.addListener(new MethodInfo(EventListener.class.getCanonicalName(), "onGetCollidingBoundingBoxes"));
+    }
 }

@@ -14,8 +14,16 @@
 package me.dags.daflightliteloader.minecraft;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
+import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
 import me.dags.daflight.DaFlight;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dags_ <dags@dags.me>
@@ -28,6 +36,15 @@ public class EventListener extends MCGame
     {
         if (DaFlight.get().DFController.flyModOn)
         {
+            e.cancel();
+        }
+    }
+
+    public static void onGetCollidingBoundingBoxes(ReturnEventInfo<World, List> e, Entity en, AxisAlignedBB bb)
+    {
+        if (en instanceof EntityPlayer && DaFlight.get().DFController.noClipOn && DaFlight.get().DFController.flyModOn)
+        {
+            e.setReturnValue(new ArrayList());
             e.cancel();
         }
     }

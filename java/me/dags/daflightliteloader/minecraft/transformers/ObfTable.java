@@ -24,6 +24,9 @@ public class ObfTable extends Obf
     public static ObfTable EntityRenderer = new ObfTable("net.minecraft.client.renderer.EntityRenderer", "blt");
     public static ObfTable setupViewBobbing = new ObfTable("func_78475_f", "g", "setupViewBobbing");
 
+    public static ObfTable World = new ObfTable("net.minecraft.world.World", "ahb");
+    public static ObfTable getCollidingBoundingBoxes = new ObfTable("func_72945_a", "a", "getCollidingBoundingBoxes");
+
     public ObfTable(String seargeName, String obfName)
     {
         super(seargeName, obfName, seargeName);
