@@ -37,8 +37,15 @@ public class EntityDaFlyer extends EntityPlayerSP
     @Override
     public void onLivingUpdate()
     {
+        if (DaFlight.get().DFController.flyModOn && !this.capabilities.isFlying)
+        {
+            this.capabilities.isFlying = true;
+            this.sendPlayerAbilities();
+        }
+
         if (super.movementInput != this.movementInput)
             super.movementInput = this.movementInput;
+
         this.movementInput.block = DaFlight.get().DFController.flyModOn;
         super.onLivingUpdate();
     }
@@ -144,8 +151,6 @@ public class EntityDaFlyer extends EntityPlayerSP
     {
         if (!DaFlight.getConfig().disabled && DaFlight.get().DFController.flyModOn)
         {
-            if (!this.capabilities.isFlying)
-                this.capabilities.isFlying = true;
             if (DaFlight.getConfig().disableFov)
                 return 1.0F;
         }
